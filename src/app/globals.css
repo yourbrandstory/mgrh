@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+  }
+  a {
+    @apply text-primary-dark no-underline;
+  }
+  ::selection {
+    background: #cdebe5;
+  }
+}
+
+/* ---------- Admin (matches the MGRH Admin prototype) ---------- */
+.admin-root,
+.admin-root * {
+  box-sizing: border-box;
+}
+.admin-root {
+  background: #f4f7f6;
+  color: #16413a;
+  min-height: 100vh;
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+}
+.admin-root input,
+.admin-root textarea,
+.admin-root select,
+.admin-root button {
+  font-family: inherit;
+}
+.admin-root input:focus,
+.admin-root textarea:focus,
+.admin-root select:focus {
+  outline: 3px solid #bfe3db;
+  outline-offset: 0;
+}
+.admin-root a {
+  color: #0a8e7b;
+  text-decoration: none;
+}
+.admin-root a:hover {
+  color: #0b6558;
+}
+/* Sidebar links must stay white — the generic admin link rule above is teal. */
+.admin-root .nav-link,
+.admin-root .nav-link:hover {
+  color: #ffffff;
+}
+.admin-root .crumb-link {
+  color: #5a6a66;
+}
+.admin-root .crumb-link:hover {
+  color: #0a8e7b;
+}
+.admin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+.admin-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.admin-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+}
+
+@keyframes cmsSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes cmsUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cmsView {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@keyframes cmsTitle {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.admin-view-anim {
+  animation: cmsView 0.42s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+.admin-title-anim {
+  animation: cmsTitle 0.36s ease both;
+}
+.admin-modal-anim {
+  animation: cmsUp 0.26s ease;
+}
+.admin-spin {
+  animation: cmsSpin 0.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-view-anim,
+  .admin-title-anim,
+  .admin-modal-anim,
+  .admin-spin {
+    animation: none !important;
+  }
+}

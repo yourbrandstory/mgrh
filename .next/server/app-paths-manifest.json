@@ -1,0 +1,11 @@
+{
+  "/(site)/programmes/page": "app/(site)/programmes/page.js",
+  "/(site)/page": "app/(site)/page.js",
+  "/(site)/events/page": "app/(site)/events/page.js",
+  "/(site)/facilities/page": "app/(site)/facilities/page.js",
+  "/(site)/doctors/page": "app/(site)/doctors/page.js",
+  "/(site)/emergency/page": "app/(site)/emergency/page.js",
+  "/(site)/about/page": "app/(site)/about/page.js",
+  "/(site)/support/page": "app/(site)/support/page.js",
+  "/(site)/contact/page": "app/(site)/contact/page.js"
+}

@@ -1,0 +1,118 @@
+-- MGRH website — initial content
+-- Run after schema.sql. Safe to run once on a fresh project.
+-- Doctors and facilities start published; events start as drafts.
+
+insert into public.doctors
+  (name, designation, speciality, qualifications, experience, bio, schedule, location, sort_order, status)
+values
+  ('Dr. Pandit Kishanrao Deshmukh', 'Medical Superintendent', 'Medicine', 'M.B.B.S., D.P.H., M.D. (Medicine)', '49 years',
+   $bio$Heads the hospital and its outpatient department, and oversees the medical team across all fourteen departments.$bio$,
+   'OPD, Monday to Saturday, 9:00 – 13:00', 'OPD block, first floor', 1, 'published'),
+  ('Dr. Jeetendrasingh Jalimsingh Rajput', 'Gynecologist', 'Surgery', 'M.D. Obstetrics & Gynaecology', '32 years',
+   $bio$Runs the antenatal clinic and supervises deliveries in the labour room, with postnatal follow-up for mother and newborn.$bio$,
+   'ANC clinic, Tuesday and Friday, 10:00 – 14:00', 'Maternity block', 2, 'published'),
+  ('Dr. Nikita Viraj Yerramalla', 'Pediatrician', 'Pediatrics', 'M.B.B.S. DCH', '7 years',
+   $bio$Sees infants and children in the paediatric ward and at the Mother and Child Health Clinic, and supervises immunisation days.$bio$,
+   'Paediatric clinic, Monday and Thursday, 10:00 – 13:00', 'Paediatric ward', 3, 'published'),
+  ('Dr. Sunil Tukaram Pise', 'Orthopedist', 'Orthopedics', 'M.B.B.S. DNB', '28 years',
+   $bio$Treats fractures, joint and bone conditions, and performs orthopaedic procedures in the renovated operation theatres.$bio$,
+   'Orthopaedic clinic, Wednesday and Saturday', 'OPD block and operation theatre', 4, 'published'),
+  ('Dr. Aruna Prashant Rasal', 'Dr. Consultant (Anaesthetist)', 'Anaesthesia', 'M.B.B.S. DA', '26 years',
+   $bio$Provides anaesthesia for surgical and obstetric procedures and supports monitoring in the intensive care unit.$bio$,
+   'On call for operating lists', 'Operation theatre and ICU', 5, 'published'),
+  ('Dr. Dhimant Harischandra Kambley', 'M. O. Dentist', 'Dental Surgeon', 'B.D.S.', '32 years',
+   $bio$Treats tooth and gum complaints at the dental clinic, including extractions, fillings and school dental checks.$bio$,
+   'Dental clinic, Monday to Friday, 10:00 – 15:00', 'Dental clinic, ground floor', 6, 'published'),
+  ('Dr. Chandrashekhar Vaman Lele', 'Dr. Consultant (Intensivist)', 'General', 'M.B.B.S.', '48 years',
+   $bio$Leads care in the intensive care unit, managing critically ill patients and advising on casualty admissions.$bio$,
+   'ICU, daily rounds and on call', 'Intensive Care Unit', 7, 'published'),
+  ('Dr. Mohammed Kashid Mohammed Hashim Khokar', 'Medical Officer', 'General', 'M.B.B.S.', '4 years',
+   $bio$On duty for casualty admissions and general consultations, and coordinates transfers when specialist care is needed.$bio$,
+   'Casualty, rotating shifts, 24 hours', 'Casualty ward, ground floor', 8, 'published'),
+  ('Dr. Ashish Ashok Rai', 'Medical Officer', 'General', 'M.B.B.S.', '2 years',
+   $bio$Sees patients at the general OPD and in the wards, and covers casualty shifts on rotation.$bio$,
+   'OPD and casualty, rotating shifts', 'OPD block and casualty', 9, 'published'),
+  ('Dr. Suyash Nanasaheb Deshmukh', 'Medical Officer', 'General', 'M.B.B.S.', '6 months',
+   $bio$Supports the general OPD and ward rounds, and joins casualty and night duty on rotation.$bio$,
+   'OPD and wards, rotating shifts', 'OPD block', 10, 'published');
+
+insert into public.facilities
+  (name, category, subcategory, short_description, full_description, subitems, cover_index, needs_review, sort_order, status)
+values
+  ('Emergency / Casualty Ward', 'Emergency & Critical Care', '', '', '', '[]'::jsonb, 0, true, 1, 'published'),
+  ('Intensive Care Unit (ICU)', 'Emergency & Critical Care', '',
+   'ICU is designed for patients with life threatening conditions that require constant monitoring and advanced medical care.',
+   '', '[]'::jsonb, 0, false, 2, 'published'),
+  ('Outpatient Department (OPD)', 'Consultation & Clinics', '',
+   'At the counter, patients can receive information about various government health care schemes.',
+   'It combines professionalism with a personal touch, ensuring that patients feel both respected and comfortable during their visit.',
+   '[]'::jsonb, 0, false, 3, 'published'),
+  ('Dental Clinic', 'Consultation & Clinics', '',
+   'Dental clinic provides basic dental services, such as checkups, fillings and root canals.',
+   '', '[]'::jsonb, 0, false, 4, 'published'),
+  ('Operation Theatre', 'Surgery', '',
+   'Modern Operation Theatre is equipped with advanced technology equipments.',
+   '', '[]'::jsonb, 0, false, 5, 'published'),
+  ('Minor Operation Theatre', 'Surgery', '',
+   'Minor OT provides the highest standards of safety and hygiene and is staffed by experienced and qualified medical professionals.',
+   '', '[]'::jsonb, 0, false, 6, 'published'),
+  ('Pathology Lab', 'Diagnostics', '',
+   'The latest diagnostic methods are available and results are generated quickly and accurately with state-of-the-art instruments and equipment.',
+   '', '[]'::jsonb, 0, false, 7, 'published'),
+  ('Radiology', 'Diagnostics', '',
+   'X-ray, 2D echo and sonography services.',
+   '',
+   $$[
+     {"name":"X-Ray","text":"The digital X-ray facility is equipped with advanced technology to capture x-ray images digitally."},
+     {"name":"2D Echo","text":"A High Quality 2D Echocardiogram for accurate diagnosis and effective treatment planning for various heart conditions."},
+     {"name":"Sonography Machine","text":"The department has a modern sonography machine for ultrasound imaging, commonly used during pregnancy to monitor fetal development."}
+   ]$$::jsonb,
+   0, false, 8, 'published'),
+  ('Maternity Ward', 'Maternity & Child Care', '',
+   'A dedicated area in the hospital where pregnant women receive care, before, during and after childbirth.',
+   'The environment is designed to be warm, welcoming and comfortable providing support for mothers and newborns.',
+   '[]'::jsonb, 0, false, 9, 'published'),
+  ('Labour Room', 'Maternity & Child Care', '',
+   'Labour Room provides a safe and comfortable environment for both the mother and the baby during labor and delivery.',
+   '', '[]'::jsonb, 0, false, 10, 'published'),
+  ('Paediatric Ward', 'Maternity & Child Care', '',
+   'A specialized section within the hospital that provides medical care specifically for infants, children, and adolescents.',
+   '', '[]'::jsonb, 0, false, 11, 'published'),
+  ('Male & Female Wards', 'Wards & Support Services', '',
+   'A healthcare facility equipped for the treatment and care of male and female patients.',
+   '', '[]'::jsonb, 0, false, 12, 'published'),
+  ('Pharmacy', 'Wards & Support Services', '',
+   'Dispenses medicines at no cost to patients, often based on prescriptions from doctors within the hospital.',
+   '', '[]'::jsonb, 0, false, 13, 'published'),
+  ('Additional Facilities', 'Wards & Support Services', '',
+   'Staff quarters, meals, ambulance and sterilisation services.',
+   '',
+   $$[
+     {"name":"Staff quarters","text":"The hospital campus has doctors and other staff quarters to ensure that medical personnel are available during medical emergencies."},
+     {"name":"Meals","text":"Meals provided for staff and patients typically include breakfast, lunch, and dinner, as well as snacks and beverages throughout the day."},
+     {"name":"Ambulance","text":"Ambulance services are available round the clock, every day of the week for emergency medical situations."},
+     {"name":"Autoclave Room","text":"Dedicated to sterilizing medical equipment, instruments, and supplies. A special device that uses high pressure steam to eliminate bacteria, viruses, fungi, and spores, ensuring that all items are sterile and safe for patient use."}
+   ]$$::jsonb,
+   0, false, 14, 'published');
+
+insert into public.events
+  (title, category, event_date, venue, summary, placeholder_slots, sort_order, status)
+values
+  ('Voluntary Blood Donation Camp', 'Blood Donation', '2026-07-12', 'Hospital campus, Mahabaleshwar',
+   'Held with local youth groups; units collected support maternity and emergency cases at the hospital.', 6, 1, 'draft'),
+  ('Free Eye Screening & Cataract Camp', 'Screening Camp', '2026-06-21', 'OPD block, Mahabaleshwar',
+   'Vision testing for villagers from surrounding hamlets, with referral for cataract surgery where needed.', 5, 2, 'draft'),
+  ('School Health Check-up Drive', 'School Clinic', '2026-05-08', 'Zilla Parishad School, Metgutad',
+   'General check-ups, vision testing and deworming for primary school children across three village schools.', 6, 3, 'draft'),
+  ('Pulse Immunization Day', 'Immunization', '2026-04-05', 'Hospital and village booths',
+   'Booths in the town and nearby villages, with a house-to-house round in the afternoon for missed children.', 5, 4, 'draft'),
+  ('Diabetes & Hypertension Screening', 'Screening Camp', '2026-03-15', 'Community hall, Mahabaleshwar',
+   'Blood sugar and blood pressure checks for adults over forty, with enrolment for continuing treatment.', 5, 5, 'draft'),
+  ('TB Awareness & Sputum Collection Drive', 'Awareness', '2026-02-28', 'Village outreach, Satara District',
+   'Awareness sessions on symptoms and treatment, with sputum collection for suspected cases and contact tracing.', 4, 6, 'draft'),
+  ('Cancer Screening Camp for Women', 'Screening Camp', '2026-01-18', 'Maternity block, Mahabaleshwar',
+   'Breast and cervical screening with women health workers on hand; positive findings referred the same week.', 5, 7, 'draft'),
+  ('Anti-Tobacco Awareness Rally', 'Awareness', '2025-12-09', 'Mahabaleshwar town',
+   'A rally with college students through the town, followed by counselling sessions for those who wanted to quit.', 4, 8, 'draft'),
+  ('Blood Donation Camp with Local College', 'Blood Donation', '2025-11-22', 'College campus, Mahabaleshwar',
+   'First-time donors from the college; the largest single collection of the year for the hospital blood store.', 5, 9, 'draft');
