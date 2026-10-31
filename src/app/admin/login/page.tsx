@@ -80,11 +80,7 @@ export default function AdminLoginPage() {
             <div role="alert" style={{ background: '#FDF1F0', border: '1px solid #F6D8D5', color: '#9E2018', borderRadius: 8, padding: '12px 14px', fontSize: 15, marginBottom: 14 }}>{error}</div>
           ) : null}
           <button type="submit" className={styles.hoverBgDark} style={{ width: '100%', height: 52, border: 'none', borderRadius: 8, background: '#0A8E7B', color: '#ffffff', fontSize: 17, fontWeight: 700, cursor: 'pointer', marginTop: 6 }}>{busy ? 'Signing in…' : 'Sign in'}</button>
-          <div style={{ marginTop: 28, padding: '16px 18px', background: '#F1F8F6', border: '1px dashed #BFE3DB', borderRadius: 10, fontSize: 14.5, lineHeight: 1.6, color: '#45605A' }}>
-            <strong style={{ color: '#0B4F45' }}>Prototype accounts</strong><br />
-            Administrator: admin@mgrh-mahabaleshwar.org / mgrh-admin<br />
-            Editor: editor@mgrh-mahabaleshwar.org / mgrh-editor
-          </div>
+          
         </form>
       </div>
     </div>
