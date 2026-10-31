@@ -10,6 +10,28 @@
   --font-dm-sans: 'DM Sans';
 }
 
+/* Responsive page gutter: 26px desktop, 20px tablet, 16px phone. */
+:root {
+  --page-pad: 26px;
+}
+@media (max-width: 1023px) {
+  :root {
+    --page-pad: 20px;
+  }
+}
+@media (max-width: 767px) {
+  :root {
+    --page-pad: 16px;
+  }
+}
+
+/* Safety net against stray horizontal overflow; clip (not hidden) keeps
+   position: sticky working for the header. */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
     @apply bg-white font-sans text-ink antialiased;
     /* the designs leave line-height at the browser default */

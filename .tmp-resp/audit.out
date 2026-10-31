@@ -1,0 +1,119 @@
+1440  home        FAIL sw=1440 iw=1440 offenders=1 small=22
+1440  emergency   PASS sw=1440 iw=1440 offenders=0 small=21 modal=w700xh433/1440x900
+1440  contact     PASS sw=1440 iw=1440 offenders=0 small=19
+1440  support     FAIL sw=1440 iw=1440 offenders=1 small=20
+1440  events      FAIL sw=1440 iw=1440 offenders=1 small=20
+1440  programmes  FAIL sw=1440 iw=1440 offenders=1 small=20
+1440  doctors     FAIL sw=1440 iw=1440 offenders=1 small=20
+1440  facilities  PASS sw=1440 iw=1440 offenders=0 small=28
+1440  about       FAIL sw=1440 iw=1440 offenders=11 small=25
+1280  home        FAIL sw=1280 iw=1280 offenders=1 small=22
+1280  emergency   PASS sw=1280 iw=1280 offenders=0 small=21 modal=w700xh433/1280x900
+1280  contact     PASS sw=1280 iw=1280 offenders=0 small=19
+1280  support     FAIL sw=1280 iw=1280 offenders=1 small=20
+1280  events      FAIL sw=1280 iw=1280 offenders=1 small=20
+1280  programmes  FAIL sw=1280 iw=1280 offenders=1 small=20
+1280  doctors     FAIL sw=1280 iw=1280 offenders=1 small=20
+1280  facilities  PASS sw=1280 iw=1280 offenders=0 small=28
+1280  about       FAIL sw=1280 iw=1280 offenders=12 small=25
+1024  home        FAIL sw=1024 iw=1024 offenders=1 small=22
+1024  emergency   PASS sw=1024 iw=1024 offenders=0 small=21 modal=w700xh433/1024x900
+1024  contact     PASS sw=1024 iw=1024 offenders=0 small=19
+1024  support     FAIL sw=1024 iw=1024 offenders=1 small=20
+1024  events      FAIL sw=1024 iw=1024 offenders=1 small=20
+1024  programmes  FAIL sw=1024 iw=1024 offenders=1 small=20
+1024  doctors     FAIL sw=1024 iw=1024 offenders=1 small=20
+1024  facilities  PASS sw=1024 iw=1024 offenders=0 small=28
+1024  about       FAIL sw=1024 iw=1024 offenders=12 small=25
+768   home        FAIL sw=768 iw=768 offenders=1 small=13 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=768
+768   emergency   PASS sw=768 iw=768 offenders=0 small=12 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=768 modal=w700xh429/768x900
+768   contact     PASS sw=768 iw=768 offenders=0 small=10 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=768
+768   support     FAIL sw=768 iw=768 offenders=1 small=11 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=768
+768   events      FAIL sw=768 iw=768 offenders=1 small=11 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=768
+768   programmes  FAIL sw=768 iw=768 offenders=1 small=11 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=768
+768   doctors     FAIL sw=768 iw=768 offenders=1 small=11 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=768
+768   facilities  PASS sw=768 iw=768 offenders=0 small=19 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=768
+768   about       FAIL sw=768 iw=768 offenders=2 small=16 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=768
+390   home        FAIL sw=390 iw=390 offenders=1 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=390
+390   emergency   PASS sw=390 iw=390 offenders=0 small=4 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=390 modal=w358xh593/390x900
+390   contact     PASS sw=390 iw=390 offenders=0 small=1 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=390
+390   support     FAIL sw=390 iw=390 offenders=1 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=390
+390   events      FAIL sw=390 iw=390 offenders=1 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=390
+390   programmes  FAIL sw=390 iw=390 offenders=1 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=390
+390   doctors     FAIL sw=390 iw=390 offenders=1 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=390
+390   facilities  PASS sw=390 iw=390 offenders=0 small=3 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=390
+390   about       FAIL sw=390 iw=390 offenders=2 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=390
+360   home        FAIL sw=360 iw=360 offenders=1 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=360
+360   emergency   PASS sw=360 iw=360 offenders=0 small=4 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=360 modal=w328xh593/360x900
+360   contact     PASS sw=360 iw=360 offenders=0 small=1 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=360
+360   support     FAIL sw=360 iw=360 offenders=1 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=360
+360   events      FAIL sw=360 iw=360 offenders=1 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=360
+360   programmes  FAIL sw=360 iw=360 offenders=1 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=360
+360   doctors     FAIL sw=360 iw=360 offenders=1 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=360
+360   facilities  PASS sw=360 iw=360 offenders=0 small=3 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=360
+360   about       FAIL sw=360 iw=360 offenders=2 small=2 menu=open fonts=19px,19px,19px,19px,19px,19px,19px,19px,17px heights=48,48,48,48,48,48,48,48,46 panelRight=360
+
+--- details ---
+1440 home OVERFLOW [{"tag":"DIV","cls":"home-module__U9ZHpW__heroCurve","left":0,"right":1526,"w":1526}]
+1440 support OVERFLOW [{"tag":"DIV","cls":"","left":1040,"right":1560,"w":520}]
+1440 events OVERFLOW [{"tag":"DIV","cls":"","left":1040,"right":1560,"w":520}]
+1440 programmes OVERFLOW [{"tag":"DIV","cls":"","left":1040,"right":1560,"w":520}]
+1440 doctors OVERFLOW [{"tag":"DIV","cls":"","left":1040,"right":1560,"w":520}]
+1440 about OVERFLOW [{"tag":"DIV","cls":"","left":1260,"right":1480,"w":220},{"tag":"DIV","cls":"","left":0,"right":2570,"w":2570},{"tag":"DIV","cls":"","left":1303,"right":1663,"w":360},{"tag":"P","cls":"","left":1326,"right":1640,"w":314},{"tag":"DIV","cls":"","left":1699,"right":2059,"w":360},{"tag":"SPAN","cls":"","left":1722,"right":1830,"w":108},{"tag":"P","cls":"","left":1722,"right":2036,"w":314},{"tag":"DIV","cls":"","left":2095,"right":2455,"w":360},{"tag":"DIV","cls":"","left":2118,"right":2432,"w":314},{"tag":"SPAN","cls":"","left":2118,"right":2259,"w":140},{"tag":"P","cls":"","left":2118,"right":2432,"w":314}]
+1280 home OVERFLOW [{"tag":"DIV","cls":"home-module__U9ZHpW__heroCurve","left":0,"right":1357,"w":1357}]
+1280 support OVERFLOW [{"tag":"DIV","cls":"","left":880,"right":1400,"w":520}]
+1280 events OVERFLOW [{"tag":"DIV","cls":"","left":880,"right":1400,"w":520}]
+1280 programmes OVERFLOW [{"tag":"DIV","cls":"","left":880,"right":1400,"w":520}]
+1280 doctors OVERFLOW [{"tag":"DIV","cls":"","left":880,"right":1400,"w":520}]
+1280 about OVERFLOW [{"tag":"DIV","cls":"","left":1100,"right":1320,"w":220},{"tag":"DIV","cls":"","left":0,"right":2545,"w":2545},{"tag":"DIV","cls":"","left":1290,"right":1650,"w":360},{"tag":"SPAN","cls":"","left":1313,"right":1403,"w":89},{"tag":"P","cls":"","left":1313,"right":1627,"w":314},{"tag":"DIV","cls":"","left":1686,"right":2046,"w":360},{"tag":"SPAN","cls":"","left":1709,"right":1817,"w":108},{"tag":"P","cls":"","left":1709,"right":2023,"w":314},{"tag":"DIV","cls":"","left":2082,"right":2442,"w":360},{"tag":"DIV","cls":"","left":2105,"right":2419,"w":314},{"tag":"SPAN","cls":"","left":2105,"right":2246,"w":140},{"tag":"P","cls":"","left":2105,"right":2419,"w":314}]
+1024 home OVERFLOW [{"tag":"DIV","cls":"home-module__U9ZHpW__heroCurve","left":0,"right":1085,"w":1085}]
+1024 support OVERFLOW [{"tag":"DIV","cls":"","left":624,"right":1144,"w":520}]
+1024 events OVERFLOW [{"tag":"DIV","cls":"","left":624,"right":1144,"w":520}]
+1024 programmes OVERFLOW [{"tag":"DIV","cls":"","left":624,"right":1144,"w":520}]
+1024 doctors OVERFLOW [{"tag":"DIV","cls":"","left":624,"right":1144,"w":520}]
+1024 about OVERFLOW [{"tag":"DIV","cls":"","left":844,"right":1064,"w":220},{"tag":"DIV","cls":"","left":0,"right":2504,"w":2504},{"tag":"DIV","cls":"","left":874,"right":1234,"w":360},{"tag":"P","cls":"","left":897,"right":1211,"w":314},{"tag":"DIV","cls":"","left":1270,"right":1630,"w":360},{"tag":"SPAN","cls":"","left":1293,"right":1382,"w":89},{"tag":"P","cls":"","left":1293,"right":1607,"w":314},{"tag":"DIV","cls":"","left":1666,"right":2026,"w":360},{"tag":"SPAN","cls":"","left":1689,"right":1797,"w":108},{"tag":"P","cls":"","left":1689,"right":2003,"w":314},{"tag":"DIV","cls":"","left":2062,"right":2422,"w":360},{"tag":"DIV","cls":"","left":2085,"right":2399,"w":314}]
+768 home OVERFLOW [{"tag":"DIV","cls":"home-module__U9ZHpW__heroCurve","left":0,"right":814,"w":814}]
+768 home SMALL [{"where":"main","text":"Contact","w":63,"h":21},{"where":"main","text":"Support us","w":85,"h":21},{"where":"main","text":"+91 21682 60247","w":130,"h":21},{"where":"main","text":"Ways to help →","w":139,"h":24},{"where":"footer","text":"Get directions","w":124,"h":24},{"where":"footer","text":"About Us","w":347,"h":24},{"where":"footer","text":"Facilities","w":347,"h":24},{"where":"footer","text":"Doctors","w":347,"h":24},{"where":"footer","text":"Programmes","w":347,"h":24},{"where":"footer","text":"Events","w":347,"h":24},{"where":"footer","text":"Support Us","w":347,"h":24},{"where":"footer","text":"Contact","w":347,"h":24},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+768 emergency SMALL [{"where":"main","text":"+91 21682 60247","w":154,"h":21},{"where":"main","text":"Home","w":57,"h":22},{"where":"main","text":"","w":38,"h":38},{"where":"footer","text":"Get directions","w":124,"h":24},{"where":"footer","text":"About Us","w":347,"h":24},{"where":"footer","text":"Facilities","w":347,"h":24},{"where":"footer","text":"Doctors","w":347,"h":24},{"where":"footer","text":"Programmes","w":347,"h":24},{"where":"footer","text":"Events","w":347,"h":24},{"where":"footer","text":"Support Us","w":347,"h":24},{"where":"footer","text":"Contact","w":347,"h":24},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+768 contact SMALL [{"where":"main","text":"www.mgrh-mahabaleshwar.org","w":222,"h":20},{"where":"footer","text":"Get directions","w":124,"h":24},{"where":"footer","text":"About Us","w":347,"h":24},{"where":"footer","text":"Facilities","w":347,"h":24},{"where":"footer","text":"Doctors","w":347,"h":24},{"where":"footer","text":"Programmes","w":347,"h":24},{"where":"footer","text":"Events","w":347,"h":24},{"where":"footer","text":"Support Us","w":347,"h":24},{"where":"footer","text":"Contact","w":347,"h":24},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+768 support OVERFLOW [{"tag":"DIV","cls":"","left":368,"right":888,"w":520}]
+768 support SMALL [{"where":"main","text":"+91 21682 60247","w":122,"h":20},{"where":"main","text":"info@mgrh-mahabaleshwar.org","w":226,"h":20},{"where":"footer","text":"Get directions","w":124,"h":24},{"where":"footer","text":"About Us","w":347,"h":24},{"where":"footer","text":"Facilities","w":347,"h":24},{"where":"footer","text":"Doctors","w":347,"h":24},{"where":"footer","text":"Programmes","w":347,"h":24},{"where":"footer","text":"Events","w":347,"h":24},{"where":"footer","text":"Support Us","w":347,"h":24},{"where":"footer","text":"Contact","w":347,"h":24},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+768 events OVERFLOW [{"tag":"DIV","cls":"","left":368,"right":888,"w":520}]
+768 events SMALL [{"where":"main","text":"+91 21682 60247","w":137,"h":22},{"where":"main","text":"info@mgrh-mahabaleshwar.org","w":255,"h":22},{"where":"footer","text":"Get directions","w":124,"h":24},{"where":"footer","text":"About Us","w":347,"h":24},{"where":"footer","text":"Facilities","w":347,"h":24},{"where":"footer","text":"Doctors","w":347,"h":24},{"where":"footer","text":"Programmes","w":347,"h":24},{"where":"footer","text":"Events","w":347,"h":24},{"where":"footer","text":"Support Us","w":347,"h":24},{"where":"footer","text":"Contact","w":347,"h":24},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+768 programmes OVERFLOW [{"tag":"DIV","cls":"","left":368,"right":888,"w":520}]
+768 programmes SMALL [{"where":"main","text":"+91 21682 60247","w":122,"h":20},{"where":"main","text":"info@mgrh-mahabaleshwar.org","w":226,"h":20},{"where":"footer","text":"Get directions","w":124,"h":24},{"where":"footer","text":"About Us","w":347,"h":24},{"where":"footer","text":"Facilities","w":347,"h":24},{"where":"footer","text":"Doctors","w":347,"h":24},{"where":"footer","text":"Programmes","w":347,"h":24},{"where":"footer","text":"Events","w":347,"h":24},{"where":"footer","text":"Support Us","w":347,"h":24},{"where":"footer","text":"Contact","w":347,"h":24},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+768 doctors OVERFLOW [{"tag":"DIV","cls":"","left":368,"right":888,"w":520}]
+768 doctors SMALL [{"where":"main","text":"+91 21682 60247","w":137,"h":22},{"where":"main","text":"info@mgrh-mahabaleshwar.org","w":255,"h":22},{"where":"footer","text":"Get directions","w":124,"h":24},{"where":"footer","text":"About Us","w":347,"h":24},{"where":"footer","text":"Facilities","w":347,"h":24},{"where":"footer","text":"Doctors","w":347,"h":24},{"where":"footer","text":"Programmes","w":347,"h":24},{"where":"footer","text":"Events","w":347,"h":24},{"where":"footer","text":"Support Us","w":347,"h":24},{"where":"footer","text":"Contact","w":347,"h":24},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+768 facilities SMALL [{"where":"main","text":"+91 21682 60247","w":122,"h":20},{"where":"main","text":"info@mgrh-mahabaleshwar.org","w":226,"h":20},{"where":"main","text":"+91 21682 60247","w":119,"h":20},{"where":"main","text":"Emergency & Critical Care","w":218,"h":36},{"where":"main","text":"Consultation & Clinics","w":189,"h":36},{"where":"main","text":"Diagnostics","w":114,"h":36},{"where":"main","text":"Surgery","w":86,"h":36},{"where":"main","text":"Maternity & Child Care","w":193,"h":36},{"where":"main","text":"Wards & Support Services","w":217,"h":36},{"where":"main","text":"Back to top","w":149,"h":43},{"where":"footer","text":"Get directions","w":124,"h":24},{"where":"footer","text":"About Us","w":347,"h":24},{"where":"footer","text":"Facilities","w":347,"h":24},{"where":"footer","text":"Doctors","w":347,"h":24},{"where":"footer","text":"Programmes","w":347,"h":24},{"where":"footer","text":"Events","w":347,"h":24},{"where":"footer","text":"Support Us","w":347,"h":24},{"where":"footer","text":"Contact","w":347,"h":24},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+768 about OVERFLOW [{"tag":"DIV","cls":"","left":568,"right":788,"w":220},{"tag":"DIV","cls":"","left":568,"right":788,"w":220}]
+768 about SMALL [{"where":"main","text":"+91 21682 60247","w":137,"h":22},{"where":"main","text":"info@mgrh-mahabaleshwar.org","w":255,"h":22},{"where":"main","text":"Who we are","w":129,"h":40},{"where":"main","text":"Vision & Mission","w":169,"h":40},{"where":"main","text":"Why choose us","w":159,"h":40},{"where":"main","text":"Where we are","w":146,"h":40},{"where":"main","text":"Our History","w":127,"h":40},{"where":"footer","text":"Get directions","w":124,"h":24},{"where":"footer","text":"About Us","w":347,"h":24},{"where":"footer","text":"Facilities","w":347,"h":24},{"where":"footer","text":"Doctors","w":347,"h":24},{"where":"footer","text":"Programmes","w":347,"h":24},{"where":"footer","text":"Events","w":347,"h":24},{"where":"footer","text":"Support Us","w":347,"h":24},{"where":"footer","text":"Contact","w":347,"h":24},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+390 home OVERFLOW [{"tag":"DIV","cls":"home-module__U9ZHpW__heroCurve","left":0,"right":413,"w":413}]
+390 home SMALL [{"where":"main","text":"+91 21682 60247","w":115,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+390 emergency SMALL [{"where":"main","text":"+91 21682 60247","w":139,"h":21},{"where":"main","text":"Home","w":57,"h":22},{"where":"main","text":"","w":38,"h":38},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+390 contact SMALL [{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+390 support OVERFLOW [{"tag":"DIV","cls":"","left":-10,"right":510,"w":520}]
+390 support SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+390 events OVERFLOW [{"tag":"DIV","cls":"","left":-10,"right":510,"w":520}]
+390 events SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+390 programmes OVERFLOW [{"tag":"DIV","cls":"","left":-10,"right":510,"w":520}]
+390 programmes SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+390 doctors OVERFLOW [{"tag":"DIV","cls":"","left":-10,"right":510,"w":520}]
+390 doctors SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+390 facilities SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"main","text":"+91 21682 60247","w":119,"h":20},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+390 about OVERFLOW [{"tag":"DIV","cls":"","left":194,"right":414,"w":220},{"tag":"DIV","cls":"","left":194,"right":414,"w":220}]
+390 about SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+360 home OVERFLOW [{"tag":"DIV","cls":"home-module__U9ZHpW__heroCurve","left":0,"right":382,"w":382}]
+360 home SMALL [{"where":"main","text":"+91 21682 60247","w":115,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+360 emergency SMALL [{"where":"main","text":"+91 21682 60247","w":139,"h":21},{"where":"main","text":"Home","w":57,"h":22},{"where":"main","text":"","w":38,"h":38},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+360 contact SMALL [{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+360 support OVERFLOW [{"tag":"DIV","cls":"","left":-40,"right":480,"w":520}]
+360 support SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+360 events OVERFLOW [{"tag":"DIV","cls":"","left":-40,"right":480,"w":520}]
+360 events SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+360 programmes OVERFLOW [{"tag":"DIV","cls":"","left":-40,"right":480,"w":520}]
+360 programmes SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+360 doctors OVERFLOW [{"tag":"DIV","cls":"","left":-40,"right":480,"w":520}]
+360 doctors SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+360 facilities SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"main","text":"+91 21682 60247","w":119,"h":20},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]
+360 about OVERFLOW [{"tag":"DIV","cls":"","left":164,"right":384,"w":220},{"tag":"DIV","cls":"","left":164,"right":384,"w":220}]
+360 about SMALL [{"where":"main","text":"+91 21682 60247","w":114,"h":21},{"where":"footer","text":"info@mgrh-mahabaleshwar.org","w":248,"h":22}]

@@ -98,3 +98,188 @@
 .placeholderLabel::after {
   content: attr(data-label);
 }
+
+@media (max-width: 1023px) {
+  .page h1 {
+    font-size: 44px !important;
+    line-height: 1.04 !important;
+  }
+
+  .page h2 {
+    font-size: 28px !important;
+  }
+
+  .page h3 {
+    font-size: 26px !important;
+  }
+
+  .page p {
+    font-size: 18px !important;
+  }
+
+  .page .heroText {
+    max-width: 100% !important;
+  }
+
+  .page .aboutGrid,
+  .page .reachGrid,
+  .page .eventsInner {
+    grid-template-columns: 1fr !important;
+  }
+
+  .page .aboutGrid {
+    gap: 40px !important;
+  }
+
+  .page .reachGrid {
+    gap: 20px !important;
+  }
+
+  .page .eventsInner {
+    gap: 36px !important;
+  }
+  .page .supportLink {
+    display: inline-flex !important;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 767px) {
+  .page h1 {
+    font-size: 34px !important;
+    line-height: 1.08 !important;
+  }
+
+  .page h2 {
+    font-size: 24px !important;
+  }
+
+  .page h3 {
+    font-size: 20px !important;
+  }
+
+  .page p {
+    font-size: 16.5px !important;
+  }
+
+  .page [style*='text-transform: uppercase'] {
+    font-size: 14px !important;
+  }
+
+  .heroInner {
+    padding-top: 36px !important;
+    padding-bottom: 88px !important;
+  }
+
+  .heroCurve {
+    height: 120px !important;
+    border-top-left-radius: 100% 120px !important;
+  }
+
+  .page .heroPrimary,
+  .page .heroSecondary {
+    font-size: 18px !important;
+    padding: 14px 24px !important;
+  }
+
+  .page .glanceGrid {
+    gap: 28px !important;
+  }
+
+  .page .infoCard {
+    padding: 26px 22px !important;
+  }
+
+  .page .facilitiesBand {
+    padding: 26px 22px !important;
+  }
+
+  .page .programmeCard {
+    padding: 24px 20px 26px !important;
+  }
+
+  .page .cardTitle {
+    font-size: 20px !important;
+  }
+
+  .page .supportCard {
+    padding: 24px 20px 26px !important;
+  }
+
+  .page .eventsInner {
+    padding-top: 44px !important;
+    padding-bottom: 44px !important;
+  }
+
+  .page .eventRowGrid {
+    padding: 14px 16px !important;
+    gap: 14px !important;
+  }
+
+  .page .statBadge {
+    right: 0 !important;
+    bottom: -18px !important;
+    padding: 16px 20px !important;
+    max-width: 260px !important;
+  }
+
+  .page .reachRow span:last-child {
+    font-size: 17px !important;
+  }
+
+  .page .galleryOverlay {
+    padding: 16px !important;
+  }
+
+  .page .galleryPanel {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .page .galleryHead {
+    padding: 20px 18px 18px !important;
+    gap: 16px !important;
+  }
+
+  .page .galleryBody {
+    padding: 18px !important;
+  }
+
+  .page .closeGallery {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .page .galleryGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .page .galleryGrid > div {
+    grid-column: auto !important;
+  }
+}
+
+@media (max-width: 479px) {
+  .page .heroPrimary,
+  .page .heroSecondary {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .page .reachRow {
+    grid-template-columns: 1fr !important;
+    gap: 2px !important;
+  }
+
+  .page .eventRowGrid {
+    grid-template-columns: 68px 1fr !important;
+    gap: 12px !important;
+    padding: 12px 14px !important;
+  }
+
+  .page .galleryGrid {
+    grid-template-columns: 1fr !important;
+  }
+}

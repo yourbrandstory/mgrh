@@ -1,0 +1,47 @@
+.root,
+.root *,
+.root *::before,
+.root *::after {
+  box-sizing: border-box;
+}
+
+.root button {
+  font-family: inherit;
+}
+
+.root input,
+.root textarea,
+.root select {
+  font-family: inherit;
+}
+
+.root input:focus,
+.root textarea:focus,
+.root select:focus {
+  outline: 3px solid #BFE3DB;
+  outline-offset: 0;
+}
+
+.hoverBgDark:hover { background: #0B7F73 !important; }
+.hoverBorderTeal:hover { border-color: #0A8E7B !important; }
+.hoverBgSoft:hover { background: #F1F8F6 !important; }
+.hoverColorTeal:hover { color: #0A8E7B !important; }
+.hoverBorderRed:hover { border-color: #C42A21 !important; }
+.hoverRedBoth:hover { border-color: #C42A21 !important; color: #C42A21 !important; }
+.hoverBorderSoft:hover { border-color: #9FD0C7 !important; }
+.hoverTealBoth:hover { border-color: #0A8E7B !important; color: #0A8E7B !important; }
+.hoverBgRow:hover { background: #F7FAF9 !important; }
+
+.spin { animation: cmsSpin 0.8s linear infinite; }
+.up { animation: cmsUp 0.26s ease; }
+.upSm { animation: cmsUp 0.24s ease; }
+.upXs { animation: cmsUp 0.22s ease; }
+
+@keyframes cmsSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cmsUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}

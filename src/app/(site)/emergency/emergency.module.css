@@ -31,3 +31,140 @@
 .callCard:hover {
   border-color: #e1332a !important;
 }
+
+/* ---------- Responsive (desktop >=1280px untouched) ---------- */
+@media (max-width: 1023px) {
+  .page h1 {
+    font-size: 44px !important;
+    line-height: 1.06 !important;
+  }
+  .page h2 {
+    font-size: 28px !important;
+  }
+  .page p {
+    font-size: 18px !important;
+  }
+  .heroInner {
+    padding-top: 44px !important;
+    padding-bottom: 56px !important;
+  }
+  .whenGrid,
+  .splitGrid {
+    grid-template-columns: 1fr !important;
+  }
+  .splitGrid {
+    gap: 32px !important;
+  }
+  .page .bigCallout {
+    font-size: 28px !important;
+  }
+  .ghostButton {
+    width: 44px !important;
+    height: 44px !important;
+  }
+  .crumbHome {
+    display: inline-flex !important;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 767px) {
+  .page h1 {
+    font-size: 34px !important;
+    line-height: 1.12 !important;
+  }
+  .page h2 {
+    font-size: 24px !important;
+  }
+  .page h3 {
+    font-size: 20px !important;
+  }
+  .page p {
+    font-size: 16.5px !important;
+  }
+  .page [style*='text-transform: uppercase'] {
+    font-size: 14px !important;
+  }
+  .heroInner {
+    padding-top: 36px !important;
+    padding-bottom: 48px !important;
+  }
+  .ctaRow {
+    gap: 12px !important;
+  }
+  .page .bigCallout {
+    font-size: 24px !important;
+  }
+  .whenPanel {
+    padding: 26px 22px !important;
+  }
+  .arriveBox {
+    padding: 28px 22px !important;
+  }
+  .mapFrame {
+    aspect-ratio: auto !important;
+    height: 320px !important;
+  }
+  .faqQ {
+    font-size: 18px !important;
+  }
+  .stickyText {
+    font-size: 17px !important;
+  }
+  .stickyInner {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    gap: 12px !important;
+  }
+  .modalOverlay {
+    padding: 20px var(--page-pad) !important;
+  }
+  .modalPanel {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
+  .modalHeader {
+    padding: 20px 20px !important;
+  }
+  .modalBody {
+    padding: 22px 20px 26px !important;
+  }
+  .modalPhone {
+    font-size: 24px !important;
+  }
+}
+
+@media (max-width: 479px) {
+  .ctaRow {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .ctaRow > a {
+    width: 100% !important;
+    justify-content: center !important;
+    font-size: 19px !important;
+    padding: 16px 20px !important;
+  }
+  .stickyActions {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+  .stickyActions > a {
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+  }
+  .modalCta {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .modalCta > a {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .callCard {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+}

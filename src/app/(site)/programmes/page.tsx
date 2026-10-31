@@ -46,7 +46,7 @@ export default function ProgrammesPage() {
   const [open, setOpen] = useState<Record<number, boolean>>({});
 
   return (
-    <div>
+    <div className={styles.page}>
       {/* ===== HERO ===== */}
       <section style={{ position: 'relative', overflow: 'hidden' }}>
         <div
@@ -87,7 +87,7 @@ export default function ProgrammesPage() {
           }}
         />
 
-        <div style={{ position: 'relative', zIndex: 4, maxWidth: 1800, margin: '0 auto', padding: '52px 26px 84px' }}>
+        <div className={styles.heroInner} style={{ position: 'relative', zIndex: 4, maxWidth: 1800, margin: '0 auto', padding: '52px var(--page-pad) 84px' }}>
           <div
             style={{
               display: 'flex',
@@ -147,7 +147,7 @@ export default function ProgrammesPage() {
       </section>
 
       {/* ===== COUNT STRIP ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '34px 26px 0' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '34px var(--page-pad) 0' }}>
         <div
           style={{
             display: 'flex',
@@ -168,8 +168,9 @@ export default function ProgrammesPage() {
       </section>
 
       {/* ===== INTRODUCTION ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '30px 26px 4px' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '30px var(--page-pad) 4px' }}>
         <div
+          className={styles.introGrid}
           style={{
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1.3fr) minmax(320px, 0.7fr)',
@@ -213,7 +214,7 @@ export default function ProgrammesPage() {
       </section>
 
       {/* ===== PROGRAMME CARDS ===== */}
-      <section id="programmes" style={{ maxWidth: 1800, margin: '0 auto', padding: '34px 26px 20px', scrollMarginTop: 52 }}>
+      <section id="programmes" style={{ maxWidth: 1800, margin: '0 auto', padding: '34px var(--page-pad) 20px', scrollMarginTop: 52 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 46 }}>
           {programmeGroups.map((g) => {
             const rows = g.names
@@ -237,11 +238,11 @@ export default function ProgrammesPage() {
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(440px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(min(440px, 100%), 1fr))',
                     alignItems: 'stretch',
                   }}
                 >
-                  <div style={{ padding: '40px 44px 42px' }}>
+                  <div className={styles.groupBody} style={{ padding: '40px 44px 42px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
                       <span style={{ width: 34, height: 5, borderRadius: 3, background: g.accent, flex: 'none' }} />
                       <span
@@ -333,7 +334,7 @@ export default function ProgrammesPage() {
                                   'max-height 0.42s cubic-bezier(0.22,0.85,0.28,1), opacity 0.3s ease',
                               }}
                             >
-                              <p style={{ margin: 0, padding: '0 18px 18px 42px', fontSize: 18, lineHeight: 1.6, color: '#4E5F5A' }}>
+                              <p className={styles.accText} style={{ margin: 0, padding: '0 18px 18px 42px', fontSize: 18, lineHeight: 1.6, color: '#4E5F5A' }}>
                                 {item.desc}
                               </p>
                             </div>
@@ -342,7 +343,7 @@ export default function ProgrammesPage() {
                       })}
                     </div>
                   </div>
-                  <div style={{ position: 'relative', minHeight: 420, background: '#EEF3F1' }}>
+                  <div className={styles.groupImage} style={{ position: 'relative', minHeight: 420, background: '#EEF3F1' }}>
                     <PlaceholderTile label={g.title} />
                     <div
                       style={{
@@ -362,8 +363,9 @@ export default function ProgrammesPage() {
       </section>
 
       {/* ===== COMMUNITY BAND ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '46px 26px 0' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '46px var(--page-pad) 0' }}>
         <div
+          className={styles.communityGrid}
           style={{
             display: 'grid',
             gridTemplateColumns: 'minmax(0, 1fr) minmax(320px, 520px)',
@@ -380,7 +382,7 @@ export default function ProgrammesPage() {
               and the villages around it every service free of charge
             </p>
           </div>
-          <div>
+          <div className={styles.communityImage}>
             <div
               style={{
                 borderTop: '4px solid #E1332A',
@@ -401,8 +403,9 @@ export default function ProgrammesPage() {
       </section>
 
       {/* ===== HELP BAND ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '46px 26px 70px' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '46px var(--page-pad) 70px' }}>
         <div
+          className={styles.helpBand}
           style={{
             background: '#F1F8F6',
             border: '1px solid #E1F3EF',
@@ -424,6 +427,7 @@ export default function ProgrammesPage() {
           </div>
           <a
             href="tel:+912168260247"
+            className={styles.helpBtn}
             style={{
               display: 'inline-flex',
               alignItems: 'center',

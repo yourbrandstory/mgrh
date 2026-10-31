@@ -6,3 +6,68 @@
 .filter:hover {
   border-color: #06a88c !important;
 }
+
+/* ---------- Responsive (desktop >=1280px untouched) ---------- */
+@media (max-width: 1023px) {
+  .page h1 {
+    font-size: 44px !important;
+    line-height: 1.06 !important;
+  }
+  .page h2 {
+    font-size: 28px !important;
+  }
+  .page p {
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .page h1 {
+    font-size: 34px !important;
+    line-height: 1.12 !important;
+  }
+  .page h2 {
+    font-size: 24px !important;
+  }
+  .page h3 {
+    font-size: 20px !important;
+  }
+  .page p {
+    font-size: 16.5px !important;
+  }
+  .page [style*='text-transform: uppercase'] {
+    font-size: 14px !important;
+  }
+  .heroInner {
+    padding-top: 36px !important;
+    padding-bottom: 48px !important;
+  }
+  .filterRow {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .filterRow::-webkit-scrollbar {
+    display: none;
+  }
+  .filterRow > button {
+    flex: 0 0 auto;
+    min-height: 44px;
+  }
+  .supportRow {
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+  }
+  .helpBand {
+    padding: 26px 22px !important;
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 479px) {
+  .helpBtn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}

@@ -6,6 +6,8 @@ export interface DoctorItem {
   bio: string;
   hours: string;
   location: string;
+  imageUrl?: string | null;
+  imageAlt?: string;
 }
 
 export const fallbackDoctors: DoctorItem[] = [

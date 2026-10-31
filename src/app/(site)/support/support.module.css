@@ -2,3 +2,63 @@
   border-color: #bee3db !important;
   box-shadow: 0 20px 44px -34px rgba(6, 120, 100, 0.5);
 }
+
+/* ---------- Responsive (desktop >=1280px untouched) ---------- */
+@media (max-width: 1023px) {
+  .page h1 {
+    font-size: 44px !important;
+    line-height: 1.06 !important;
+  }
+  .page h2 {
+    font-size: 28px !important;
+  }
+  .page p {
+    font-size: 18px !important;
+  }
+  .heroInner {
+    padding-top: 44px !important;
+    padding-bottom: 56px !important;
+  }
+  .heroGrid {
+    grid-template-columns: 1fr !important;
+  }
+  .introGrid {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+  }
+  .donateGrid {
+    grid-template-columns: 1fr !important;
+  }
+  .page .introStatement {
+    font-size: 24px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .page h1 {
+    font-size: 34px !important;
+    line-height: 1.12 !important;
+  }
+  .page h2 {
+    font-size: 24px !important;
+  }
+  .page h3 {
+    font-size: 20px !important;
+  }
+  .page p {
+    font-size: 16.5px !important;
+  }
+  .page [style*='text-transform: uppercase'] {
+    font-size: 14px !important;
+  }
+  .heroInner {
+    padding-top: 36px !important;
+    padding-bottom: 48px !important;
+  }
+  .page .introStatement {
+    font-size: 20px !important;
+  }
+  .donateCard {
+    padding: 24px 22px !important;
+  }
+}

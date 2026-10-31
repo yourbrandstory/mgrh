@@ -1,0 +1,190 @@
+/* Shared layout responsive rules — every rule below only applies under 1280px,
+   so the desktop layout (>=1280px) is untouched. Inline styles win over plain
+   class rules, hence !important on the overrides. */
+
+.logo {
+  height: 84px;
+  width: auto;
+  display: block;
+}
+.menuBtn {
+  display: none;
+}
+.mobilePanel {
+  display: none;
+}
+
+@media (max-width: 1279px) {
+  .navLink {
+    font-size: 16px !important;
+    padding: 6px 7px !important;
+  }
+  .emergencyBtn {
+    margin-left: 10px !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .headerRow {
+    gap: 12px !important;
+  }
+  .navLinks {
+    display: none !important;
+  }
+  .emergencyBtn {
+    font-size: 16px !important;
+    padding: 10px 14px !important;
+    margin-left: 0 !important;
+    gap: 6px !important;
+    min-height: 44px;
+  }
+  .menuBtn {
+    display: flex !important;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #f3f7f5;
+    color: #16413a;
+    cursor: pointer;
+  }
+  .mobilePanel {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 70;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+    background: #ffffff;
+    border-bottom: 1px solid #e0ede9;
+    box-shadow: 0 24px 40px -24px rgba(6, 90, 76, 0.35);
+    padding: 6px var(--page-pad) 16px;
+  }
+  .mobileLink {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 10px 4px;
+    font-size: 19px !important;
+    font-weight: 500;
+    color: #35514b;
+    text-decoration: none;
+    border-bottom: 1px solid #eef3f1;
+  }
+  .mobileLinkActive {
+    color: #0a8e7b !important;
+    font-weight: 600;
+  }
+  .mobilePhone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 46px;
+    margin-top: 12px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #b4251e;
+    text-decoration: none;
+  }
+  .footerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 34px !important;
+  }
+  .footerInner {
+    padding-top: 96px !important;
+  }
+  .footerLink {
+    display: flex !important;
+    align-items: center;
+    min-height: 44px;
+    width: fit-content;
+  }
+  .bandPhone {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .footerMail {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    word-break: break-all;
+  }
+  .bandSecondary a,
+  a.bandSecondary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 767px) {
+  .headerRow {
+    gap: 10px !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+  .logo {
+    height: 64px !important;
+  }
+  .menuBtn {
+    margin-left: 6px;
+  }
+  .bandInner {
+    font-size: 14.5px !important;
+    line-height: 1.45 !important;
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+    gap: 6px !important;
+  }
+  .bandRight {
+    gap: 10px !important;
+  }
+  .bandLeft {
+    gap: 6px !important;
+  }
+  .bandSecondary {
+    display: none !important;
+  }
+  .footerGrid {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+  .footerCurve {
+    height: 55px !important;
+  }
+  .footerInner {
+    padding-top: 70px !important;
+  }
+  .footerBanner {
+    padding: 18px 18px !important;
+    margin-bottom: 36px !important;
+  }
+  .fab {
+    right: 16px !important;
+    bottom: 16px !important;
+  }
+  .fabBtn {
+    width: 54px !important;
+    height: 54px !important;
+  }
+  .mobilePanel {
+    max-height: calc(100vh - 96px);
+  }
+}
+
+@media (max-width: 479px) {
+  .emergencyBtn {
+    font-size: 15px !important;
+    padding: 9px 11px !important;
+  }
+  .logo {
+    height: 56px !important;
+  }
+}

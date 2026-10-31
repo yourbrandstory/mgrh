@@ -101,8 +101,9 @@ function toTop() {
 function GroupSection({ group }: { group: FacilityGroup }) {
   return (
     <section id={group.id} style={{ background: group.bg, scrollMarginTop: 82 }}>
-      <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '46px 26px 50px' }}>
+      <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '46px var(--page-pad) 50px' }}>
         <div
+          className={styles.groupBand}
           style={{
             background: group.bandBg,
             borderLeft: '6px solid #06A88C',
@@ -123,6 +124,7 @@ function GroupSection({ group }: { group: FacilityGroup }) {
           {group.items.map((f) => (
             <div
               key={f.slot}
+              className={styles.itemGrid}
               style={{ display: 'grid', gridTemplateColumns: '420px 1fr', gap: 46, alignItems: 'start' }}
             >
               <div>
@@ -148,6 +150,7 @@ function GroupSection({ group }: { group: FacilityGroup }) {
                 </div>
               </div>
               <div
+                className={styles.shotsRow}
                 style={{
                   display: 'flex',
                   gap: 16,
@@ -258,7 +261,7 @@ export default function FacilitiesView({
   const jumpBarEvents = showJump ? 'auto' : 'none';
 
   return (
-    <div>
+    <div className={styles.page}>
       {/* ===== STICKY JUMP + EMERGENCY BAR ===== */}
       <div
         ref={jumpBarRef}
@@ -274,12 +277,12 @@ export default function FacilitiesView({
           pointerEvents: jumpBarEvents as 'auto' | 'none',
         }}
       >
-        <div style={{ background: '#FDF1F0', borderBottom: '1px solid #F6D8D5' }}>
+        <div className={styles.jumpEmergency} style={{ background: '#FDF1F0', borderBottom: '1px solid #F6D8D5' }}>
           <div
             style={{
               maxWidth: MAX_W,
               margin: '0 auto',
-              padding: '8px 26px',
+              padding: '8px var(--page-pad)',
               display: 'flex',
               alignItems: 'center',
               gap: 12,
@@ -300,9 +303,10 @@ export default function FacilitiesView({
               <path d="M12 7.5v6M12 16.6v.4" />
             </svg>
             <span style={{ fontWeight: 700, color: '#9E2018' }}>In an emergency</span>
-            <span>Go directly to the Casualty Ward — no appointment or queue.</span>
+            <span className={styles.jumpEmergencyText}>Go directly to the Casualty Ward — no appointment or queue.</span>
             <a
               href="tel:+912168260247"
+              className={styles.jumpPhone}
               style={{ marginLeft: 'auto', fontWeight: 700, color: '#C42A21', whiteSpace: 'nowrap' }}
             >
               +91 21682 60247
@@ -314,7 +318,7 @@ export default function FacilitiesView({
             style={{
               maxWidth: MAX_W,
               margin: '0 auto',
-              padding: '11px 26px',
+              padding: '11px var(--page-pad)',
               display: 'flex',
               alignItems: 'center',
               gap: 16,
@@ -399,7 +403,7 @@ export default function FacilitiesView({
               'linear-gradient(90deg, rgba(3,96,84,0.92) 0%, rgba(4,104,94,0.82) 36%, rgba(10,140,140,0.45) 62%, rgba(43,178,196,0.12) 100%)',
           }}
         />
-        <div style={{ position: 'relative', zIndex: 3, maxWidth: MAX_W, margin: '0 auto', padding: '52px 26px 84px' }}>
+        <div className={styles.heroInner} style={{ position: 'relative', zIndex: 3, maxWidth: MAX_W, margin: '0 auto', padding: '52px var(--page-pad) 84px' }}>
           <div
             style={{
               display: 'flex',
@@ -461,7 +465,7 @@ export default function FacilitiesView({
 
       {/* ===== QUICK JUMP ROW ===== */}
       <section style={{ background: '#F4FAF8', borderBottom: '1px solid #E6EFEC' }}>
-        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '26px 26px' }}>
+        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '26px var(--page-pad)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
             <span
               style={{
@@ -521,7 +525,7 @@ export default function FacilitiesView({
           style={{
             maxWidth: MAX_W,
             margin: '0 auto',
-            padding: '54px 26px',
+            padding: '54px var(--page-pad)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -540,6 +544,7 @@ export default function FacilitiesView({
           </div>
           <a
             href="tel:+912168260247"
+            className={styles.callBtn}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -565,8 +570,9 @@ export default function FacilitiesView({
 
       {/* ===== HELP BAND ===== */}
       <section style={{ background: '#EDF6F3' }}>
-        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '54px 26px 78px' }}>
+        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '54px var(--page-pad) 78px' }}>
           <div
+            className={styles.helpBox}
             style={{
               background: '#ffffff',
               border: '1px solid #DCEBE7',
@@ -590,6 +596,7 @@ export default function FacilitiesView({
             </div>
             <a
               href="tel:+912168260247"
+              className={styles.callBtn}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',

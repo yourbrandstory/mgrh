@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   centres,
-  events,
   galleryShots,
   glance,
   milestones,
@@ -11,6 +10,7 @@ import {
   reachRows,
   support,
 } from './data';
+import type { EventItem } from './data';
 import styles from './home.module.css';
 
 const MAX_W = 1800;
@@ -67,7 +67,7 @@ function SlotRing() {
   );
 }
 
-export default function HomeView() {
+export default function HomeView({ events }: { events: EventItem[] }) {
   const refs = useRef<Array<HTMLElement | null>>([]);
   const [seen, setSeen] = useState<Record<string, boolean>>({ 0: true, 1: true, 2: true, 3: true, 4: true });
   const [activeProg, setActiveProg] = useState<number | null>(null);
@@ -138,7 +138,7 @@ export default function HomeView() {
   const closeGallery = () => setActiveProg(null);
 
   return (
-    <div>
+    <div className={styles.page}>
       {/* ===== HERO ===== */}
       <section id="top" style={{ position: 'relative', overflow: 'hidden', background: '#EAF6F3' }}>
         <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
@@ -157,6 +157,7 @@ export default function HomeView() {
           }}
         />
         <div
+          className={styles.heroCurve}
           style={{
             position: 'absolute',
             left: 0,
@@ -171,8 +172,8 @@ export default function HomeView() {
           }}
         />
 
-        <div style={{ position: 'relative', zIndex: 3, maxWidth: MAX_W, margin: '0 auto', padding: '74px 26px 118px' }}>
-          <div style={{ maxWidth: 'min(46%, 680px)' }}>
+        <div className={styles.heroInner} style={{ position: 'relative', zIndex: 3, maxWidth: MAX_W, margin: '0 auto', padding: '74px var(--page-pad) 118px' }}>
+          <div className={styles.heroText} style={{ maxWidth: 'min(46%, 680px)' }}>
             <div
               style={{
                 display: 'flex',
@@ -256,9 +257,12 @@ export default function HomeView() {
         ref={(el) => {
           refs.current[0] = el;
         }}
-        style={{ maxWidth: MAX_W, margin: '0 auto', padding: '20px 26px 0', ...reveal(0) }}
+        style={{ maxWidth: MAX_W, margin: '0 auto', padding: '20px var(--page-pad) 0', ...reveal(0) }}
       >
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(430px, 1fr))', gap: 62, alignItems: 'start' }}>
+        <div
+          className={styles.aboutGrid}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(430px, 100%), 1fr))', gap: 62, alignItems: 'start' }}
+        >
           <div>
             <div style={{ fontSize: 16, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#0B7F73', marginBottom: 16 }}>
               About the hospital
@@ -349,6 +353,7 @@ export default function HomeView() {
                 />
               </div>
               <div
+                className={styles.statBadge}
                 style={{
                   position: 'absolute',
                   right: -14,
@@ -422,8 +427,8 @@ export default function HomeView() {
               'linear-gradient(100deg, rgba(7,102,88,0.95) 0%, rgba(9,124,108,0.88) 46%, rgba(14,148,142,0.74) 78%, rgba(24,168,178,0.6) 100%)',
           }}
         />
-        <div style={{ position: 'relative', zIndex: 2, maxWidth: MAX_W, margin: '0 auto', padding: '58px 26px 62px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 44 }}>
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: MAX_W, margin: '0 auto', padding: '58px var(--page-pad) 62px' }}>
+          <div className={styles.glanceGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 44 }}>
             {glance.map((g) => (
               <div key={g.label} style={{ borderTop: '3px solid rgba(255,255,255,0.46)', paddingTop: 20 }}>
                 <div
@@ -451,10 +456,13 @@ export default function HomeView() {
         ref={(el) => {
           refs.current[4] = el;
         }}
-        style={{ maxWidth: MAX_W, margin: '0 auto', padding: '80px 26px 0', ...reveal(4) }}
+        style={{ maxWidth: MAX_W, margin: '0 auto', padding: '80px var(--page-pad) 0', ...reveal(4) }}
       >
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(430px, 1fr))', gap: 24, alignItems: 'stretch' }}>
-          <div style={{ background: '#FDF1F0', border: '1px solid #F6D8D5', borderRadius: 18, padding: '42px 44px' }}>
+        <div
+          className={styles.reachGrid}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(430px, 100%), 1fr))', gap: 24, alignItems: 'stretch' }}
+        >
+          <div className={styles.infoCard} style={{ background: '#FDF1F0', border: '1px solid #F6D8D5', borderRadius: 18, padding: '42px 44px' }}>
             <div
               style={{
                 display: 'inline-flex',
@@ -532,7 +540,7 @@ export default function HomeView() {
               </a>
             </div>
           </div>
-          <div style={{ background: '#ffffff', border: '1px solid #DCEBE7', borderRadius: 18, padding: '42px 44px' }}>
+          <div className={styles.infoCard} style={{ background: '#ffffff', border: '1px solid #DCEBE7', borderRadius: 18, padding: '42px 44px' }}>
             <div style={{ fontSize: 16, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#0B7F73', marginBottom: 16 }}>
               Reach the hospital
             </div>
@@ -552,6 +560,7 @@ export default function HomeView() {
               {reachRows.map((r) => (
                 <div
                   key={r.label}
+                  className={styles.reachRow}
                   style={{
                     display: 'grid',
                     gridTemplateColumns: 'minmax(0, 140px) 1fr',
@@ -622,7 +631,7 @@ export default function HomeView() {
           ...reveal(1),
         }}
       >
-        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '0 26px' }}>
+        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '0 var(--page-pad)' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 14, flexWrap: 'wrap' }}>
             <span style={{ width: 30, height: 4, borderRadius: 2, background: '#0A8E7B', flex: 'none' }} />
             <h2 style={{ fontWeight: 500, fontSize: 36, margin: 0, color: '#1F3A34' }}>
@@ -715,6 +724,7 @@ export default function HomeView() {
           </div>
 
           <div
+            className={styles.facilitiesBand}
             style={{
               background: '#ffffff',
               border: '1px solid #DCEBE7',
@@ -775,7 +785,7 @@ export default function HomeView() {
           ...reveal(2),
         }}
       >
-        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '0 26px' }}>
+        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '0 var(--page-pad)' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 14, flexWrap: 'wrap' }}>
             <span style={{ width: 30, height: 4, borderRadius: 2, background: '#0A8E7B', flex: 'none' }} />
             <h2 style={{ fontWeight: 500, fontSize: 36, margin: 0, color: '#1F3A34' }}>
@@ -835,7 +845,7 @@ export default function HomeView() {
                     ))}
                   </svg>
                 </div>
-                <div style={{ fontWeight: 600, fontSize: 21.5, lineHeight: 1.26, color: '#0B4F45', marginBottom: 7 }}>{p.name}</div>
+                <div className={styles.cardTitle} style={{ fontWeight: 600, fontSize: 21.5, lineHeight: 1.26, color: '#0B4F45', marginBottom: 7 }}>{p.name}</div>
                 <div style={{ fontSize: 17.5, lineHeight: 1.5, color: '#5A6A66', marginBottom: 16 }}>{p.desc}</div>
                 <div
                   style={{
@@ -901,12 +911,13 @@ export default function HomeView() {
         }}
       >
         <div
+          className={styles.eventsInner}
           style={{
             maxWidth: MAX_W,
             margin: '0 auto',
-            padding: '62px 26px',
+            padding: '62px var(--page-pad)',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(400px, 100%), 1fr))',
             gap: 56,
             alignItems: 'center',
           }}
@@ -958,7 +969,7 @@ export default function HomeView() {
               <a
                 key={`${e.day}-${e.month}-${e.title}`}
                 href="/events"
-                className={styles.eventRow}
+                className={`${styles.eventRow} ${styles.eventRowGrid}`}
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '86px 1fr',
@@ -990,7 +1001,7 @@ export default function HomeView() {
 
       {/* ===== SUPPORT US ===== */}
       <section style={{ marginTop: 82, background: '#EAF5F2', borderTop: '1px solid #DCEBE7', padding: '64px 0 72px' }}>
-        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '0 26px' }}>
+        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '0 var(--page-pad)' }}>
           <div
             style={{
               display: 'flex',
@@ -1006,7 +1017,7 @@ export default function HomeView() {
             <h2 style={{ fontWeight: 500, fontSize: 34, margin: 0, color: '#1F3A34' }}>
               Support <span style={{ fontWeight: 700 }}>us</span>
             </h2>
-            <a href="/support" style={{ marginLeft: 'auto', fontSize: 18.5, fontWeight: 700, color: '#0B6558' }}>
+            <a href="/support" className={styles.supportLink} style={{ marginLeft: 'auto', fontSize: 18.5, fontWeight: 700, color: '#0B6558' }}>
               Ways to help →
             </a>
           </div>
@@ -1048,6 +1059,7 @@ export default function HomeView() {
       {active ? (
         <div
           onClick={closeGallery}
+          className={styles.galleryOverlay}
           style={{
             position: 'fixed',
             inset: 0,
@@ -1057,13 +1069,14 @@ export default function HomeView() {
             display: 'flex',
             alignItems: 'flex-start',
             justifyContent: 'center',
-            padding: '46px 26px',
+            padding: '46px var(--page-pad)',
             overflowY: 'auto',
             animation: 'mgVeil 0.24s ease',
           }}
         >
           <div
             onClick={(e) => e.stopPropagation()}
+            className={styles.galleryPanel}
             style={{
               width: '100%',
               maxWidth: 1040,
@@ -1075,6 +1088,7 @@ export default function HomeView() {
             }}
           >
             <div
+              className={styles.galleryHead}
               style={{
                 display: 'flex',
                 alignItems: 'flex-start',
@@ -1114,8 +1128,8 @@ export default function HomeView() {
                 </svg>
               </button>
             </div>
-            <div style={{ padding: '26px 32px 32px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            <div className={styles.galleryBody} style={{ padding: '26px 32px 32px' }}>
+              <div className={styles.galleryGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
                 {galleryShots.map((sh) => (
                   <div key={sh.label} style={{ gridColumn: sh.span }}>
                     <div style={{ position: 'relative', aspectRatio: sh.ratio, overflow: 'hidden', borderRadius: 10, background: '#EEF3F1' }}>

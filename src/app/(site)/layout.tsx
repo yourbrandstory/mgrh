@@ -1,8 +1,10 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSiteContent } from '@/hooks/useSiteContent';
+import styles from './layout.module.css';
 
 const FONT = `var(--font-dm-sans), 'DM Sans', sans-serif`;
 
@@ -85,12 +87,12 @@ function TopBand({ pathname }: { pathname: string }) {
   if (pathname === '/emergency') {
     return (
       <div style={{ background: '#E1332A', color: '#FFFFFF' }}>
-        <div style={{ maxWidth: 1800, margin: '0 auto', padding: '11px 26px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', fontSize: '16.5px', fontWeight: 600 }}>
+        <div className={styles.bandInner} style={{ maxWidth: 1800, margin: '0 auto', padding: '11px var(--page-pad)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', fontSize: '16.5px', fontWeight: 600 }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 11 }}>
             <span style={{ width: 9, height: 9, borderRadius: '50%', background: '#FFFFFF', animation: 'mgBlink 1.4s ease-in-out infinite' }} />
             Casualty ward open 24 hours · no appointment, no queue, no payment
           </span>
-          <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: '#FFFFFF', fontWeight: 700, textDecoration: 'none' }}>
+          <a href={PHONE_HREF} className={styles.bandPhone} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: '#FFFFFF', fontWeight: 700, textDecoration: 'none' }}>
             {alertBandPhoneIcon}
             {PHONE_TEXT}
           </a>
@@ -102,12 +104,14 @@ function TopBand({ pathname }: { pathname: string }) {
   if (pathname === '/') {
     return (
       <div style={{ background: '#0B6558', color: '#FFFFFF' }}>
-        <div style={{ maxWidth: 1800, margin: '0 auto', padding: '11px 26px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', fontSize: '16.5px', fontWeight: 500 }}>
+        <div className={styles.bandInner} style={{ maxWidth: 1800, margin: '0 auto', padding: '11px var(--page-pad)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap', fontSize: '16.5px', fontWeight: 500 }}>
           <span>Consultation, tests, medicines and hospital stay — free of charge, for everyone.</span>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 22, flexWrap: 'wrap' }}>
-            <Link href="/contact" style={{ color: '#C7EDE6', textDecoration: 'none' }}>Contact</Link>
-            <Link href="/support" style={{ color: '#C7EDE6', textDecoration: 'none' }}>Support us</Link>
-            <a href={PHONE_HREF} style={{ color: '#FFFFFF', fontWeight: 700, textDecoration: 'none' }}>{PHONE_TEXT}</a>
+          <span className={styles.bandRight} style={{ display: 'inline-flex', alignItems: 'center', gap: 22, flexWrap: 'wrap' }}>
+            <span className={styles.bandSecondary} style={{ display: 'inline-flex', alignItems: 'center', gap: 22 }}>
+              <Link href="/contact" style={{ color: '#C7EDE6', textDecoration: 'none' }}>Contact</Link>
+              <Link href="/support" style={{ color: '#C7EDE6', textDecoration: 'none' }}>Support us</Link>
+            </span>
+            <a href={PHONE_HREF} className={styles.bandPhone} style={{ color: '#FFFFFF', fontWeight: 700, textDecoration: 'none' }}>{PHONE_TEXT}</a>
           </span>
         </div>
       </div>
@@ -117,17 +121,17 @@ function TopBand({ pathname }: { pathname: string }) {
   if (pathname === '/contact') {
     return (
       <div style={{ background: BAND_BG, color: BAND_COLOR }}>
-        <div style={{ maxWidth: 1800, margin: '0 auto', padding: '10px 26px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap', fontSize: '15.5px' }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
+        <div className={styles.bandInner} style={{ maxWidth: 1800, margin: '0 auto', padding: '10px var(--page-pad)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap', fontSize: '15.5px' }}>
+          <span className={styles.bandLine} style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
             {locationIcon}
             {ADDRESS_LINE}
           </span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 26, flexWrap: 'wrap' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
+          <div className={styles.bandRight} style={{ display: 'flex', alignItems: 'center', gap: 26, flexWrap: 'wrap' }}>
+            <span className={styles.bandLine} style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
               {clockIcon}
               {OPD_CONTACT}
             </span>
-            <a href="https://www.mgrh-mahabaleshwar.org" style={{ color: '#F0FAFB', textDecoration: 'none' }}>www.mgrh-mahabaleshwar.org</a>
+            <a className={styles.bandSecondary} href="https://www.mgrh-mahabaleshwar.org" style={{ color: '#F0FAFB', textDecoration: 'none' }}>www.mgrh-mahabaleshwar.org</a>
           </div>
         </div>
       </div>
@@ -140,23 +144,23 @@ function TopBand({ pathname }: { pathname: string }) {
 
   return (
     <div style={{ background: BAND_BG, color: BAND_COLOR }}>
-      <div style={{ maxWidth: 1800, margin: '0 auto', padding: '10px 26px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap', fontSize: compact ? '15.5px' : '17.5px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 28, flexWrap: 'wrap' }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
+      <div className={styles.bandInner} style={{ maxWidth: 1800, margin: '0 auto', padding: '10px var(--page-pad)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap', fontSize: compact ? '15.5px' : '17.5px' }}>
+        <div className={styles.bandLeft} style={{ display: 'flex', alignItems: 'center', gap: 28, flexWrap: 'wrap' }}>
+          <span className={styles.bandLine} style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
             {locationIcon}
             {ADDRESS_LINE}
           </span>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
+          <span className={styles.bandLine} style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
             {clockIcon}
             {opd}
           </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
+        <div className={styles.bandRight} style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: '#FFFFFF', fontWeight: 600 }}>
             {isFacilities ? phoneFilledIcon : phoneIcon}
-            <a href={PHONE_HREF} style={{ color: '#FFFFFF', textDecoration: 'none' }}>{PHONE_TEXT}</a>
+            <a href={PHONE_HREF} className={styles.bandPhone} style={{ color: '#FFFFFF', textDecoration: 'none' }}>{PHONE_TEXT}</a>
           </span>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
+          <span className={styles.bandSecondary} style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
             {mailIcon}
             <a href={`mailto:${EMAIL_TEXT}`} style={{ color: '#F0FAFB', textDecoration: 'none' }}>{EMAIL_TEXT}</a>
           </span>
@@ -167,10 +171,40 @@ function TopBand({ pathname }: { pathname: string }) {
 }
 
 function SiteHeader({ pathname, hospitalName }: { pathname: string; hospitalName: string }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const variantA = pathname === '/emergency' || pathname === '/contact' || pathname === '/';
   const showServices = pathname === '/events' || pathname === '/programmes' || pathname === '/doctors' || pathname === '/about';
   const isContact = pathname === '/contact';
   const activeColor = variantA ? '#0A8E7B' : '#06A88C';
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    const onResize = () => {
+      if (window.innerWidth > 1023) setMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [menuOpen]);
+
+  const navLabel = (label: string) => (showServices && label === 'Facilities' ? 'Services' : label);
+  const navHref = (href: string) =>
+    pathname === '/facilities' && href === '/facilities'
+      ? '#emergency'
+      : pathname === '/about' && href === '/about'
+        ? '#who'
+        : href;
+
   const emergencyStyle: React.CSSProperties = {
     flex: '0 0 auto',
     display: 'inline-flex',
@@ -200,26 +234,19 @@ function SiteHeader({ pathname, hospitalName }: { pathname: string; hospitalName
 
   return (
     <header style={{ position: 'sticky', top: 0, zIndex: 60, background: '#FFFFFF', borderBottom: `1px solid ${variantA ? '#E0EDE9' : BORDER_LINE}` }}>
-      <div style={{ maxWidth: 1800, margin: '0 auto', padding: '8px 26px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
+      <div className={styles.headerRow} style={{ maxWidth: 1800, margin: '0 auto', padding: '8px var(--page-pad)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
         <Link href="/" style={{ display: 'block', flex: '0 0 auto' }} aria-label={`${hospitalName} — home`}>
-          <img src="/images/mgrh-logo.png" alt={hospitalName} style={{ height: 84, width: 'auto', display: 'block' }} />
+          <img src="/images/mgrh-logo.png" alt={hospitalName} className={styles.logo} style={{ height: 84, width: 'auto', display: 'block' }} />
         </Link>
         <nav style={{ flex: '1 1 0%', minWidth: 0, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 0 }}>
-          <div style={{ flex: '1 1 auto', minWidth: 0, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 0, overflowX: 'auto', scrollbarWidth: 'none' }} className="site-nav-scroll">
+          <div className={`site-nav-scroll ${styles.navLinks}`} style={{ flex: '1 1 auto', minWidth: 0, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 0, overflowX: 'auto', scrollbarWidth: 'none' }}>
             {NAV_LINKS.map((item) => {
               const isActive = item.href === pathname;
-              const label = showServices && item.label === 'Facilities' ? 'Services' : item.label;
-              const itemHref =
-                pathname === '/facilities' && item.href === '/facilities'
-                  ? '#emergency'
-                  : pathname === '/about' && item.href === '/about'
-                    ? '#who'
-                    : item.href;
               return (
                 <Link
                   key={item.href}
-                  href={itemHref}
-                  className={variantA ? 'site-nav-hover-green' : 'site-nav-hover-teal'}
+                  href={navHref(item.href)}
+                  className={`${styles.navLink} ${variantA ? 'site-nav-hover-green' : 'site-nav-hover-teal'}`}
                   style={{
                     flex: '0 0 auto',
                     fontWeight: 500,
@@ -231,7 +258,7 @@ function SiteHeader({ pathname, hospitalName }: { pathname: string; hospitalName
                     textDecoration: 'none',
                   }}
                 >
-                  {label}
+                  {navLabel(item.label)}
                 </Link>
               );
             })}
@@ -239,7 +266,7 @@ function SiteHeader({ pathname, hospitalName }: { pathname: string; hospitalName
           {isContact ? (
             <button
               type="button"
-              className="site-emergency-hover"
+              className={`site-emergency-hover ${styles.emergencyBtn}`}
               onClick={() => window.dispatchEvent(new Event('mgrh:open-emergency'))}
               style={emergencyStyle}
             >
@@ -248,14 +275,53 @@ function SiteHeader({ pathname, hospitalName }: { pathname: string; hospitalName
           ) : (
             <Link
               href={pathname === '/' ? '/emergency' : pathname === '/facilities' ? '#emergency' : PHONE_HREF}
-              className="site-emergency-hover"
+              className={`site-emergency-hover ${styles.emergencyBtn}`}
               style={emergencyStyle}
             >
               {emergencyIcon} Emergency
             </Link>
           )}
+          <button
+            type="button"
+            className={styles.menuBtn}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="site-mobile-nav"
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            {menuOpen ? (
+              <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            ) : (
+              <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" aria-hidden="true">
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+            )}
+          </button>
         </nav>
       </div>
+      {menuOpen ? (
+        <div id="site-mobile-nav" className={styles.mobilePanel}>
+          {NAV_LINKS.map((item) => {
+            const isActive = item.href === pathname;
+            return (
+              <Link
+                key={item.href}
+                href={navHref(item.href)}
+                className={`${styles.mobileLink} ${isActive ? styles.mobileLinkActive : ''}`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {navLabel(item.label)}
+              </Link>
+            );
+          })}
+          <a href={PHONE_HREF} className={styles.mobilePhone}>
+            {alertBandPhoneIcon}
+            {PHONE_TEXT}
+          </a>
+        </div>
+      ) : null}
     </header>
   );
 }
@@ -273,6 +339,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
 
       <footer style={{ position: 'relative', background: FOOTER_GRADIENT, color: FOOTER_COLOR }}>
         <div
+          className={styles.footerCurve}
           style={{
             position: 'absolute',
             top: -1,
@@ -285,8 +352,8 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           }}
           aria-hidden="true"
         />
-        <div style={{ position: 'relative', zIndex: 2, maxWidth: 1800, margin: '0 auto', padding: '118px 26px 0' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap', background: 'rgba(255, 255, 255, 0.12)', border: `1px solid rgba(255, 255, 255, 0.26)`, borderRadius: 16, padding: '22px 28px', marginBottom: 52 }}>
+        <div className={styles.footerInner} style={{ position: 'relative', zIndex: 2, maxWidth: 1800, margin: '0 auto', padding: '118px var(--page-pad) 0' }}>
+          <div className={styles.footerBanner} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap', background: 'rgba(255, 255, 255, 0.12)', border: `1px solid rgba(255, 255, 255, 0.26)`, borderRadius: 16, padding: '22px 28px', marginBottom: 52 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
               <span
                 style={{
@@ -341,7 +408,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 44, paddingBottom: 44 }}>
+          <div className={styles.footerGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 44, paddingBottom: 44 }}>
             <div>
               <div style={{ fontWeight: 700, fontSize: 26, lineHeight: 1.25, color: '#FFFFFF', marginBottom: 12 }}>{settings.hospital_name}</div>
               <p style={{ margin: '0 0 18px 0', fontSize: '18.5px', lineHeight: 1.6, color: '#EAF7F4', maxWidth: 420 }}>{settings.footer_description}</p>
@@ -350,7 +417,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
             <div>
               <div style={{ fontWeight: 600, fontSize: 16, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C7EDE6', marginBottom: 16 }}>Find us</div>
               <div style={{ fontSize: '18.5px', lineHeight: 1.6, color: '#EAF7F4', marginBottom: 14 }}>{settings.address_line1}<br />{settings.address_line2}<br />{settings.address_line3}</div>
-              <Link href="/contact" style={{ fontSize: 18, fontWeight: 600, color: '#FFFFFF', textDecoration: 'underline', textUnderlineOffset: 4 }}>Get directions</Link>
+              <Link href="/contact" className={styles.footerLink} style={{ fontSize: 18, fontWeight: 600, color: '#FFFFFF', textDecoration: 'underline', textUnderlineOffset: 4 }}>Get directions</Link>
             </div>
             <div>
               <div style={{ fontWeight: 600, fontSize: 16, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C7EDE6', marginBottom: 16 }}>Opening hours</div>
@@ -363,7 +430,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
               <div style={{ fontWeight: 600, fontSize: 16, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C7EDE6', marginBottom: 16 }}>Explore</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {navItems.slice(1).map((item) => (
-                  <Link key={item.href} href={item.href} style={{ fontSize: '18.5px', color: '#EAF7F4', textDecoration: 'none' }}>{item.label}</Link>
+                  <Link key={item.href} href={item.href} className={styles.footerLink} style={{ fontSize: '18.5px', color: '#EAF7F4', textDecoration: 'none' }}>{item.label}</Link>
                 ))}
               </div>
             </div>
@@ -371,17 +438,18 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
 
           <div style={{ borderTop: `1px solid rgba(255, 255, 255, 0.3)`, padding: '20px 0 26px', display: 'flex', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', fontSize: 17, color: '#D3EDE8' }}>
             <span>© {new Date().getFullYear()} {settings.hospital_name}, {settings.town}</span>
-            <a href={`mailto:${settings.email}`} style={{ color: '#D3EDE8', textDecoration: 'none' }}>{settings.email}</a>
+            <a href={`mailto:${settings.email}`} className={styles.footerMail} style={{ color: '#D3EDE8', textDecoration: 'none' }}>{settings.email}</a>
           </div>
         </div>
       </footer>
 
       {pathname !== '/' ? (
-        <div style={{ position: 'fixed', right: 30, bottom: 30, zIndex: 90, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 14 }}>
+        <div className={styles.fab} style={{ position: 'fixed', right: 30, bottom: 30, zIndex: 90, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 14 }}>
           <button
             type="button"
             aria-expanded={false}
             aria-label="Browse this page"
+            className={styles.fabBtn}
             style={{
               width: 64,
               height: 64,

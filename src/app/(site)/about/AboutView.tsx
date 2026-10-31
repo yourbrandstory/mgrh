@@ -193,7 +193,7 @@ export default function AboutView() {
   const tlPctLabel = `${Math.round(tl.p * 100)}%`;
 
   return (
-    <div>
+    <div className={styles.page}>
       {/* ===== STICKY SECTION JUMP ===== */}
       <div
         ref={jumpBarRef}
@@ -211,7 +211,7 @@ export default function AboutView() {
           pointerEvents: jumpBarEvents as 'auto' | 'none',
         }}
       >
-        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '14px 26px', display: 'flex', alignItems: 'center', gap: 18 }}>
+        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '14px var(--page-pad)', display: 'flex', alignItems: 'center', gap: 18 }}>
           <span
             style={{
               flex: 'none',
@@ -224,7 +224,7 @@ export default function AboutView() {
           >
             Jump to a section
           </span>
-          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <div className={styles.jumpLinks} style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {aboutSections.map((section) => {
               const on = section.href === '#' + activeId;
               return (
@@ -292,7 +292,7 @@ export default function AboutView() {
               'linear-gradient(90deg, rgba(38,160,142,0.82) 0%, rgba(42,166,149,0.74) 34%, rgba(46,172,156,0.6) 50%, rgba(50,178,162,0.42) 62%, rgba(36,164,150,0.18) 72%, rgba(36,164,150,0) 82%, rgba(36,164,150,0) 100%)',
           }}
         />
-        <div style={{ position: 'relative', zIndex: 4, maxWidth: MAX_W, margin: '0 auto', padding: '52px 26px 84px' }}>
+        <div className={styles.heroInner} style={{ position: 'relative', zIndex: 4, maxWidth: MAX_W, margin: '0 auto', padding: '52px var(--page-pad) 84px' }}>
           <div
             style={{
               display: 'flex',
@@ -352,11 +352,12 @@ export default function AboutView() {
       </section>
 
       {/* ===== WHO WE ARE ===== */}
-      <section id="who" style={{ maxWidth: MAX_W, margin: '0 auto', padding: '48px 26px 10px', scrollMarginTop: 62 }}>
+      <section id="who" style={{ maxWidth: MAX_W, margin: '0 auto', padding: '48px var(--page-pad) 10px', scrollMarginTop: 62 }}>
         <div style={{ marginBottom: 34 }}>
           <SectionHead title="Who we are" />
         </div>
         <p
+          className={styles.introStatement}
           style={{
             fontWeight: 500,
             fontSize: 32,
@@ -369,9 +370,10 @@ export default function AboutView() {
           Serving Mahabaleshwar <span style={{ fontWeight: 700 }}>since 1914</span>
         </p>
         <div
+          className={styles.whoGrid}
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(420px, 100%), 1fr))',
             gap: 56,
             alignItems: 'start',
           }}
@@ -410,14 +412,14 @@ export default function AboutView() {
       </section>
 
       {/* ===== VISION & MISSION ===== */}
-      <section id="vision" style={{ maxWidth: MAX_W, margin: '0 auto', padding: '48px 26px 10px', scrollMarginTop: 62 }}>
+      <section id="vision" style={{ maxWidth: MAX_W, margin: '0 auto', padding: '48px var(--page-pad) 10px', scrollMarginTop: 62 }}>
         <div style={{ marginBottom: 32 }}>
           <SectionHead title="Vision & Mission" />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28, alignItems: 'stretch' }}>
+        <div className={styles.vmGrid} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28, alignItems: 'stretch' }}>
           <div
             ref={visionRef}
-            className={styles.visionCard}
+            className={`${styles.visionCard} ${styles.vmCard}`}
             style={{
               position: 'relative',
               overflow: 'hidden',
@@ -462,7 +464,7 @@ export default function AboutView() {
           </div>
           <div
             ref={missionRef}
-            className={styles.missionCard}
+            className={`${styles.missionCard} ${styles.vmCard}`}
             style={{
               position: 'relative',
               overflow: 'hidden',
@@ -510,7 +512,7 @@ export default function AboutView() {
       </section>
 
       {/* ===== WHY CHOOSE US ===== */}
-      <section id="why" style={{ maxWidth: MAX_W, margin: '0 auto', padding: '56px 26px 10px', scrollMarginTop: 62 }}>
+      <section id="why" style={{ maxWidth: MAX_W, margin: '0 auto', padding: '56px var(--page-pad) 10px', scrollMarginTop: 62 }}>
         <div style={{ marginBottom: 14 }}>
           <SectionHead title="Why Choose Us?" />
         </div>
@@ -586,14 +588,15 @@ export default function AboutView() {
       </section>
 
       {/* ===== LOCATION ===== */}
-      <section id="location" style={{ maxWidth: MAX_W, margin: '0 auto', padding: '50px 26px 10px', scrollMarginTop: 62 }}>
+      <section id="location" style={{ maxWidth: MAX_W, margin: '0 auto', padding: '50px var(--page-pad) 10px', scrollMarginTop: 62 }}>
         <div style={{ marginBottom: 28 }}>
           <SectionHead title="Where we are" />
         </div>
         <div
+          className={styles.locationGrid}
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(330px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(330px, 100%), 1fr))',
             gap: 44,
             alignItems: 'start',
           }}
@@ -626,6 +629,7 @@ export default function AboutView() {
               {locationFacts.map((fact) => (
                 <div
                   key={fact.label}
+                  className={styles.factRow}
                   style={{ display: 'grid', gridTemplateColumns: '130px 1fr', gap: 14, alignItems: 'baseline' }}
                 >
                   <span
@@ -671,7 +675,7 @@ export default function AboutView() {
           scrollMarginTop: 62,
         }}
       >
-        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '0 26px' }}>
+        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '0 var(--page-pad)' }}>
           <div style={{ marginBottom: 12 }}>
             <SectionHead title="Our History" />
           </div>
@@ -679,7 +683,7 @@ export default function AboutView() {
             A hundred years of care, in eleven decades of custody.
           </p>
         </div>
-        <div ref={tlOuterRef} style={{ position: 'relative', height: tlHeight }}>
+        <div ref={tlOuterRef} className={styles.tlOuter} style={{ position: 'relative', height: tlHeight }}>
           <div
             style={{
               position: 'sticky',
@@ -695,7 +699,7 @@ export default function AboutView() {
                 maxWidth: MAX_W,
                 width: '100%',
                 margin: '0 auto',
-                padding: '14px 26px 0',
+                padding: '14px var(--page-pad) 0',
                 textAlign: 'center',
                 display: 'flex',
                 alignItems: 'center',
@@ -802,14 +806,54 @@ export default function AboutView() {
             </div>
           </div>
         </div>
-        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '0 26px' }}>
+        <div style={{ maxWidth: MAX_W, margin: '0 auto', padding: '0 var(--page-pad)' }}>
           <div style={{ height: 0 }} />
+        </div>
+        <div className={styles.tlMobile} style={{ maxWidth: MAX_W, margin: '0 auto', padding: '12px var(--page-pad) 0' }}>
+          {historyItems.map((item, i) => (
+            <div key={`m-${item.year}`} className={styles.tlMobileItem}>
+              <span className={styles.tlMobileDot} style={{ background: historyPills[i % historyPills.length] }} />
+              <div className={styles.tlMobileCard}>
+                {item.img ? (
+                  <div
+                    style={{
+                      borderRadius: 12,
+                      backgroundColor: '#EEF3F1',
+                      backgroundImage: `url("${item.img}")`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      aspectRatio: '16 / 9',
+                      marginBottom: 12,
+                    }}
+                    role="img"
+                    aria-label={item.caption}
+                  />
+                ) : null}
+                <span
+                  style={{
+                    display: 'inline-block',
+                    background: historyPills[i % historyPills.length],
+                    color: '#ffffff',
+                    fontWeight: 700,
+                    fontSize: 15,
+                    padding: '4px 12px',
+                    borderRadius: 999,
+                    marginBottom: 8,
+                  }}
+                >
+                  {item.year}
+                </span>
+                <p style={{ margin: 0, fontSize: 16.5, lineHeight: 1.55, color: '#3C534D' }}>{item.text}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* ===== HELP BAND ===== */}
-      <section style={{ maxWidth: MAX_W, margin: '0 auto', padding: '34px 26px 70px' }}>
+      <section style={{ maxWidth: MAX_W, margin: '0 auto', padding: '34px var(--page-pad) 70px' }}>
         <div
+          className={styles.helpBand}
           style={{
             background: '#F1F8F6',
             border: '1px solid #E1F3EF',
@@ -831,6 +875,7 @@ export default function AboutView() {
           </div>
           <a
             href="tel:+912168260247"
+            className={styles.helpBtn}
             style={{
               display: 'inline-flex',
               alignItems: 'center',

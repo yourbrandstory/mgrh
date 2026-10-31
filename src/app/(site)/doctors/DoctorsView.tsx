@@ -15,7 +15,7 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
   const shown = filter === 'All doctors' ? doctors : doctors.filter((d) => d.speciality === filter);
 
   return (
-    <div>
+    <div className={styles.page}>
       {/* ===== HERO ===== */}
       <section style={{ position: 'relative', overflow: 'hidden' }}>
         <div
@@ -56,11 +56,11 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
           }}
         />
 
-        <div style={{ position: 'relative', zIndex: 4, maxWidth: 1800, margin: '0 auto', padding: '52px 26px 84px' }}>
+        <div className={styles.heroInner} style={{ position: 'relative', zIndex: 4, maxWidth: 1800, margin: '0 auto', padding: '52px var(--page-pad) 84px' }}>
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(360px, 100%), 1fr))',
               gap: 56,
               alignItems: 'end',
             }}
@@ -126,7 +126,7 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
       </section>
 
       {/* ===== INTRODUCTION ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '46px 26px 6px' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '46px var(--page-pad) 6px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 900 }}>
           <p style={{ margin: 0, fontSize: 24, lineHeight: 1.62, color: '#23423B' }}>
             The hospital is staffed by Resident Medical Officers (RMOs) and specialists, including MD Medicine, Gynaecology.
@@ -143,7 +143,7 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
       </section>
 
       {/* ===== SECTION HEAD ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '40px 26px 0' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '40px var(--page-pad) 0' }}>
         <div
           style={{
             display: 'flex',
@@ -167,8 +167,8 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
       </section>
 
       {/* ===== FILTERS ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '22px 26px 0' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '22px var(--page-pad) 0' }}>
+        <div className={styles.filterRow} style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {filters.map((label) => {
             const on = label === filter;
             return (
@@ -198,11 +198,11 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
       </section>
 
       {/* ===== DOCTOR CARDS ===== */}
-      <section id="team" style={{ maxWidth: 1800, margin: '0 auto', padding: '28px 26px 20px', scrollMarginTop: 52 }}>
+      <section id="team" style={{ maxWidth: 1800, margin: '0 auto', padding: '28px var(--page-pad) 20px', scrollMarginTop: 52 }}>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(400px, 100%), 1fr))',
             gap: 26,
             alignItems: 'start',
           }}
@@ -220,6 +220,21 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
               }}
             >
               <div style={{ display: 'grid', gridTemplateColumns: '1fr', padding: '26px 28px 28px' }}>
+                {d.imageUrl ? (
+                  <img
+                    src={d.imageUrl}
+                    alt={d.imageAlt || d.name}
+                    style={{
+                      width: 112,
+                      height: 112,
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      display: 'block',
+                      marginBottom: 18,
+                      border: '1px solid #E6ECEA',
+                    }}
+                  />
+                ) : null}
                 <div>
                   <h3
                     style={{
@@ -259,7 +274,7 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
 
       {/* ===== SUPPORT TEAM ===== */}
       <section style={{ background: '#F7FBFA', borderTop: '1px solid #E6EFEC', marginTop: 44 }}>
-        <div style={{ maxWidth: 1800, margin: '0 auto', padding: '46px 26px 50px' }}>
+        <div style={{ maxWidth: 1800, margin: '0 auto', padding: '46px var(--page-pad) 50px' }}>
           <div
             style={{
               display: 'flex',
@@ -279,6 +294,7 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
             {supportRows.map((s) => (
               <div
                 key={s.title}
+                className={styles.supportRow}
                 style={{
                   display: 'grid',
                   gridTemplateColumns: '90px minmax(0, 280px) 1fr',
@@ -298,8 +314,9 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
       </section>
 
       {/* ===== HELP BAND ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '46px 26px 70px' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '46px var(--page-pad) 70px' }}>
         <div
+          className={styles.helpBand}
           style={{
             background: '#F1F8F6',
             border: '1px solid #E1F3EF',
@@ -321,6 +338,7 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
           </div>
           <a
             href="tel:+912168260247"
+            className={styles.helpBtn}
             style={{
               display: 'inline-flex',
               alignItems: 'center',

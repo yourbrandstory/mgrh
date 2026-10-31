@@ -16,3 +16,202 @@
 .missionCard:hover {
   box-shadow: 0 26px 54px -34px rgba(20, 120, 140, 0.6) !important;
 }
+
+/* ===== Vertical timeline (mobile/tablet only) ===== */
+.tlMobile {
+  display: none;
+}
+
+.tlMobileItem {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  padding-bottom: 26px;
+}
+
+.tlMobileItem::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 20px;
+  bottom: 0;
+  width: 2px;
+  background: #d8ebe6;
+}
+
+.tlMobileItem:last-child::before {
+  display: none;
+}
+
+.tlMobileDot {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 14px;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 1px #d8ebe6;
+}
+
+.tlMobileCard {
+  flex: 1;
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e6ecea;
+  border-radius: 16px;
+  padding: 16px 18px 18px;
+  box-shadow: 0 20px 44px -36px rgba(6, 80, 68, 0.5);
+}
+
+@media (max-width: 1023px) {
+  .heroInner {
+    padding-top: 44px !important;
+    padding-bottom: 64px !important;
+  }
+
+  .whoGrid,
+  .vmGrid,
+  .locationGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .whoGrid {
+    gap: 36px !important;
+  }
+
+  .vmGrid {
+    gap: 22px !important;
+  }
+
+  .locationGrid {
+    gap: 34px !important;
+  }
+
+  .tlOuter {
+    display: none !important;
+  }
+
+  .tlMobile {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page .visionCard,
+  .page .missionCard {
+    transform: none !important;
+  }
+
+  .page h1 {
+    font-size: 44px !important;
+  }
+
+  .page h2 {
+    font-size: 28px !important;
+  }
+
+  .page h3 {
+    font-size: 26px !important;
+  }
+
+  .page p {
+    font-size: 18px !important;
+  }
+
+  .page .introStatement {
+    font-size: 24px !important;
+  }
+
+  .jumpLink {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .heroInner {
+    padding-top: 36px !important;
+    padding-bottom: 48px !important;
+  }
+
+  .page h1 {
+    font-size: 34px !important;
+    line-height: 1.08 !important;
+  }
+
+  .page h2 {
+    font-size: 24px !important;
+  }
+
+  .page h3 {
+    font-size: 20px !important;
+  }
+
+  .page p {
+    font-size: 16.5px !important;
+  }
+
+  .page .introStatement {
+    font-size: 20px !important;
+  }
+
+  .page .vmCard h3 {
+    font-size: 24px !important;
+  }
+
+  .page [style*='text-transform: uppercase'] {
+    font-size: 14px !important;
+  }
+
+  .jumpLink {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+    font-size: 16px !important;
+    padding: 0 14px !important;
+  }
+
+  .jumpLinks {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scrollbar-width: none;
+  }
+
+  .jumpLinks::-webkit-scrollbar {
+    display: none;
+  }
+
+  .page .vmCard {
+    padding: 26px 22px 30px !important;
+    border-radius: 18px 18px 90px 18px !important;
+  }
+
+  .whyCard {
+    padding: 26px 22px 30px !important;
+    border-radius: 18px 18px 70px 18px !important;
+  }
+
+  .helpBand {
+    padding: 26px 22px !important;
+  }
+
+  .helpBtn {
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 479px) {
+  .page .factRow {
+    grid-template-columns: 1fr !important;
+    gap: 2px !important;
+  }
+
+  .page .factRow > span:last-child {
+    font-size: 18px !important;
+  }
+
+  .helpBtn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}

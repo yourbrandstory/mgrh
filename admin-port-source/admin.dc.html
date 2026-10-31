@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#0B4F45">
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#0A8E7B"/><g fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"><path d="M62 148V86l38-20 38 20v62"/><path d="M56 148h88"/><path d="M100 96v26M87 109h26"/></g></svg>
+</template>
+<x-dc>
+<helmet>
+  <title>MGRH Content Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap" rel="stylesheet">
+  <script src="./mgrh-cms-store.js"></script>
+  <script src="./mgrh-cms-actions.js"></script>
+  <script src="./mgrh-cms-view.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #F4F7F6; }
+    a { color: #0A8E7B; text-decoration: none; }
+    a:hover { color: #0B6558; }
+    button { font-family: inherit; }
+    input, textarea, select { font-family: inherit; }
+    input:focus, textarea:focus, select:focus { outline: 3px solid #BFE3DB; outline-offset: 0; }
+    @keyframes cmsSpin { to { transform: rotate(360deg); } }
+    @keyframes cmsUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  </style>
+</helmet>
+
+<div style="font-family: 'DM Sans', sans-serif; color: #16413A; min-height: 100vh; background: #F4F7F6;">
+
+  <input type="file" ref="{{ fileRef }}" accept="image/jpeg,image/png,image/webp" onChange="{{ onFile }}" style="display: none;">
+  <input type="file" ref="{{ importRef }}" accept="application/json" onChange="{{ onImportFile }}" style="display: none;">
+
+  <sc-if value="{{ ready }}" hint-placeholder-val="{{ false }}"></sc-if>
+
+  <!-- ===== LOGIN ===== -->
+  <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ false }}">
+    <div style="min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);">
+      <div style="position: relative; overflow: hidden; background: #0B4F45; color: #ffffff; padding: 56px 60px; display: flex; flex-direction: column; justify-content: space-between;">
+        <img src="assets/home-mahabaleshwar.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.22;">
+        <div style="position: absolute; inset: 0; background: linear-gradient(160deg, rgba(8,70,62,0.4) 0%, rgba(6,58,52,0.92) 100%);"></div>
+        <div style="position: relative; display: flex; align-items: center; gap: 14px;">
+          <div style="background: #ffffff; border-radius: 12px; padding: 8px 12px;"><img src="assets/mgrh-logo.png" alt="MGRH" style="height: 54px; width: auto; display: block;"></div>
+        </div>
+        <div style="position: relative; max-width: 520px;">
+          <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #C7EDE6; margin-bottom: 14px;">Content Manager</div>
+          <h1 style="font-weight: 600; font-size: 40px; line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 16px;">Keep the hospital website up to date.</h1>
+          <p style="font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.86); margin: 0;">Update doctors, facilities and events, upload photos, and publish when you’re ready. Nothing goes live until you press Publish.</p>
+        </div>
+        <div style="position: relative; font-size: 14px; color: rgba(255,255,255,0.7);">Morarji Gokuldas Rural Hospital, Mahabaleshwar</div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; padding: 40px;">
+        <form onSubmit="{{ onLogin }}" style="width: 100%; max-width: 420px;">
+          <h2 style="font-weight: 600; font-size: 30px; margin: 0 0 8px; color: #0B3C49;">Sign in</h2>
+          <p style="margin: 0 0 30px; font-size: 16.5px; color: #5A6A66;">Use the account given to you by the hospital office.</p>
+          <label style="display: block; font-size: 15px; font-weight: 600; color: #23423B; margin-bottom: 7px;">Email address</label>
+          <input type="email" value="{{ lgEmail }}" onChange="{{ onLgEmail }}" autocomplete="username" style="width: 100%; height: 50px; padding: 0 14px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 16.5px; color: #16413A; background: #ffffff; margin-bottom: 18px;">
+          <label style="display: block; font-size: 15px; font-weight: 600; color: #23423B; margin-bottom: 7px;">Password</label>
+          <input type="password" value="{{ lgPass }}" onChange="{{ onLgPass }}" autocomplete="current-password" style="width: 100%; height: 50px; padding: 0 14px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 16.5px; color: #16413A; background: #ffffff; margin-bottom: 14px;">
+          <sc-if value="{{ hasLgError }}" hint-placeholder-val="{{ false }}">
+            <div role="alert" style="background: #FDF1F0; border: 1px solid #F6D8D5; color: #9E2018; border-radius: 8px; padding: 12px 14px; font-size: 15px; margin-bottom: 14px;">{{ lgError }}</div>
+          </sc-if>
+          <button type="submit" style="width: 100%; height: 52px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 17px; font-weight: 700; cursor: pointer; margin-top: 6px;" style-hover="background: #0B7F73;">{{ lgBtn }}</button>
+          <div style="margin-top: 28px; padding: 16px 18px; background: #F1F8F6; border: 1px dashed #BFE3DB; border-radius: 10px; font-size: 14.5px; line-height: 1.6; color: #45605A;">
+            <strong style="color: #0B4F45;">Prototype accounts</strong><br>
+            Administrator: admin@mgrh-mahabaleshwar.org / mgrh-admin<br>
+            Editor: editor@mgrh-mahabaleshwar.org / mgrh-editor
+          </div>
+        </form>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== APP ===== -->
+  <sc-if value="{{ showApp }}" hint-placeholder-val="{{ false }}">
+    <div style="display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh;">
+
+      <aside style="position: sticky; top: 0; height: 100vh; background: #ffffff; border-right: 1px solid #E2ECE9; display: flex; flex-direction: column;">
+        <div style="padding: 20px 20px 18px; border-bottom: 1px solid #EEF3F1; display: flex; align-items: center; gap: 12px;">
+          <img src="assets/mgrh-logo.png" alt="MGRH" style="height: 46px; width: auto; display: block;">
+          <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5A6A66; line-height: 1.3;">Content<br>Manager</div>
+        </div>
+        <nav style="padding: 16px 12px; display: flex; flex-direction: column; gap: 3px; flex: 1;">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+            <button type="button" onClick="{{ n.onClick }}" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 14px; border: none; border-left: 3px solid {{ n.bar }}; border-radius: 0 8px 8px 0; background: {{ n.bg }}; color: {{ n.color }}; font-size: 16px; font-weight: {{ n.weight }}; text-align: left; cursor: pointer;" style-hover="background: #F1F8F6;">
+              {{ n.icon }}
+              <span>{{ n.label }}</span>
+            </button>
+          </sc-for>
+        </nav>
+        <div style="padding: 16px 18px; border-top: 1px solid #EEF3F1; display: flex; align-items: center; gap: 12px;">
+          <div style="flex: none; width: 40px; height: 40px; border-radius: 50%; background: #E1F3EF; color: #0A5F52; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center;">{{ userInitials }}</div>
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-size: 15px; font-weight: 600; color: #16413A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ userName }}</div>
+            <div style="font-size: 13px; color: #7A8C87;">{{ userRole }}</div>
+          </div>
+          <button type="button" onClick="{{ onLogout }}" title="Log out" style="flex: none; border: 1px solid #D5E2DE; background: #ffffff; color: #35514B; border-radius: 8px; padding: 7px 10px; font-size: 13.5px; font-weight: 600; cursor: pointer;" style-hover="border-color: #C42A21; color: #C42A21;">Log out</button>
+        </div>
+      </aside>
+
+      <div style="min-width: 0;">
+        <header style="position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.97); border-bottom: 1px solid #E2ECE9;">
+          <div style="padding: 14px 32px; display: flex; align-items: center; gap: 24px;">
+            <div style="flex: 1; min-width: 0;">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #7A8C87; margin-bottom: 3px; min-height: 18px;">
+                <sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="1">
+                  <button type="button" onClick="{{ c.onClick }}" style="border: none; background: none; padding: 0; color: #5A6A66; font-size: 14px; cursor: pointer;" style-hover="color: #0A8E7B;">{{ c.label }}</button>
+                  <span style="opacity: 0.5;">/</span>
+                </sc-for>
+              </div>
+              <h1 style="font-weight: 600; font-size: 25px; margin: 0; color: #0B3C49; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ pageTitle }}</h1>
+            </div>
+            <div style="position: relative; width: 320px; flex: none;">
+              <input type="search" value="{{ topQ }}" onChange="{{ onTopQ }}" placeholder="Search doctors, facilities, events" style="width: 100%; height: 42px; padding: 0 14px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15px; color: #16413A; background: #F7FAF9;">
+              <sc-if value="{{ hasTopResults }}" hint-placeholder-val="{{ false }}">
+                <div style="position: absolute; top: 48px; left: 0; right: 0; background: #ffffff; border: 1px solid #E2ECE9; border-radius: 10px; box-shadow: 0 22px 44px -24px rgba(10,50,44,0.4); overflow: hidden;">
+                  <sc-for list="{{ topResults }}" as="r" hint-placeholder-count="3">
+                    <button type="button" onClick="{{ r.onClick }}" style="display: flex; justify-content: space-between; gap: 12px; width: 100%; padding: 11px 14px; border: none; border-bottom: 1px solid #F1F5F3; background: #ffffff; text-align: left; cursor: pointer;" style-hover="background: #F1F8F6;">
+                      <span style="font-size: 15px; color: #16413A;">{{ r.title }}</span>
+                      <span style="flex: none; font-size: 13px; color: #7A8C87;">{{ r.typeLabel }} · {{ r.status }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ topNoResults }}" hint-placeholder-val="{{ false }}">
+                <div style="position: absolute; top: 48px; left: 0; right: 0; background: #ffffff; border: 1px solid #E2ECE9; border-radius: 10px; padding: 14px; font-size: 15px; color: #5A6A66;">No matches.</div>
+              </sc-if>
+            </div>
+            <button type="button" onClick="{{ onPreviewSite }}" style="flex: none; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border: 1px solid #9FD0C7; border-radius: 8px; background: #ffffff; color: #0B5F55; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="border-color: #0A8E7B;">View website ↗</button>
+          </div>
+        </header>
+
+        <main style="padding: 28px 32px 80px; max-width: 1480px;">
+
+          <!-- ===== DASHBOARD ===== -->
+          <sc-if value="{{ vDash }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 22px;">
+              <h2 style="font-weight: 600; font-size: 28px; margin: 0; color: #0B3C49;">{{ greet }}</h2>
+              <span style="font-size: 15.5px; color: #7A8C87;">{{ todayText }}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; margin-bottom: 26px;">
+              <sc-for list="{{ stats }}" as="s" hint-placeholder-count="5">
+                <button type="button" onClick="{{ s.onClick }}" style="text-align: left; background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 20px 22px; cursor: pointer;" style-hover="border-color: #9FD0C7;">
+                  <div style="font-size: 14.5px; color: #5A6A66; margin-bottom: 8px;">{{ s.label }}</div>
+                  <div style="font-weight: 700; font-size: 36px; line-height: 1; color: #0B3C49; margin-bottom: 8px;">{{ s.value }}</div>
+                  <div style="font-size: 13.5px; color: #7A8C87;">{{ s.note }}</div>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr); gap: 20px; align-items: start; margin-bottom: 20px;">
+              <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; overflow: hidden;">
+                <div style="padding: 18px 22px; border-bottom: 1px solid #EEF3F1; font-weight: 600; font-size: 18px; color: #0B3C49;">Recently updated</div>
+                <sc-for list="{{ recent }}" as="r" hint-placeholder-count="6">
+                  <button type="button" onClick="{{ r.onClick }}" style="display: grid; grid-template-columns: minmax(0, 1fr) 110px 110px; gap: 16px; align-items: center; width: 100%; padding: 14px 22px; border: none; border-bottom: 1px solid #F1F5F3; background: #ffffff; text-align: left; cursor: pointer;" style-hover="background: #F7FAF9;">
+                    <span style="min-width: 0;">
+                      <span style="display: block; font-size: 16px; font-weight: 600; color: #16413A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ r.title }}</span>
+                      <span style="display: block; font-size: 13.5px; color: #7A8C87; margin-top: 2px;">{{ r.typeLabel }} · {{ r.by }}</span>
+                    </span>
+                    <span style="justify-self: start; background: {{ r.pBg }}; color: {{ r.pColor }}; font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px;">{{ r.pLabel }}</span>
+                    <span style="font-size: 14px; color: #5A6A66; text-align: right;">{{ r.when }}</span>
+                  </button>
+                </sc-for>
+              </section>
+              <div style="display: flex; flex-direction: column; gap: 20px;">
+                <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 18px 22px 22px;">
+                  <div style="font-weight: 600; font-size: 18px; color: #0B3C49; margin-bottom: 14px;">Quick actions</div>
+                  <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button type="button" onClick="{{ onAddDoctor }}" style="height: 46px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 16px; font-weight: 600; cursor: pointer;" style-hover="background: #0B7F73;">+ Add doctor</button>
+                    <button type="button" onClick="{{ onAddFacility }}" style="height: 46px; border: 1px solid #9FD0C7; border-radius: 8px; background: #ffffff; color: #0B5F55; font-size: 16px; font-weight: 600; cursor: pointer;" style-hover="border-color: #0A8E7B;">+ Add facility</button>
+                    <button type="button" onClick="{{ onAddEvent }}" style="height: 46px; border: 1px solid #9FD0C7; border-radius: 8px; background: #ffffff; color: #0B5F55; font-size: 16px; font-weight: 600; cursor: pointer;" style-hover="border-color: #0A8E7B;">+ Add event</button>
+                  </div>
+                </section>
+                <section style="background: #FFFBF2; border: 1px solid #F3E2B8; border-radius: 12px; padding: 18px 22px 20px;">
+                  <div style="font-weight: 600; font-size: 17px; color: #7A5205; margin-bottom: 6px;">Needs review</div>
+                  <p style="margin: 0 0 12px; font-size: 14.5px; line-height: 1.5; color: #8A6A2A;">These facilities have no description in the source content. Add one or confirm it with the hospital.</p>
+                  <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <sc-for list="{{ review }}" as="v" hint-placeholder-count="1">
+                      <button type="button" onClick="{{ v.onClick }}" style="border: none; background: none; padding: 0; text-align: left; font-size: 15px; font-weight: 600; color: #7A5205; cursor: pointer; text-decoration: underline;">{{ v.title }}</button>
+                    </sc-for>
+                  </div>
+                </section>
+              </div>
+            </div>
+            <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; overflow: hidden;">
+              <div style="padding: 18px 22px; border-bottom: 1px solid #EEF3F1; font-weight: 600; font-size: 18px; color: #0B3C49;">Activity log</div>
+              <sc-for list="{{ activity }}" as="a" hint-placeholder-count="6">
+                <div style="display: grid; grid-template-columns: 130px 130px minmax(0, 1fr) 200px; gap: 16px; align-items: baseline; padding: 12px 22px; border-bottom: 1px solid #F1F5F3; font-size: 15px;">
+                  <span style="color: #7A8C87;">{{ a.when }}</span>
+                  <span style="font-weight: 600; color: #0B5F55;">{{ a.action }}</span>
+                  <span style="color: #16413A; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ a.type }}: {{ a.title }}</span>
+                  <span style="color: #7A8C87; text-align: right;">{{ a.who }}</span>
+                </div>
+              </sc-for>
+            </section>
+          </sc-if>
+
+          <!-- ===== LISTING ===== -->
+          <sc-if value="{{ vList }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+              <div>
+                <div style="display: flex; align-items: baseline; gap: 12px;">
+                  <h2 style="font-weight: 600; font-size: 28px; margin: 0; color: #0B3C49;">{{ listTitle }}</h2>
+                  <span style="font-size: 15px; color: #7A8C87;">{{ listCount }}</span>
+                </div>
+                <p style="margin: 6px 0 0; font-size: 16px; color: #5A6A66;">{{ listSub }}</p>
+              </div>
+              <button type="button" onClick="{{ onAdd }}" style="height: 46px; padding: 0 22px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 16px; font-weight: 700; cursor: pointer;" style-hover="background: #0B7F73;">+ {{ addLabel }}</button>
+            </div>
+
+            <div style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px;">
+              <input type="search" value="{{ q }}" onChange="{{ onQ }}" placeholder="{{ searchPh }}" style="flex: 1 1 260px; height: 44px; padding: 0 14px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15.5px; color: #16413A;">
+              {{ filterEl }}
+              {{ statusEl }}
+              <sc-if value="{{ isEvents }}" hint-placeholder-val="{{ false }}">{{ dateEl }}</sc-if>
+              {{ sortEl }}
+              <sc-if value="{{ showClear }}" hint-placeholder-val="{{ false }}">
+                <button type="button" onClick="{{ onClearFilters }}" style="border: none; background: none; color: #0A8E7B; font-size: 15px; font-weight: 600; cursor: pointer; padding: 0 6px;">Clear filters</button>
+              </sc-if>
+            </div>
+
+            <sc-if value="{{ hasRows }}" hint-placeholder-val="{{ true }}">
+              <div style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; overflow-x: auto;">
+                <div style="min-width: 1120px;">
+                  <div style="display: grid; grid-template-columns: 40px minmax(240px, 1.6fr) repeat(4, minmax(100px, 1fr)) 120px 236px; gap: 14px; padding: 12px 18px; border-bottom: 1px solid #E2ECE9; background: #F7FAF9; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5A6A66;">
+                    <span>Order</span>
+                    <span>Name</span>
+                    <sc-for list="{{ cols }}" as="c" hint-placeholder-count="4"><span>{{ c }}</span></sc-for>
+                    <span>Status</span>
+                    <span style="text-align: right;">Actions</span>
+                  </div>
+                  <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+                    <div style="display: grid; grid-template-columns: 40px minmax(240px, 1.6fr) repeat(4, minmax(100px, 1fr)) 120px 236px; gap: 14px; align-items: center; padding: 12px 18px; border-bottom: 1px solid #F1F5F3; background: {{ r.stripe }};">
+                      <div style="display: flex; flex-direction: column; gap: 2px;">
+                        <button type="button" onClick="{{ r.onUp }}" aria-label="Move up" style="height: 22px; border: 1px solid #E2ECE9; border-radius: 5px; background: #ffffff; color: #35514B; font-size: 11px; cursor: pointer;" style-hover="border-color: #0A8E7B;">▲</button>
+                        <button type="button" onClick="{{ r.onDown }}" aria-label="Move down" style="height: 22px; border: 1px solid #E2ECE9; border-radius: 5px; background: #ffffff; color: #35514B; font-size: 11px; cursor: pointer;" style-hover="border-color: #0A8E7B;">▼</button>
+                      </div>
+                      <button type="button" onClick="{{ r.onEdit }}" style="display: flex; align-items: center; gap: 12px; min-width: 0; border: none; background: none; padding: 0; text-align: left; cursor: pointer;">
+                        <sc-if value="{{ r.hasThumb }}" hint-placeholder-val="{{ false }}">
+                          <span style="flex: none; width: 52px; height: 52px; border-radius: {{ r.thumbRadius }}; background-color: #EEF3F1; background-image: {{ r.thumbBg }}; background-size: cover; background-position: center;"></span>
+                        </sc-if>
+                        <sc-if value="{{ r.noThumb }}" hint-placeholder-val="{{ true }}">
+                          <span style="flex: none; width: 52px; height: 52px; border-radius: {{ r.thumbRadius }}; background: #EEF3F1; border: 1px dashed #C9DAD5; color: #7A8C87; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{ r.thumbText }}</span>
+                        </sc-if>
+                        <span style="min-width: 0;">
+                          <span style="display: block; font-size: 16px; font-weight: 600; color: #16413A; line-height: 1.3;">{{ r.title }}</span>
+                          <span style="display: block; font-size: 13.5px; color: #7A8C87; margin-top: 2px;">{{ r.sub }}</span>
+                          <sc-if value="{{ r.review }}" hint-placeholder-val="{{ false }}">
+                            <span style="display: inline-block; margin-top: 5px; background: #FFF4DC; color: #7A5205; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px;">Needs review</span>
+                          </sc-if>
+                        </span>
+                      </button>
+                      <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="4">
+                        <span style="font-size: 14.5px; line-height: 1.4; color: #45605A; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ c }}</span>
+                      </sc-for>
+                      <span>
+                        <span style="display: inline-block; background: {{ r.pBg }}; color: {{ r.pColor }}; font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px;">{{ r.pLabel }}</span>
+                        <span style="display: block; font-size: 12.5px; color: #7A8C87; margin-top: 5px;">{{ r.updated }}</span>
+                      </span>
+                      <div style="display: flex; justify-content: flex-end; gap: 6px; flex-wrap: wrap;">
+                        <button type="button" onClick="{{ r.onEdit }}" style="height: 34px; padding: 0 12px; border: none; border-radius: 7px; background: #0A8E7B; color: #ffffff; font-size: 14px; font-weight: 600; cursor: pointer;" style-hover="background: #0B7F73;">Edit</button>
+                        <button type="button" onClick="{{ r.onPreview }}" style="height: 34px; padding: 0 10px; border: 1px solid #D5E2DE; border-radius: 7px; background: #ffffff; color: #35514B; font-size: 14px; cursor: pointer;" style-hover="border-color: #0A8E7B;">Preview</button>
+                        <button type="button" onClick="{{ r.onToggle }}" style="height: 34px; padding: 0 10px; border: 1px solid #D5E2DE; border-radius: 7px; background: #ffffff; color: #35514B; font-size: 14px; cursor: pointer; opacity: {{ r.toggleOpacity }};" style-hover="border-color: #0A8E7B;">{{ r.toggleLabel }}</button>
+                        <button type="button" onClick="{{ r.onDelete }}" aria-label="Delete" style="height: 34px; padding: 0 10px; border: 1px solid #F0D2CF; border-radius: 7px; background: #ffffff; color: #B4251E; font-size: 14px; cursor: pointer; opacity: {{ r.delOpacity }};" style-hover="border-color: #C42A21;">Delete</button>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ emptyAll }}" hint-placeholder-val="{{ false }}">
+              <div style="background: #ffffff; border: 1px dashed #C9DAD5; border-radius: 12px; padding: 60px 30px; text-align: center;">
+                <div style="font-weight: 600; font-size: 21px; color: #0B3C49; margin-bottom: 8px;">{{ emptyTitle }}</div>
+                <p style="margin: 0 0 20px; font-size: 16px; color: #5A6A66;">{{ emptyBody }}</p>
+                <button type="button" onClick="{{ onAdd }}" style="height: 46px; padding: 0 22px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 16px; font-weight: 700; cursor: pointer;">+ {{ addLabel }}</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ emptyFilter }}" hint-placeholder-val="{{ false }}">
+              <div style="background: #ffffff; border: 1px dashed #C9DAD5; border-radius: 12px; padding: 50px 30px; text-align: center;">
+                <div style="font-weight: 600; font-size: 20px; color: #0B3C49; margin-bottom: 8px;">Nothing matches your search</div>
+                <p style="margin: 0 0 18px; font-size: 16px; color: #5A6A66;">Try a different spelling, or clear the filters to see everything.</p>
+                <button type="button" onClick="{{ onClearFilters }}" style="height: 44px; padding: 0 20px; border: 1px solid #9FD0C7; border-radius: 8px; background: #ffffff; color: #0B5F55; font-size: 15.5px; font-weight: 600; cursor: pointer;">Clear filters</button>
+              </div>
+            </sc-if>
+          </sc-if>
+
+          <!-- ===== FORM ===== -->
+          <sc-if value="{{ vForm }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ onBack }}" style="border: none; background: none; padding: 0; color: #0A8E7B; font-size: 15.5px; font-weight: 600; cursor: pointer; margin-bottom: 14px;">{{ backLabel }}</button>
+            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px;">
+              <h2 style="font-weight: 600; font-size: 28px; margin: 0; color: #0B3C49;">{{ fmTitle }}</h2>
+              <span style="background: {{ fmPBg }}; color: {{ fmPColor }}; font-size: 13.5px; font-weight: 600; padding: 5px 12px; border-radius: 999px;">{{ fmPLabel }}</span>
+              <sc-if value="{{ isDirty }}" hint-placeholder-val="{{ false }}">
+                <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 14.5px; color: #8A5A06;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #E3A21A;"></span>Unsaved changes</span>
+              </sc-if>
+            </div>
+            <sc-if value="{{ hasReview }}" hint-placeholder-val="{{ false }}">
+              <div style="background: #FFFBF2; border: 1px solid #F3E2B8; border-radius: 10px; padding: 14px 18px; font-size: 15.5px; line-height: 1.5; color: #7A5205; margin-bottom: 18px;">The original website had no description for this facility. Add one confirmed by the hospital before publishing changes.</div>
+            </sc-if>
+
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 22px; align-items: start;">
+              <div style="display: flex; flex-direction: column; gap: 20px; min-width: 0;">
+                <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="2">
+                  <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 22px 24px 24px;">
+                    <h3 style="font-weight: 600; font-size: 18.5px; margin: 0 0 18px; color: #0B3C49;">{{ sec.title }}</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 20px;">
+                      <sc-for list="{{ sec.fields }}" as="f" hint-placeholder-count="4">
+                        <div style="grid-column: {{ f.wide }}; min-width: 0;">
+                          <label style="display: block; font-size: 15px; font-weight: 600; color: #23423B; margin-bottom: 7px;">{{ f.label }}<sc-if value="{{ f.req }}" hint-placeholder-val="{{ false }}"><span style="color: #C42A21;"> *</span></sc-if></label>
+                          <sc-if value="{{ f.isInput }}" hint-placeholder-val="{{ true }}">
+                            <input type="{{ f.inputType }}" value="{{ f.value }}" onChange="{{ f.on }}" placeholder="{{ f.ph }}" style="width: 100%; height: 46px; padding: 0 13px; border: 1px solid {{ f.border }}; border-radius: 8px; font-size: 16px; color: #16413A; background: #ffffff;">
+                          </sc-if>
+                          <sc-if value="{{ f.isArea }}" hint-placeholder-val="{{ false }}">
+                            <textarea value="{{ f.value }}" onChange="{{ f.on }}" rows="{{ f.rows }}" placeholder="{{ f.ph }}" style="width: 100%; padding: 11px 13px; border: 1px solid {{ f.border }}; border-radius: 8px; font-size: 16px; line-height: 1.55; color: #16413A; background: #ffffff; resize: vertical;"></textarea>
+                          </sc-if>
+                          <sc-if value="{{ f.isSelect }}" hint-placeholder-val="{{ false }}">{{ f.selectEl }}</sc-if>
+                          <sc-if value="{{ f.isCheck }}" hint-placeholder-val="{{ false }}">
+                            <label style="display: flex; align-items: center; gap: 11px; font-size: 15.5px; color: #23423B; cursor: pointer;">
+                              <input type="checkbox" checked="{{ f.checked }}" onChange="{{ f.on }}" style="width: 20px; height: 20px; accent-color: #0A8E7B;">
+                              {{ f.checkLabel }}
+                            </label>
+                          </sc-if>
+                          <sc-if value="{{ f.isDays }}" hint-placeholder-val="{{ false }}">
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                              <sc-for list="{{ f.days }}" as="dd" hint-placeholder-count="7">
+                                <button type="button" onClick="{{ dd.onClick }}" style="height: 40px; min-width: 56px; padding: 0 12px; border: 1px solid {{ dd.border }}; border-radius: 8px; background: {{ dd.bg }}; color: {{ dd.color }}; font-size: 15px; font-weight: 600; cursor: pointer;">{{ dd.label }}</button>
+                              </sc-for>
+                            </div>
+                          </sc-if>
+                          <sc-if value="{{ f.hasHint }}" hint-placeholder-val="{{ false }}"><div style="font-size: 13.5px; color: #7A8C87; margin-top: 6px;">{{ f.hint }}</div></sc-if>
+                          <sc-if value="{{ f.hasError }}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 14px; color: #B4251E; margin-top: 6px;">{{ f.error }}</div></sc-if>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </section>
+                </sc-for>
+
+                <sc-if value="{{ isFacilityForm }}" hint-placeholder-val="{{ false }}">
+                  <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 22px 24px 24px;">
+                    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 6px;">
+                      <h3 style="font-weight: 600; font-size: 18.5px; margin: 0; color: #0B3C49;">Sub-facilities</h3>
+                      <button type="button" onClick="{{ onAddSub }}" style="border: none; background: none; color: #0A8E7B; font-size: 15px; font-weight: 600; cursor: pointer;">+ Add sub-facility</button>
+                    </div>
+                    <p style="margin: 0 0 16px; font-size: 14.5px; color: #7A8C87;">For facilities with several services under one heading, such as Radiology (X-Ray, 2D Echo, Sonography).</p>
+                    <div style="display: flex; flex-direction: column; gap: 14px;">
+                      <sc-for list="{{ subs }}" as="sb" hint-placeholder-count="2">
+                        <div style="display: grid; grid-template-columns: 220px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 14px; background: #F7FAF9; border: 1px solid #EEF3F1; border-radius: 10px;">
+                          <input type="text" value="{{ sb.name }}" onChange="{{ sb.onName }}" placeholder="Name, e.g. X-Ray" style="height: 44px; padding: 0 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15.5px; color: #16413A;">
+                          <textarea value="{{ sb.text }}" onChange="{{ sb.onText }}" rows="2" placeholder="Description" style="padding: 10px 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15.5px; line-height: 1.5; color: #16413A; resize: vertical;"></textarea>
+                          <button type="button" onClick="{{ sb.onRemove }}" style="height: 44px; padding: 0 12px; border: 1px solid #F0D2CF; border-radius: 8px; background: #ffffff; color: #B4251E; font-size: 14px; cursor: pointer;">Remove</button>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </section>
+                </sc-if>
+
+                <sc-if value="{{ hasGallery }}" hint-placeholder-val="{{ false }}">
+                  <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 22px 24px 24px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 6px;">
+                      <h3 style="font-weight: 600; font-size: 18.5px; margin: 0; color: #0B3C49;">{{ gl.title }} <span style="font-weight: 500; font-size: 15px; color: #7A8C87;">· {{ gl.count }}</span></h3>
+                      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" onClick="{{ gl.onPreview }}" style="height: 40px; padding: 0 14px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; color: #35514B; font-size: 14.5px; cursor: pointer;">Preview gallery</button>
+                        <button type="button" onClick="{{ gl.onLibrary }}" style="height: 40px; padding: 0 14px; border: 1px solid #9FD0C7; border-radius: 8px; background: #ffffff; color: #0B5F55; font-size: 14.5px; font-weight: 600; cursor: pointer;">Choose from library</button>
+                        <button type="button" onClick="{{ gl.onUpload }}" style="height: 40px; padding: 0 16px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 14.5px; font-weight: 600; cursor: pointer;">Upload images</button>
+                      </div>
+                    </div>
+                    <p style="margin: 0 0 16px; font-size: 14px; color: #7A8C87;">{{ gl.guide }} You can select several files at once.</p>
+                    <sc-if value="{{ gl.hasNote }}" hint-placeholder-val="{{ false }}">
+                      <div style="background: #F1F8F6; border: 1px solid #E1F3EF; border-radius: 8px; padding: 12px 14px; font-size: 14.5px; color: #45605A; margin-bottom: 14px;">{{ gl.note }}</div>
+                    </sc-if>
+                    <sc-if value="{{ gl.none }}" hint-placeholder-val="{{ true }}">
+                      <button type="button" onClick="{{ gl.onUpload }}" style="width: 100%; padding: 40px 20px; border: 2px dashed #C9DAD5; border-radius: 12px; background: #F7FAF9; color: #5A6A66; font-size: 16px; cursor: pointer;" style-hover="border-color: #0A8E7B; color: #0A8E7B;">No photos yet. Click to upload.</button>
+                    </sc-if>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                      <sc-for list="{{ gl.items }}" as="g" hint-placeholder-count="2">
+                        <div style="display: grid; grid-template-columns: 160px minmax(0, 1fr) auto; gap: 16px; align-items: start; padding: 12px; border: 1px solid #E2ECE9; border-radius: 10px; background: #ffffff;">
+                          <div style="position: relative; aspect-ratio: 4 / 3; border-radius: 8px; background-color: #EEF3F1; background-image: {{ g.bgCss }}; background-size: cover; background-position: center;">
+                            <sc-if value="{{ g.isCover }}" hint-placeholder-val="{{ false }}">
+                              <span style="position: absolute; left: 6px; top: 6px; background: #0A8E7B; color: #ffffff; font-size: 11.5px; font-weight: 700; padding: 3px 8px; border-radius: 999px;">Main photo</span>
+                            </sc-if>
+                            <sc-if value="{{ g.missing }}" hint-placeholder-val="{{ false }}">
+                              <span style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12.5px; color: #B4251E; text-align: center; padding: 6px;">Image missing from library</span>
+                            </sc-if>
+                          </div>
+                          <div style="display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                            <input type="text" value="{{ g.caption }}" onChange="{{ g.onCaption }}" placeholder="Caption, e.g. General view" style="height: 40px; padding: 0 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15px; color: #16413A;">
+                            <input type="text" value="{{ g.alt }}" onChange="{{ g.onAlt }}" placeholder="Alternative text for screen readers" style="height: 40px; padding: 0 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15px; color: #16413A;">
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                              <sc-if value="{{ g.notCover }}" hint-placeholder-val="{{ true }}">
+                                <button type="button" onClick="{{ g.onCover }}" style="height: 32px; padding: 0 10px; border: 1px solid #9FD0C7; border-radius: 7px; background: #ffffff; color: #0B5F55; font-size: 13.5px; font-weight: 600; cursor: pointer;">{{ g.coverLabel }}</button>
+                              </sc-if>
+                              <button type="button" onClick="{{ g.onAdjust }}" style="height: 32px; padding: 0 10px; border: 1px solid #D5E2DE; border-radius: 7px; background: #ffffff; color: #35514B; font-size: 13.5px; cursor: pointer;">Adjust crop</button>
+                              <button type="button" onClick="{{ g.onReplace }}" style="height: 32px; padding: 0 10px; border: 1px solid #D5E2DE; border-radius: 7px; background: #ffffff; color: #35514B; font-size: 13.5px; cursor: pointer;">Replace</button>
+                            </div>
+                          </div>
+                          <div style="display: flex; flex-direction: column; gap: 6px; align-items: stretch;">
+                            <button type="button" onClick="{{ g.onUp }}" aria-label="Move earlier" style="height: 32px; width: 40px; border: 1px solid #E2ECE9; border-radius: 7px; background: #ffffff; color: #35514B; cursor: pointer;">▲</button>
+                            <button type="button" onClick="{{ g.onDown }}" aria-label="Move later" style="height: 32px; width: 40px; border: 1px solid #E2ECE9; border-radius: 7px; background: #ffffff; color: #35514B; cursor: pointer;">▼</button>
+                            <button type="button" onClick="{{ g.onRemove }}" aria-label="Remove from gallery" style="height: 32px; width: 40px; border: 1px solid #F0D2CF; border-radius: 7px; background: #ffffff; color: #B4251E; cursor: pointer;">✕</button>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </section>
+                </sc-if>
+              </div>
+
+              <div style="position: sticky; top: 96px; display: flex; flex-direction: column; gap: 20px;">
+                <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 20px 22px 22px;">
+                  <h3 style="font-weight: 600; font-size: 18px; margin: 0 0 6px; color: #0B3C49;">Publishing</h3>
+                  <p style="margin: 0 0 16px; font-size: 14.5px; color: #7A8C87;">{{ savedLine }}</p>
+                  <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <sc-if value="{{ isDraftState }}" hint-placeholder-val="{{ true }}">
+                      <button type="button" onClick="{{ onPublish }}" style="height: 48px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 16.5px; font-weight: 700; cursor: pointer; opacity: {{ pubOpacity }};" style-hover="background: #0B7F73;">{{ publishLabel }}</button>
+                      <button type="button" onClick="{{ onSaveDraft }}" style="height: 46px; border: 1px solid #9FD0C7; border-radius: 8px; background: #ffffff; color: #0B5F55; font-size: 16px; font-weight: 600; cursor: pointer;">{{ saveDraftLabel }}</button>
+                    </sc-if>
+                    <sc-if value="{{ isPublished }}" hint-placeholder-val="{{ false }}">
+                      <button type="button" onClick="{{ onKeep }}" style="height: 48px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 16.5px; font-weight: 700; cursor: pointer;" style-hover="background: #0B7F73;">{{ keepLabel }}</button>
+                      <button type="button" onClick="{{ onUnpublish }}" style="height: 46px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; color: #35514B; font-size: 16px; font-weight: 600; cursor: pointer; opacity: {{ pubOpacity }};">{{ unpublishLabel }}</button>
+                    </sc-if>
+                    <button type="button" onClick="{{ onFormPreview }}" style="height: 44px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; color: #35514B; font-size: 15.5px; cursor: pointer;">Preview</button>
+                  </div>
+                  <sc-if value="{{ hasPermNote }}" hint-placeholder-val="{{ false }}">
+                    <p style="margin: 14px 0 0; font-size: 14px; line-height: 1.5; color: #8A5A06;">{{ permNote }}</p>
+                  </sc-if>
+                  <sc-if value="{{ showDelete }}" hint-placeholder-val="{{ false }}">
+                    <button type="button" onClick="{{ onFormDelete }}" style="margin-top: 16px; border: none; background: none; padding: 0; color: #B4251E; font-size: 15px; font-weight: 600; cursor: pointer;">Delete this record</button>
+                  </sc-if>
+                </section>
+
+                <sc-if value="{{ hasSingle }}" hint-placeholder-val="{{ false }}">
+                  <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 20px 22px 22px;">
+                    <h3 style="font-weight: 600; font-size: 18px; margin: 0 0 16px; color: #0B3C49;">{{ sg.title }}</h3>
+                    <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+                      <sc-if value="{{ sg.has }}" hint-placeholder-val="{{ false }}">
+                        <div style="width: {{ sg.w }}; aspect-ratio: {{ sg.ratio }}; border-radius: {{ sg.radius }}; background-color: #EEF3F1; background-image: {{ sg.bgCss }}; background-size: cover; background-position: center;"></div>
+                      </sc-if>
+                      <sc-if value="{{ sg.none }}" hint-placeholder-val="{{ true }}">
+                        <div style="width: {{ sg.w }}; aspect-ratio: {{ sg.ratio }}; border-radius: {{ sg.radius }}; background: #EEF3F1; border: 2px dashed #C9DAD5; display: flex; align-items: center; justify-content: center; color: #7A8C87; font-size: 22px; font-weight: 700;">{{ sg.ph }}</div>
+                      </sc-if>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;">
+                      <button type="button" onClick="{{ sg.onUpload }}" style="height: 42px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 15px; font-weight: 600; cursor: pointer;">Upload image</button>
+                      <button type="button" onClick="{{ sg.onLibrary }}" style="height: 42px; border: 1px solid #9FD0C7; border-radius: 8px; background: #ffffff; color: #0B5F55; font-size: 15px; font-weight: 600; cursor: pointer;">From library</button>
+                      <sc-if value="{{ sg.has }}" hint-placeholder-val="{{ false }}">
+                        <button type="button" onClick="{{ sg.onAdjust }}" style="height: 40px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; color: #35514B; font-size: 14.5px; cursor: pointer;">Adjust crop</button>
+                        <button type="button" onClick="{{ sg.onRemove }}" style="height: 40px; border: 1px solid #F0D2CF; border-radius: 8px; background: #ffffff; color: #B4251E; font-size: 14.5px; cursor: pointer;">Remove</button>
+                      </sc-if>
+                    </div>
+                    <label style="display: block; font-size: 14.5px; font-weight: 600; color: #23423B; margin-bottom: 6px;">Alternative text</label>
+                    <input type="text" value="{{ sg.alt }}" onChange="{{ sg.onAlt }}" placeholder="{{ sg.altPh }}" style="width: 100%; height: 42px; padding: 0 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15px; color: #16413A;">
+                    <p style="margin: 12px 0 0; font-size: 13.5px; line-height: 1.5; color: #7A8C87;">{{ sg.guide }}</p>
+                  </section>
+                </sc-if>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ===== MEDIA LIBRARY ===== -->
+          <sc-if value="{{ vMedia }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+              <div>
+                <div style="display: flex; align-items: baseline; gap: 12px;">
+                  <h2 style="font-weight: 600; font-size: 28px; margin: 0; color: #0B3C49;">Media Library</h2>
+                  <span style="font-size: 15px; color: #7A8C87;">{{ mediaCount }}</span>
+                </div>
+                <p style="margin: 6px 0 0; font-size: 16px; color: #5A6A66;">Every photo used on the website. Images in use can’t be deleted until they’re removed from their pages.</p>
+              </div>
+              <button type="button" onClick="{{ onUploadLib }}" style="height: 46px; padding: 0 22px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 16px; font-weight: 700; cursor: pointer;">Upload images</button>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px;">
+              <input type="search" value="{{ mediaQ }}" onChange="{{ onMediaQ }}" placeholder="Search by file name" style="flex: 1 1 260px; height: 44px; padding: 0 14px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15.5px; color: #16413A;">
+              {{ mediaFilterEl }}
+              <div style="display: flex; border: 1px solid #D5E2DE; border-radius: 8px; overflow: hidden;">
+                <button type="button" onClick="{{ onGrid }}" style="height: 42px; padding: 0 16px; border: none; background: {{ gridBtnBg }}; color: {{ gridBtnColor }}; font-size: 15px; font-weight: 600; cursor: pointer;">Grid</button>
+                <button type="button" onClick="{{ onListMode }}" style="height: 42px; padding: 0 16px; border: none; background: {{ listBtnBg }}; color: {{ listBtnColor }}; font-size: 15px; font-weight: 600; cursor: pointer;">List</button>
+              </div>
+            </div>
+            <sc-if value="{{ isGrid }}" hint-placeholder-val="{{ true }}">
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px;">
+                <sc-for list="{{ mediaItems }}" as="m" hint-placeholder-count="8">
+                  <div style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;">
+                    <button type="button" onClick="{{ m.onPreview }}" style="display: block; aspect-ratio: 4 / 3; border: none; padding: 0; cursor: zoom-in; background-color: #EEF3F1; background-image: {{ m.bgCss }}; background-size: cover; background-position: center;" aria-label="Preview"></button>
+                    <div style="padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 4px; flex: 1;">
+                      <div style="font-size: 15px; font-weight: 600; color: #16413A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ m.name }}</div>
+                      <div style="font-size: 13px; color: #7A8C87;">{{ m.dims }} · {{ m.size }} · {{ m.type }}</div>
+                      <div style="font-size: 13px; color: {{ m.usedColor }}; line-height: 1.4; margin-top: 2px;">{{ m.usage }}</div>
+                      <div style="display: flex; gap: 6px; margin-top: auto; padding-top: 10px;">
+                        <button type="button" onClick="{{ m.onReplace }}" style="flex: 1; height: 34px; border: 1px solid #D5E2DE; border-radius: 7px; background: #ffffff; color: #35514B; font-size: 14px; cursor: pointer;">Replace</button>
+                        <button type="button" onClick="{{ m.onDelete }}" style="flex: 1; height: 34px; border: 1px solid #F0D2CF; border-radius: 7px; background: #ffffff; color: #B4251E; font-size: 14px; cursor: pointer;">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isListMode }}" hint-placeholder-val="{{ false }}">
+              <div style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; overflow: hidden;">
+                <sc-for list="{{ mediaItems }}" as="m" hint-placeholder-count="6">
+                  <div style="display: grid; grid-template-columns: 80px minmax(0, 1.3fr) 130px 80px 70px 110px minmax(0, 1.4fr) 180px; gap: 14px; align-items: center; padding: 10px 16px; border-bottom: 1px solid #F1F5F3; font-size: 14.5px; color: #45605A;">
+                    <button type="button" onClick="{{ m.onPreview }}" aria-label="Preview" style="width: 80px; aspect-ratio: 4 / 3; border: none; border-radius: 6px; cursor: zoom-in; background-color: #EEF3F1; background-image: {{ m.bgCss }}; background-size: cover; background-position: center;"></button>
+                    <span style="font-weight: 600; color: #16413A; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ m.name }}</span>
+                    <span>{{ m.dims }}</span><span>{{ m.size }}</span><span>{{ m.type }}</span><span>{{ m.date }}</span>
+                    <span style="color: {{ m.usedColor }}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ m.usage }}</span>
+                    <span style="display: flex; gap: 6px; justify-content: flex-end;">
+                      <button type="button" onClick="{{ m.onReplace }}" style="height: 32px; padding: 0 10px; border: 1px solid #D5E2DE; border-radius: 7px; background: #ffffff; color: #35514B; font-size: 13.5px; cursor: pointer;">Replace</button>
+                      <button type="button" onClick="{{ m.onDelete }}" style="height: 32px; padding: 0 10px; border: 1px solid #F0D2CF; border-radius: 7px; background: #ffffff; color: #B4251E; font-size: 13.5px; cursor: pointer;">Delete</button>
+                    </span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ noMedia }}" hint-placeholder-val="{{ false }}">
+              <div style="background: #ffffff; border: 1px dashed #C9DAD5; border-radius: 12px; padding: 50px 30px; text-align: center; font-size: 16px; color: #5A6A66;">No images match. Try another search or filter.</div>
+            </sc-if>
+            <div style="margin-top: 22px; max-width: 520px;">
+              <div style="height: 8px; border-radius: 999px; background: #E2ECE9; overflow: hidden;"><div style="height: 100%; width: {{ storagePct }}; background: #0A8E7B;"></div></div>
+              <div style="font-size: 13.5px; color: #7A8C87; margin-top: 7px;">{{ storageText }} (prototype storage — the production CMS stores images on the server)</div>
+            </div>
+          </sc-if>
+
+          <!-- ===== SETTINGS ===== -->
+          <sc-if value="{{ vSettings }}" hint-placeholder-val="{{ false }}">
+            <h2 style="font-weight: 600; font-size: 28px; margin: 0 0 20px; color: #0B3C49;">Settings</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 20px; align-items: start;">
+              <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 22px 24px 24px;">
+                <h3 style="font-weight: 600; font-size: 18.5px; margin: 0 0 16px; color: #0B3C49;">Your account</h3>
+                <label style="display: block; font-size: 15px; font-weight: 600; color: #23423B; margin-bottom: 6px;">Name</label>
+                <input type="text" value="{{ sfName }}" onChange="{{ onSfName }}" style="width: 100%; height: 44px; padding: 0 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15.5px; color: #16413A; margin-bottom: 14px;">
+                <label style="display: block; font-size: 15px; font-weight: 600; color: #23423B; margin-bottom: 6px;">Email</label>
+                <div style="height: 44px; padding: 0 12px; border: 1px solid #EEF3F1; border-radius: 8px; font-size: 15.5px; color: #7A8C87; background: #F7FAF9; display: flex; align-items: center; margin-bottom: 14px;">{{ sfEmail }}</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                  <div><label style="display: block; font-size: 15px; font-weight: 600; color: #23423B; margin-bottom: 6px;">New password</label><input type="password" value="{{ sfPass }}" onChange="{{ onSfPass }}" placeholder="Leave blank to keep" style="width: 100%; height: 44px; padding: 0 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15.5px;"></div>
+                  <div><label style="display: block; font-size: 15px; font-weight: 600; color: #23423B; margin-bottom: 6px;">Confirm password</label><input type="password" value="{{ sfPass2 }}" onChange="{{ onSfPass2 }}" style="width: 100%; height: 44px; padding: 0 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15.5px;"></div>
+                </div>
+                <button type="button" onClick="{{ onSaveAccount }}" style="height: 44px; padding: 0 20px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 15.5px; font-weight: 600; cursor: pointer;">Save account</button>
+              </section>
+
+              <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 22px 24px 24px;">
+                <h3 style="font-weight: 600; font-size: 18.5px; margin: 0 0 6px; color: #0B3C49;">Team &amp; permissions</h3>
+                <p style="margin: 0 0 14px; font-size: 14.5px; color: #7A8C87;">Administrators can do everything. Editors can add and edit content; publishing is set below.</p>
+                <sc-if value="{{ notAdmin }}" hint-placeholder-val="{{ false }}"><p style="margin: 0 0 12px; font-size: 14.5px; color: #8A5A06;">Only administrators can change these settings.</p></sc-if>
+                <label style="display: flex; align-items: center; gap: 11px; font-size: 15.5px; color: #23423B; margin-bottom: 16px;">
+                  <input type="checkbox" checked="{{ editorsCanPublish }}" onChange="{{ onTogglePublish }}" disabled="{{ notAdmin }}" style="width: 20px; height: 20px; accent-color: #0A8E7B;">
+                  Editors can publish and unpublish
+                </label>
+                <div style="border-top: 1px solid #EEF3F1;">
+                  <sc-for list="{{ users }}" as="us" hint-placeholder-count="2">
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #F1F5F3;">
+                      <div style="flex: 1; min-width: 0;">
+                        <div style="font-size: 15.5px; font-weight: 600; color: #16413A;">{{ us.name }}</div>
+                        <div style="font-size: 13.5px; color: #7A8C87;">{{ us.email }} · {{ us.role }}</div>
+                      </div>
+                      <sc-if value="{{ us.canRemove }}" hint-placeholder-val="{{ false }}">
+                        <button type="button" onClick="{{ us.onRemove }}" style="height: 32px; padding: 0 10px; border: 1px solid #F0D2CF; border-radius: 7px; background: #ffffff; color: #B4251E; font-size: 13.5px; cursor: pointer;">Remove</button>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px;">
+                    <input type="text" value="{{ nu.name }}" onChange="{{ onNuName }}" placeholder="Name" style="height: 44px; padding: 0 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15px;">
+                    <input type="email" value="{{ nu.email }}" onChange="{{ onNuEmail }}" placeholder="Email" style="height: 44px; padding: 0 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15px;">
+                    {{ nuRoleEl }}
+                    <button type="button" onClick="{{ onAddUser }}" style="height: 44px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 15px; font-weight: 600; cursor: pointer;">Add account</button>
+                  </div>
+                </sc-if>
+              </section>
+
+              <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 22px 24px 24px; grid-column: 1 / -1;">
+                <h3 style="font-weight: 600; font-size: 18.5px; margin: 0 0 6px; color: #0B3C49;">Categories</h3>
+                <p style="margin: 0 0 16px; font-size: 14.5px; color: #7A8C87;">These drive the filters on the public website. A category that’s still in use can’t be removed.</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px;">
+                  <sc-for list="{{ catGroups }}" as="cg" hint-placeholder-count="3">
+                    <div>
+                      <div style="font-size: 15.5px; font-weight: 600; color: #0B5F55; margin-bottom: 8px;">{{ cg.label }}</div>
+                      <sc-for list="{{ cg.items }}" as="ci" hint-placeholder-count="5">
+                        <div style="display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #F1F5F3;">
+                          <span style="flex: 1; font-size: 15px; color: #16413A;">{{ ci.name }} <span style="color: #7A8C87;">({{ ci.count }})</span></span>
+                          <button type="button" onClick="{{ ci.onUp }}" aria-label="Move up" style="height: 28px; width: 30px; border: 1px solid #E2ECE9; border-radius: 6px; background: #ffffff; color: #35514B; font-size: 11px; cursor: pointer;">▲</button>
+                          <button type="button" onClick="{{ ci.onRemove }}" aria-label="Remove" style="height: 28px; width: 30px; border: 1px solid #F0D2CF; border-radius: 6px; background: #ffffff; color: #B4251E; cursor: pointer;">✕</button>
+                        </div>
+                      </sc-for>
+                      <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <input type="text" value="{{ cg.val }}" onChange="{{ cg.onVal }}" placeholder="New category" style="flex: 1; min-width: 0; height: 40px; padding: 0 12px; border: 1px solid #D5E2DE; border-radius: 8px; font-size: 15px;">
+                        <button type="button" onClick="{{ cg.onAdd }}" style="height: 40px; padding: 0 14px; border: 1px solid #9FD0C7; border-radius: 8px; background: #ffffff; color: #0B5F55; font-size: 14.5px; font-weight: 600; cursor: pointer;">Add</button>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </section>
+
+              <section style="background: #ffffff; border: 1px solid #E2ECE9; border-radius: 12px; padding: 22px 24px 24px; grid-column: 1 / -1;">
+                <h3 style="font-weight: 600; font-size: 18.5px; margin: 0 0 6px; color: #0B3C49;">Backup &amp; restore</h3>
+                <p style="margin: 0 0 16px; font-size: 14.5px; color: #7A8C87;">Download a copy of all content and images, or restore from an earlier backup.</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                  <button type="button" onClick="{{ onExport }}" style="height: 44px; padding: 0 18px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 15px; font-weight: 600; cursor: pointer;">Download backup</button>
+                  <button type="button" onClick="{{ onImport }}" style="height: 44px; padding: 0 18px; border: 1px solid #9FD0C7; border-radius: 8px; background: #ffffff; color: #0B5F55; font-size: 15px; font-weight: 600; cursor: pointer;">Restore from backup</button>
+                  <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+                    <button type="button" onClick="{{ onReset }}" style="height: 44px; padding: 0 18px; border: 1px solid #F0D2CF; border-radius: 8px; background: #ffffff; color: #B4251E; font-size: 15px; font-weight: 600; cursor: pointer;">Reset to original website content</button>
+                  </sc-if>
+                </div>
+              </section>
+            </div>
+          </sc-if>
+
+        </main>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== IMAGE EDITOR ===== -->
+  <sc-if value="{{ edOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 200; background: rgba(8,30,28,0.62); display: flex; align-items: center; justify-content: center; padding: 28px;">
+      <div role="dialog" aria-modal="true" style="width: 100%; max-width: 1000px; max-height: calc(100vh - 56px); overflow: auto; background: #ffffff; border-radius: 16px; box-shadow: 0 40px 90px -30px rgba(0,0,0,0.5); animation: cmsUp 0.26s ease;">
+        <div style="padding: 20px 26px; border-bottom: 1px solid #EEF3F1; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+          <h3 style="font-weight: 600; font-size: 21px; margin: 0; color: #0B3C49;">{{ edTitle }}</h3>
+          <sc-if value="{{ edHasQueue }}" hint-placeholder-val="{{ false }}"><span style="font-size: 14px; color: #7A8C87;">{{ edQueue }}</span></sc-if>
+        </div>
+        <div style="padding: 24px 26px; display: grid; grid-template-columns: auto minmax(260px, 1fr); gap: 28px; align-items: start;">
+          <div>
+            <sc-if value="{{ edLoading }}" hint-placeholder-val="{{ true }}">
+              <div style="width: {{ edCssW }}; height: {{ edCssH }}; max-width: 100%; border-radius: 10px; background: #EEF3F1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #5A6A66; font-size: 15.5px;">
+                <span style="width: 34px; height: 34px; border-radius: 50%; border: 3px solid #CFE6E0; border-top-color: #0A8E7B; animation: cmsSpin 0.8s linear infinite;"></span>
+                Uploading image…
+              </div>
+            </sc-if>
+            <sc-if value="{{ edHasError }}" hint-placeholder-val="{{ false }}">
+              <div style="width: {{ edCssW }}; height: {{ edCssH }}; max-width: 100%; border-radius: 10px; background: #FDF1F0; border: 1px solid #F6D8D5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 30px; text-align: center; color: #9E2018; font-size: 16px; line-height: 1.5;">
+                <strong style="font-size: 18px;">Upload failed</strong>
+                {{ edError }}
+                <button type="button" onClick="{{ onEdRetry }}" style="height: 42px; padding: 0 18px; border: none; border-radius: 8px; background: #C42A21; color: #ffffff; font-size: 15px; font-weight: 600; cursor: pointer;">Choose another file</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ edReady }}" hint-placeholder-val="{{ false }}">
+              <canvas ref="{{ edRef }}" width="{{ edW }}" height="{{ edH }}" onPointerDown="{{ onEdDown }}" onPointerMove="{{ onEdMove }}" onPointerUp="{{ onEdUp }}" onPointerCancel="{{ onEdUp }}" style="display: block; width: {{ edCssW }}; height: {{ edCssH }}; max-width: 100%; border-radius: 10px; cursor: grab; touch-action: none;"></canvas>
+              <div style="font-size: 13.5px; color: #7A8C87; margin-top: 8px; text-align: center;">Drag the photo to reposition it.</div>
+            </sc-if>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div style="background: #F7FAF9; border: 1px solid #EEF3F1; border-radius: 10px; padding: 14px 16px; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 14.5px;">
+              <span style="color: #7A8C87;">File</span><span style="color: #16413A; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ edSrcName }}</span>
+              <span style="color: #7A8C87;">Original</span><span style="color: #16413A;">{{ edSrcDims }} · {{ edSrcSize }} · {{ edSrcType }}</span>
+              <span style="color: #7A8C87;">Saved as</span><span style="color: #16413A;">{{ edOut }}</span>
+              <span style="color: #7A8C87;">Shape</span><span style="color: #16413A;">{{ edRatio }}</span>
+            </div>
+            <sc-if value="{{ edSmall }}" hint-placeholder-val="{{ false }}">
+              <div style="background: #FFFBF2; border: 1px solid #F3E2B8; border-radius: 8px; padding: 11px 14px; font-size: 14.5px; line-height: 1.5; color: #7A5205;">{{ edSmallText }}</div>
+            </sc-if>
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600; color: #23423B; margin-bottom: 8px;"><span>Zoom</span><span style="color: #7A8C87; font-weight: 500;">{{ edZoomPct }}</span></div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <button type="button" onClick="{{ onEdOut }}" aria-label="Zoom out" style="flex: none; width: 38px; height: 38px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; font-size: 20px; color: #35514B; cursor: pointer;">−</button>
+                <input type="range" min="1" max="4" step="0.01" value="{{ edZoom }}" onChange="{{ onEdZoom }}" aria-label="Zoom" style="flex: 1; accent-color: #0A8E7B;">
+                <button type="button" onClick="{{ onEdIn }}" aria-label="Zoom in" style="flex: none; width: 38px; height: 38px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; font-size: 20px; color: #35514B; cursor: pointer;">+</button>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+              <button type="button" onClick="{{ onEdRotL }}" style="height: 40px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; color: #35514B; font-size: 14.5px; cursor: pointer;">↺ Rotate</button>
+              <button type="button" onClick="{{ onEdRotR }}" style="height: 40px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; color: #35514B; font-size: 14.5px; cursor: pointer;">Rotate ↻</button>
+              <button type="button" onClick="{{ onEdReset }}" style="height: 40px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; color: #35514B; font-size: 14.5px; cursor: pointer;">Reset</button>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 6px;">
+              <button type="button" onClick="{{ onEdCancel }}" style="flex: 1; height: 48px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; color: #35514B; font-size: 16px; font-weight: 600; cursor: pointer;">Cancel</button>
+              <button type="button" onClick="{{ onEdSave }}" style="flex: 1.4; height: 48px; border: none; border-radius: 8px; background: #0A8E7B; color: #ffffff; font-size: 16px; font-weight: 700; cursor: pointer;">{{ edSaveLabel }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== LIBRARY PICKER ===== -->
+  <sc-if value="{{ pkOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onPkClose }}" style="position: fixed; inset: 0; z-index: 190; background: rgba(8,30,28,0.55); display: flex; align-items: center; justify-content: center; padding: 28px;">
+      <div onClick="{{ stop }}" role="dialog" aria-modal="true" style="width: 100%; max-width: 920px; max-height: calc(100vh - 56px); overflow: auto; background: #ffffff; border-radius: 16px; animation: cmsUp 0.24s ease;">
+        <div style="padding: 20px 26px; border-bottom: 1px solid #EEF3F1; display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="font-weight: 600; font-size: 21px; margin: 0; color: #0B3C49;">Choose from the Media Library</h3>
+          <button type="button" onClick="{{ onPkClose }}" style="border: none; background: none; font-size: 15.5px; color: #5A6A66; cursor: pointer;">Close</button>
+        </div>
+        <p style="margin: 16px 26px 0; font-size: 14.5px; color: #7A8C87;">Pick an image, then adjust the crop for this use. The original stays unchanged.</p>
+        <div style="padding: 18px 26px 26px; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;">
+          <sc-for list="{{ pkItems }}" as="p" hint-placeholder-count="6">
+            <button type="button" onClick="{{ p.onPick }}" style="border: 1px solid #E2ECE9; border-radius: 10px; background: #ffffff; padding: 0; overflow: hidden; text-align: left; cursor: pointer;" style-hover="border-color: #0A8E7B;">
+              <span style="display: block; aspect-ratio: 4 / 3; background-color: #EEF3F1; background-image: {{ p.bgCss }}; background-size: cover; background-position: center;"></span>
+              <span style="display: block; padding: 8px 10px; font-size: 13.5px; color: #16413A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ p.name }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== PREVIEW ===== -->
+  <sc-if value="{{ pvOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onPvClose }}" style="position: fixed; inset: 0; z-index: 180; background: rgba(8,30,28,0.55); display: flex; align-items: flex-start; justify-content: center; padding: 48px 28px; overflow-y: auto;">
+      <div onClick="{{ stop }}" role="dialog" aria-modal="true" style="width: 100%; max-width: 900px; background: #ffffff; border-radius: 16px; overflow: hidden; animation: cmsUp 0.24s ease;">
+        <div style="padding: 14px 22px; background: #0B4F45; color: #ffffff; display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+          <span style="font-size: 14.5px; font-weight: 600;">Preview · how it looks on the website</span>
+          <button type="button" onClick="{{ onPvClose }}" style="border: 1px solid rgba(255,255,255,0.4); background: transparent; color: #ffffff; border-radius: 7px; padding: 6px 12px; font-size: 14px; cursor: pointer;">Close</button>
+        </div>
+        <sc-if value="{{ pvDraft }}" hint-placeholder-val="{{ false }}">
+          <div style="background: #FDF3E1; color: #7A5205; padding: 10px 22px; font-size: 14.5px; font-weight: 600;">Draft — this is not visible on the public website.</div>
+        </sc-if>
+        <div style="padding: 34px 36px 38px; font-family: 'DM Sans', sans-serif;">
+          <sc-if value="{{ pvIsDoc }}" hint-placeholder-val="{{ false }}">
+            <div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 30px; align-items: start; border: 1px solid #E1EEEA; border-radius: 14px; padding: 28px;">
+              <sc-if value="{{ pvHasImg }}" hint-placeholder-val="{{ false }}"><div style="width: 200px; aspect-ratio: 1 / 1; border-radius: 50%; background-image: {{ pvImg }}; background-size: cover; background-position: center;"></div></sc-if>
+              <sc-if value="{{ pvNoImg }}" hint-placeholder-val="{{ true }}"><div style="width: 200px; aspect-ratio: 1 / 1; border-radius: 50%; background: #E1F3EF; color: #0A5F52; font-size: 48px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{ pvInit }}</div></sc-if>
+              <div>
+                <h3 style="font-weight: 600; font-size: 25px; margin: 0 0 6px; color: #12564C;">{{ pvName }}</h3>
+                <div style="font-size: 19px; font-weight: 600; color: #0A5F52;">{{ pvRole }}</div>
+                <div style="font-size: 17px; color: #7A8C87; margin-top: 3px;">{{ pvQual }}</div>
+                <p style="margin: 16px 0 0; font-size: 18px; line-height: 1.56; color: #4E5F5A;">{{ pvBio }}</p>
+                <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid #F1F5F3; display: flex; flex-direction: column; gap: 6px; font-size: 17px; color: #5A6A66;">
+                  <span>{{ pvSched }}</span><span>{{ pvLoc }}</span>
+                  <sc-if value="{{ pvHasContact }}" hint-placeholder-val="{{ false }}"><span>{{ pvContact }}</span></sc-if>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ pvIsFac }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #0B7F73; margin-bottom: 8px;">{{ pvCat }}</div>
+            <h3 style="font-weight: 600; font-size: 27px; margin: 0 0 10px; color: #1F3A34;">{{ pvName }}</h3>
+            <p style="margin: 0 0 10px; font-size: 18px; line-height: 1.6; color: #4E5F5A;">{{ pvShort }}</p>
+            <sc-if value="{{ pvHasFull }}" hint-placeholder-val="{{ false }}"><p style="margin: 0 0 14px; font-size: 17px; line-height: 1.6; color: #4E5F5A;">{{ pvFull }}</p></sc-if>
+            <sc-for list="{{ pvSubs }}" as="ps" hint-placeholder-count="0">
+              <p style="margin: 0 0 10px; font-size: 17px; line-height: 1.55; color: #4E5F5A;"><strong style="color: #12564C;">{{ ps.name }}:</strong> {{ ps.text }}</p>
+            </sc-for>
+            <div style="display: flex; gap: 12px; overflow-x: auto; margin-top: 18px;">
+              <sc-for list="{{ pvShots }}" as="sh" hint-placeholder-count="3">
+                <div style="flex: none; width: 300px;"><div style="aspect-ratio: 4 / 3; border-radius: 8px; background-color: #EEF3F1; background-image: {{ sh.bgCss }}; background-size: cover; background-position: center;"></div><div style="font-size: 14px; color: #5A6A66; margin-top: 7px;">{{ sh.caption }}</div></div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ pvNoShots }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 18px; aspect-ratio: 16 / 6; border-radius: 10px; background: #EEF3F1; display: flex; align-items: center; justify-content: center; color: #7A8C87; font-size: 15px;">Photos will appear here</div></sc-if>
+          </sc-if>
+          <sc-if value="{{ pvIsEvt }}" hint-placeholder-val="{{ false }}">
+            <div style="display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 26px; align-items: start; border: 1px solid #E6ECEA; border-radius: 16px; padding: 22px;">
+              <div style="position: relative; aspect-ratio: 4 / 3; border-radius: 10px; background-color: #EEF3F1; background-image: {{ pvCover }}; background-size: cover; background-position: center;">
+                <sc-if value="{{ pvNoCover }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #7A8C87; font-size: 14.5px;">No cover image</span></sc-if>
+                <div style="position: absolute; left: 10px; top: 10px; background: rgba(255,255,255,0.95); border-radius: 9px; padding: 6px 9px 7px; text-align: center; min-width: 48px;"><div style="font-weight: 700; font-size: 18px; line-height: 1; color: #12564C;">{{ pvDay }}</div><div style="font-weight: 600; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #E1332A; margin-top: 3px;">{{ pvMon }}</div></div>
+              </div>
+              <div>
+                <div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #0A5F52; margin-bottom: 9px;">{{ pvCat }}</div>
+                <h3 style="font-weight: 600; font-size: 23px; line-height: 1.28; margin: 0 0 8px; color: #12564C;">{{ pvName }}</h3>
+                <p style="margin: 0 0 14px; font-size: 17px; line-height: 1.56; color: #4E5F5A;">{{ pvSummary }}</p>
+                <div style="border-top: 1px solid #F1F5F3; padding-top: 12px; font-size: 15.5px; color: #6A7A76;">{{ pvDate }} · {{ pvVenue }}</div>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px;">
+              <sc-for list="{{ pvShots }}" as="sh" hint-placeholder-count="3">
+                <div><div style="aspect-ratio: 4 / 3; border-radius: 8px; background-color: #EEF3F1; background-image: {{ sh.bgCss }}; background-size: cover; background-position: center;"></div><div style="font-size: 13.5px; color: #5A6A66; margin-top: 6px;">{{ sh.caption }}</div></div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ pvIsMedia }}" hint-placeholder-val="{{ false }}">
+            <div style="aspect-ratio: 4 / 3; max-height: 60vh; border-radius: 10px; background-color: #EEF3F1; background-image: {{ pvImg }}; background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+            <div style="margin-top: 14px; font-size: 17px; font-weight: 600; color: #16413A;">{{ pvName }}</div>
+            <div style="font-size: 14.5px; color: #7A8C87; margin-top: 4px;">{{ pvMeta }}</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== CONFIRM ===== -->
+  <sc-if value="{{ cfOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onCfCancel }}" style="position: fixed; inset: 0; z-index: 260; background: rgba(8,30,28,0.55); display: flex; align-items: center; justify-content: center; padding: 28px;">
+      <div onClick="{{ stop }}" role="alertdialog" aria-modal="true" style="width: 100%; max-width: 500px; background: #ffffff; border-radius: 14px; padding: 26px 28px 24px; animation: cmsUp 0.22s ease;">
+        <h3 style="font-weight: 600; font-size: 21px; margin: 0 0 10px; color: #0B3C49;">{{ cfTitle }}</h3>
+        <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.6; color: #45605A;">{{ cfBody }}</p>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <sc-if value="{{ cfShowCancel }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ onCfCancel }}" style="height: 44px; padding: 0 18px; border: 1px solid #D5E2DE; border-radius: 8px; background: #ffffff; color: #35514B; font-size: 15.5px; font-weight: 600; cursor: pointer;">Cancel</button>
+          </sc-if>
+          <button type="button" onClick="{{ onCfOk }}" style="height: 44px; padding: 0 20px; border: none; border-radius: 8px; background: {{ cfBtnBg }}; color: #ffffff; font-size: 15.5px; font-weight: 700; cursor: pointer;">{{ cfLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== TOAST ===== -->
+  <sc-if value="{{ toastOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 300; max-width: 640px; background: {{ toastBg }}; color: #ffffff; border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 16px; font-size: 15.5px; line-height: 1.45; box-shadow: 0 20px 44px -18px rgba(0,0,0,0.45); animation: cmsUp 0.24s ease;">
+      <span>{{ toastMsg }}</span>
+      <button type="button" onClick="{{ onToastClose }}" aria-label="Dismiss" style="flex: none; border: none; background: transparent; color: #ffffff; font-size: 18px; cursor: pointer;">✕</button>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    db: null, user: null, view: 'dashboard', editType: null, editId: null, draft: null, draftOrig: '', errors: {}, saving: null,
+    q: '', filter: 'all', status: 'all', sort: 'order', dateF: 'all', topQ: '',
+    toast: null, confirm: null, editor: null, edSaving: false, picker: null, preview: null,
+    mediaView: 'grid', mediaQ: '', mediaFilter: 'all',
+    login: { email: '', password: '', error: '', busy: false },
+    sf: { name: '', pass: '', pass2: '', nu: { name: '', email: '', role: 'Editor' }, cat: {} },
+  };
+  fileRef = React.createRef();
+  importRef = React.createRef();
+  edCanvas = React.createRef();
+
+  componentDidMount() {
+    const boot = () => {
+      if (!window.MGRHStore || !window.MGRHCMS || !window.MGRHCMSView) return setTimeout(boot, 40);
+      window.MGRHCMS.install(this);
+      const db = window.MGRHStore.load();
+      const s = window.MGRHStore.session();
+      const user = s ? db.settings.users.find(u => u.email === s.email) || null : null;
+      this.setState({ db, user, sf: Object.assign({}, this.state.sf, { name: user ? user.name : '' }) });
+      this._unsub = window.MGRHStore.subscribe(next => { if (next !== this.state.db) this.setState({ db: next }); });
+    };
+    boot();
+    this._beforeUnload = e => { if (this.dirty && this.dirty()) { e.preventDefault(); e.returnValue = ''; } };
+    window.addEventListener('beforeunload', this._beforeUnload);
+  }
+  componentWillUnmount() { window.removeEventListener('beforeunload', this._beforeUnload); if (this._unsub) this._unsub(); }
+  componentDidUpdate() {
+    const ed = this.state.editor, c = this.edCanvas.current;
+    if (ed && ed.img && c) window.MGRHCMS.drawTo(c.getContext('2d'), c.width, c.height, ed, true);
+  }
+
+  login() {
+    const L = this.state.login, db = this.state.db;
+    if (!L.email.trim() || !L.password) return this.setState({ login: Object.assign({}, L, { error: 'Enter your email address and password.' }) });
+    this.setState({ login: Object.assign({}, L, { busy: true, error: '' }) });
+    const S = window.MGRHStore;
+    if (S.signIn) {
+      S.signIn(L.email.trim(), L.password).then(u => {
+        this.setState({ db: S.load(), user: u, view: 'dashboard', login: { email: '', password: '', error: '', busy: false }, sf: Object.assign({}, this.state.sf, { name: u.name }) });
+      }).catch(() => this.setState({ login: Object.assign({}, L, { busy: false, error: 'That email and password don’t match an account. Check them and try again.' }) }));
+      return;
+    }
+    setTimeout(() => {
+      const u = db.settings.users.find(x => x.email.toLowerCase() === L.email.trim().toLowerCase() && x.password === L.password);
+      if (!u) return this.setState({ login: Object.assign({}, L, { busy: false, error: 'That email and password don’t match an account. Check them and try again.' }) });
+      window.MGRHStore.setSession(u);
+      this.setState({ user: u, view: 'dashboard', login: { email: '', password: '', error: '', busy: false }, sf: Object.assign({}, this.state.sf, { name: u.name }) });
+    }, 450);
+  }
+  logout() { if (window.MGRHStore.signOut) window.MGRHStore.signOut(); window.MGRHStore.clearSession(); this.setState({ user: null, view: 'dashboard', draft: null, draftOrig: '', editId: null }); }
+
+  edDown = e => { const c = e.currentTarget; try { c.setPointerCapture(e.pointerId); } catch (x) {} const ed = this.state.editor; this._drag = { px: e.clientX, py: e.clientY, x: ed.x, y: ed.y, w: c.clientWidth, h: c.clientHeight }; };
+  edMove = e => { const d = this._drag; if (!d) return; this.edSet({ x: d.x + (e.clientX - d.px) / d.w, y: d.y + (e.clientY - d.py) / d.h }); };
+  edUp = () => { this._drag = null; };
+
+  saveAccount() {
+    const F = this.state.sf, u = this.state.user;
+    if (!F.name.trim()) return this.toast('Enter your name.', 'err');
+    if (F.pass && F.pass.length < 8) return this.toast('Use a password of at least 8 characters.', 'err');
+    if (F.pass !== F.pass2) return this.toast('The two passwords don’t match.', 'err');
+    if (F.pass && window.MGRHStore.updatePassword) window.MGRHStore.updatePassword(F.pass).catch(e => this.toast(e.message || 'Password not changed.', 'err'));
+    if (this.persist(db => { const x = db.settings.users.find(y => y.email === u.email); x.name = F.name.trim(); if (F.pass) x.password = F.pass; }, { action: 'Updated account', type: 'Settings', title: u.email })) {
+      const nu = Object.assign({}, u, { name: F.name.trim() });
+      window.MGRHStore.setSession(nu);
+      this.setState({ user: nu, sf: Object.assign({}, F, { pass: '', pass2: '' }) });
+      this.toast('Account details saved.');
+    }
+  }
+  addUser() {
+    if (!this.can('admin')) return this.toast('Only administrators can add users.', 'err');
+    const n = this.state.sf.nu, users = this.state.db.settings.users;
+    if (!n.name.trim() || !/^\S+@\S+\.\S+$/.test(n.email)) return this.toast('Enter a name and a valid email address.', 'err');
+    if (users.some(x => x.email.toLowerCase() === n.email.toLowerCase())) return this.toast('There is already an account with that email.', 'err');
+    const temp = 'mgrh-' + Math.random().toString(36).slice(2, 8);
+    if (this.persist(db => { db.settings.users.push({ name: n.name.trim(), email: n.email.trim(), role: n.role, password: temp }); }, { action: 'Added user', type: 'Settings', title: n.email })) {
+      this.setState({ sf: Object.assign({}, this.state.sf, { nu: { name: '', email: '', role: 'Editor' } }) });
+      this.setState({ confirm: { title: 'Account created', body: 'Share this temporary password with ' + n.name.trim() + ': ' + temp + '. They can change it in Settings after signing in.', confirmLabel: 'Done', infoOnly: true, onConfirm: () => {} } });
+    }
+  }
+  removeUser(email) {
+    this.setState({ confirm: { title: 'Remove ' + email + '?', body: 'They will no longer be able to sign in to the Content Manager.', confirmLabel: 'Remove account', danger: true, onConfirm: () => { if (this.persist(db => { db.settings.users = db.settings.users.filter(x => x.email !== email); }, { action: 'Removed user', type: 'Settings', title: email })) this.toast('Account removed.'); } } });
+  }
+  addCat(k) {
+    const v = (this.state.sf.cat[k] || '').trim(); if (!v) return;
+    if (this.state.db.categories[k].some(c => c.toLowerCase() === v.toLowerCase())) return this.toast('That category already exists.', 'err');
+    if (this.persist(db => { db.categories[k].push(v); }, { action: 'Added category', type: 'Settings', title: v })) this.setState({ sf: Object.assign({}, this.state.sf, { cat: Object.assign({}, this.state.sf.cat, { [k]: '' }) }) });
+  }
+  removeCat(k, c) {
+    const n = this.state.db[k].filter(r => (k === 'doctors' ? r.speciality : r.category) === c).length;
+    if (n) return this.toast('“' + c + '” is used by ' + n + ' ' + (n === 1 ? 'record' : 'records') + '. Move them to another category first.', 'err');
+    this.persist(db => { db.categories[k] = db.categories[k].filter(x => x !== c); }, { action: 'Removed category', type: 'Settings', title: c });
+  }
+  moveCat(k, i, dir) {
+    const j = i + dir; if (j < 0) return;
+    this.persist(db => { const a = db.categories[k]; [a[i], a[j]] = [a[j], a[i]]; });
+  }
+  exportData() {
+    const blob = new Blob([JSON.stringify(this.state.db, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'mgrh-cms-backup-' + new Date().toISOString().slice(0, 10) + '.json'; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    this.toast('Backup downloaded.');
+  }
+  onImportFile = e => {
+    const f = e.target.files && e.target.files[0]; if (!f) return;
+    const fr = new FileReader();
+    fr.onload = () => {
+      let d; try { d = JSON.parse(fr.result); } catch (x) { return this.toast('That file isn’t a valid backup.', 'err'); }
+      if (!d || d.version !== 1 || !Array.isArray(d.doctors) || !Array.isArray(d.media)) return this.toast('That file isn’t an MGRH Content Manager backup.', 'err');
+      this.setState({ confirm: { title: 'Restore this backup?', body: 'All current content will be replaced with the backup from ' + f.name + '.', confirmLabel: 'Restore backup', danger: true, onConfirm: () => {
+        try { window.MGRHStore.commit(d); this.setState({ db: d }); this.toast('Backup restored.'); } catch (x) { this.toast('The backup is too large for this browser’s storage.', 'err'); }
+      } } });
+    };
+    fr.readAsText(f); e.target.value = '';
+  };
+  resetData() {
+    this.setState({ confirm: { title: 'Reset to the website’s original content?', body: 'Every change made in the Content Manager — including uploaded images and new accounts — will be removed. Download a backup first if you might need it.', confirmLabel: 'Reset everything', danger: true, onConfirm: () => { const db = window.MGRHStore.reset(); this.setState({ db }); this.toast('Content reset to the original website content.'); } } });
+  }
+
+  renderVals() {
+    if (!window.MGRHCMSView || !this.persist) return { ready: false, showLogin: false, showApp: false, fileRef: this.fileRef, importRef: this.importRef };
+    return window.MGRHCMSView.vals(this);
+  }
+}
+</script>
+</body>
+</html>

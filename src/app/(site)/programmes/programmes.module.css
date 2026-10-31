@@ -8,3 +8,70 @@
 .placeholderLabel::after {
   content: attr(data-label);
 }
+
+/* ---------- Responsive (desktop >=1280px untouched) ---------- */
+@media (max-width: 1023px) {
+  .page h1 {
+    font-size: 44px !important;
+    line-height: 1.06 !important;
+  }
+  .page h2 {
+    font-size: 28px !important;
+  }
+  .page p {
+    font-size: 18px !important;
+  }
+  .introGrid,
+  .communityGrid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .communityImage {
+    max-width: 520px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .page h1 {
+    font-size: 34px !important;
+    line-height: 1.12 !important;
+  }
+  .page h2 {
+    font-size: 24px !important;
+  }
+  .page h3 {
+    font-size: 20px !important;
+  }
+  .page p {
+    font-size: 16.5px !important;
+  }
+  .page [style*='text-transform: uppercase'] {
+    font-size: 14px !important;
+  }
+  .heroInner {
+    padding-top: 36px !important;
+    padding-bottom: 48px !important;
+  }
+  .groupBody {
+    padding: 26px 20px 28px !important;
+  }
+  .groupImage {
+    order: -1;
+    min-height: 220px !important;
+  }
+  .accText {
+    padding: 0 16px 16px 18px !important;
+  }
+  .helpBand {
+    padding: 26px 22px !important;
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 479px) {
+  .helpBtn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}

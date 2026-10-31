@@ -18,3 +18,91 @@
   background: #e1f3ef !important;
   border-color: #06a88c !important;
 }
+
+/* ---------- Responsive (desktop >=1280px untouched) ---------- */
+@media (max-width: 1023px) {
+  .page h1 {
+    font-size: 44px !important;
+    line-height: 1.06 !important;
+  }
+  .page h2 {
+    font-size: 28px !important;
+  }
+  .page p {
+    font-size: 18px !important;
+  }
+  .heroInner {
+    padding-top: 44px !important;
+    padding-bottom: 56px !important;
+  }
+  .itemGrid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .jumpLink,
+  .toTop,
+  .jumpPhone {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .page h1 {
+    font-size: 34px !important;
+    line-height: 1.12 !important;
+  }
+  .page h2 {
+    font-size: 24px !important;
+  }
+  .page h3 {
+    font-size: 20px !important;
+  }
+  .page p {
+    font-size: 16.5px !important;
+  }
+  .page [style*='text-transform: uppercase'] {
+    font-size: 14px !important;
+  }
+  .heroInner {
+    padding-top: 36px !important;
+    padding-bottom: 48px !important;
+  }
+  .groupBand {
+    padding: 18px 20px !important;
+  }
+  .shotsRow > div {
+    max-width: 100%;
+  }
+  .jumpEmergencyText {
+    display: none !important;
+  }
+  .jumpEmergency {
+    font-size: 13.5px !important;
+  }
+  .helpBox {
+    padding: 26px 22px !important;
+    gap: 20px !important;
+  }
+  .jumpLink {
+    display: inline-flex !important;
+    align-items: center;
+    min-height: 44px;
+  }
+  .toTop {
+    min-height: 44px;
+  }
+  .jumpPhone {
+    display: inline-flex !important;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 479px) {
+  .callBtn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}

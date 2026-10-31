@@ -69,16 +69,16 @@ export default function ContactPage() {
   }, []);
 
   return (
-    <div>
+    <div className={styles.page}>
       {/* ===== HERO ===== */}
       <section style={{ position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(100deg, #10A08A 0%, #14A695 34%, #1BAAA8 66%, #2BB2C4 100%)' }} />
         <div style={{ position: 'absolute', inset: 0, background: '#48A8A2' }} />
-        <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '52%', overflow: 'hidden' }}>
+        <div className={styles.heroArt} style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '52%', overflow: 'hidden' }}>
           <img src="/images/contact-hero.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 52%', display: 'block' }} />
         </div>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(3,96,84,0.92) 0%, rgba(4,110,100,0.8) 40%, rgba(40,150,144,0.25) 62%, rgba(72,168,162,0) 78%)' }} />
-        <div style={{ position: 'relative', zIndex: 2, maxWidth: 1800, margin: '0 auto', padding: '52px 26px 76px', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(320px, 400px)', gap: 60, alignItems: 'center' }}>
+        <div className={styles.heroGrid} style={{ position: 'relative', zIndex: 2, maxWidth: 1800, margin: '0 auto', padding: '52px var(--page-pad) 76px', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(320px, 400px)', gap: 60, alignItems: 'center' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 17, letterSpacing: '0.12em', fontWeight: 500, textTransform: 'uppercase', color: 'rgba(255,255,255,0.74)', marginBottom: 20, flexWrap: 'wrap' }}>
               <span style={{ cursor: 'pointer' }}>Home</span><span style={{ opacity: 0.5 }}>/</span>
@@ -91,13 +91,13 @@ export default function ContactPage() {
             <h1 style={{ fontWeight: 500, fontSize: 62, lineHeight: 1.02, margin: '0 0 20px', color: '#FFFFFF', letterSpacing: '-0.03em' }}>Contact <span style={{ fontWeight: 700 }}>Us</span></h1>
             <p style={{ fontSize: 23, lineHeight: 1.5, color: 'rgba(255,255,255,0.92)', margin: 0, maxWidth: 780 }}>Have a question, need information about our services, or need help reaching the hospital?</p>
           </div>
-          <div />
+          <div className={styles.heroSpacer} />
         </div>
       </section>
 
       {/* ===== CONTACT DETAILS + PHOTO ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '56px 26px 0' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 56, alignItems: 'start' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '56px var(--page-pad) 0' }}>
+        <div className={styles.detailsGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(420px, 100%), 1fr))', gap: 56, alignItems: 'start' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, borderBottom: '1px solid #E6ECEA', paddingBottom: 14, marginBottom: 30 }}>
               <span style={{ width: 30, height: 4, borderRadius: 2, background: '#06A88C', flex: 'none' }} />
@@ -111,14 +111,14 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div style={{ fontSize: '14.5px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#0B7F73', marginBottom: 7 }}>{d.label}</div>
-                    <div style={{ fontSize: 21, lineHeight: 1.55, color: '#23423B' }}>{d.value}</div>
-                    {d.hasExtra && <div style={{ fontSize: 21, lineHeight: 1.55, color: '#23423B' }}>{d.extra}</div>}
+                    <div className={styles.detailValue} style={{ fontSize: 21, lineHeight: 1.55, color: '#23423B' }}>{d.value}</div>
+                    {d.hasExtra && <div className={styles.detailValue} style={{ fontSize: 21, lineHeight: 1.55, color: '#23423B' }}>{d.extra}</div>}
                   </div>
                 </div>
               ))}
             </div>
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginTop: 32 }}>
+            <div className={styles.ctaRow} style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginTop: 32 }}>
               <a
                 href="https://wa.me/912168260247"
                 className={styles.whatsappButton}
@@ -158,7 +158,7 @@ export default function ContactPage() {
       </section>
 
       {/* ===== MAP ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '60px 26px 0' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '60px var(--page-pad) 0' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 14, borderBottom: '1px solid #E6ECEA', paddingBottom: 14, marginBottom: 26 }}>
           <span style={{ width: 30, height: 4, borderRadius: 2, background: '#06A88C', flex: 'none' }} />
           <h2 style={{ fontWeight: 600, fontSize: 31, margin: 0, color: '#1F3A34' }}>Finding us</h2>
@@ -168,13 +168,14 @@ export default function ContactPage() {
           <iframe
             src="https://www.openstreetmap.org/export/embed.html?bbox=73.63%2C17.895%2C73.72%2C17.955&layer=mapnik&marker=17.9247%2C73.6577"
             title="Map of Morarji Gokuldas Rural Hospital, Mahabaleshwar"
+            className={styles.mapFrame}
             style={{ width: '100%', height: 760, border: 0, display: 'block' }}
           />
           <button
             type="button"
             onClick={() => setAerialOpen(true)}
             aria-label="See the campus from above"
-            className={styles.redPill}
+            className={`${styles.redPill} ${styles.mapPill}`}
             style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', display: 'inline-flex', alignItems: 'center', gap: 11, background: '#E1332A', color: '#FFFFFF', fontFamily: 'inherit', fontWeight: 700, fontSize: 19, padding: '15px 26px', border: 'none', borderRadius: 999, cursor: 'pointer', boxShadow: '0 18px 40px -14px rgba(120,20,14,0.6)', animation: 'mgRing 2.6s ease-out infinite' }}
           >
             <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth={2.1} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -188,8 +189,8 @@ export default function ContactPage() {
       </section>
 
       {/* ===== EMERGENCY BAND ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '60px 26px 90px' }}>
-        <div style={{ background: '#FDF1F0', borderLeft: '6px solid #E1332A', borderRadius: 16, padding: '40px 42px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 30, flexWrap: 'wrap' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '60px var(--page-pad) 90px' }}>
+        <div className={styles.emergencyBand} style={{ background: '#FDF1F0', borderLeft: '6px solid #E1332A', borderRadius: 16, padding: '40px 42px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 30, flexWrap: 'wrap' }}>
           <div style={{ maxWidth: 900 }}>
             <h3 style={{ fontWeight: 700, fontSize: 27, margin: '0 0 10px', color: '#9E2018' }}>If it is an emergency, just come</h3>
             <p style={{ margin: 0, fontSize: 20, lineHeight: 1.6, color: '#7C4741' }}>The casualty ward is open every hour of the year — no appointment, no queue, no payment.</p>
@@ -197,7 +198,7 @@ export default function ContactPage() {
           <button
             type="button"
             onClick={() => setEmergencyOpen(true)}
-            className={styles.redPill}
+            className={`${styles.redPill} ${styles.bandBtn}`}
             style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#E1332A', color: '#FFFFFF', fontFamily: 'inherit', fontWeight: 700, fontSize: 20, padding: '16px 30px', border: 'none', borderRadius: 999, whiteSpace: 'nowrap', cursor: 'pointer', animation: 'mgRing 2.4s ease-out infinite' }}
           >
             Emergency numbers
@@ -213,13 +214,13 @@ export default function ContactPage() {
         >
           <img src="/images/contact-aerial.png" alt="The hospital campus at Mahabaleshwar, seen from above" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', animation: 'mgAerial 40s ease-in-out infinite' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(4,52,45,0.62) 0%, rgba(4,52,45,0.05) 34%, rgba(4,52,45,0.72) 100%)', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', left: 0, right: 0, top: 0, padding: '34px 40px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24 }}>
+          <div className={styles.aerialTop} style={{ position: 'absolute', left: 0, right: 0, top: 0, padding: '34px 40px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24 }}>
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 11, fontSize: 16, fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#9FDFD6', marginBottom: 14 }}>
                 <span style={{ width: 42, height: 3, borderRadius: 2, background: '#E1332A' }} />
                 Mahabaleshwar · Satara District
               </div>
-              <h3 style={{ fontWeight: 500, fontSize: 46, lineHeight: 1.06, margin: 0, color: '#FFFFFF', letterSpacing: '-0.03em' }}>The campus, <span style={{ fontWeight: 700 }}>from above.</span></h3>
+              <h3 className={styles.aerialTitle} style={{ fontWeight: 500, fontSize: 46, lineHeight: 1.06, margin: 0, color: '#FFFFFF', letterSpacing: '-0.03em' }}>The campus, <span style={{ fontWeight: 700 }}>from above.</span></h3>
             </div>
             <button
               type="button"
@@ -233,7 +234,7 @@ export default function ContactPage() {
               </svg>
             </button>
           </div>
-          <div style={{ position: 'absolute', left: 40, right: 40, bottom: 36, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 30, flexWrap: 'wrap' }}>
+          <div className={styles.aerialBottom} style={{ position: 'absolute', left: 40, right: 40, bottom: 36, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 30, flexWrap: 'wrap' }}>
             <p style={{ margin: 0, fontSize: 21, lineHeight: 1.55, color: 'rgba(255,255,255,0.92)', maxWidth: 700 }}>Green roofs among the evergreen canopy on Medha Road — the hospital wards, theatres and OPD block sit at the centre of the frame.</p>
             <span style={{ fontSize: '16.5px', color: 'rgba(255,255,255,0.72)' }}>Click anywhere to close</span>
           </div>
@@ -244,13 +245,15 @@ export default function ContactPage() {
       {emergencyOpen && (
         <div
           onClick={() => setEmergencyOpen(false)}
-          style={{ position: 'fixed', inset: 0, zIndex: 140, background: 'rgba(60,12,9,0.55)', backdropFilter: 'blur(3px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 26px', animation: 'mgFade 0.22s ease' }}
+          className={styles.modalOverlay}
+          style={{ position: 'fixed', inset: 0, zIndex: 140, background: 'rgba(60,12,9,0.55)', backdropFilter: 'blur(3px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px var(--page-pad)', animation: 'mgFade 0.22s ease' }}
         >
           <div
             onClick={(e) => e.stopPropagation()}
+            className={styles.modalPanel}
             style={{ width: '100%', maxWidth: 720, background: '#FFFFFF', borderRadius: 20, overflow: 'hidden', boxShadow: '0 46px 90px -34px rgba(90,16,12,0.6)', animation: 'mgPopInContact 0.32s cubic-bezier(0.2,0.85,0.3,1)' }}
           >
-            <div style={{ background: '#E1332A', padding: '26px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
+            <div className={styles.modalHeader} style={{ background: '#E1332A', padding: '26px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                 <span style={{ width: 46, height: 46, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'mgRing 2.2s ease-out infinite' }}>
                   <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth={2.2} strokeLinecap="round" aria-hidden="true">
@@ -275,7 +278,7 @@ export default function ContactPage() {
                 </svg>
               </button>
             </div>
-            <div style={{ padding: '30px 32px 34px' }}>
+            <div className={styles.modalBody} style={{ padding: '30px 32px 34px' }}>
               <a
                 href="tel:+912168260247"
                 className={styles.helpline}
@@ -283,7 +286,7 @@ export default function ContactPage() {
               >
                 <div>
                   <div style={{ fontSize: '14.5px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9E2018', marginBottom: 6 }}>Hospital helpline</div>
-                  <div style={{ fontWeight: 700, fontSize: 30, color: '#C42A21', letterSpacing: '-0.01em' }}>+91 21682 60247</div>
+                  <div className={styles.modalPhone} style={{ fontWeight: 700, fontSize: 30, color: '#C42A21', letterSpacing: '-0.01em' }}>+91 21682 60247</div>
                 </div>
                 <svg width={26} height={26} viewBox="0 0 24 24" fill="none" stroke="#E1332A" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1Z" />

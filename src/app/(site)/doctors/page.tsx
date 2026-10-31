@@ -15,6 +15,8 @@ function toItem(row: Awaited<ReturnType<typeof getDoctors>>['rows'][number]): Do
     bio: row.bio,
     hours,
     location: row.location,
+    imageUrl: row.imageUrl,
+    imageAlt: row.imageAlt,
   };
 }
 

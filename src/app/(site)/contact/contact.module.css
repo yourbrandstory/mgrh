@@ -23,3 +23,129 @@
 .helpline:hover {
   border-color: #e1332a !important;
 }
+
+/* ---------- Responsive (desktop >=1280px untouched) ---------- */
+@media (max-width: 1023px) {
+  .page h1 {
+    font-size: 44px !important;
+    line-height: 1.06 !important;
+  }
+  .page h2 {
+    font-size: 28px !important;
+  }
+  .page p {
+    font-size: 18px !important;
+  }
+  .heroGrid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    padding-top: 44px !important;
+    padding-bottom: 56px !important;
+  }
+  .heroSpacer {
+    display: none !important;
+  }
+  .heroArt {
+    display: none !important;
+  }
+  .detailsGrid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  .detailValue {
+    font-size: 18px !important;
+  }
+  .page .aerialTitle {
+    font-size: 34px !important;
+  }
+  .mapFrame {
+    height: 420px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .page h1 {
+    font-size: 34px !important;
+    line-height: 1.12 !important;
+  }
+  .page h2 {
+    font-size: 24px !important;
+  }
+  .page h3 {
+    font-size: 20px !important;
+  }
+  .page p {
+    font-size: 16.5px !important;
+  }
+  .page [style*='text-transform: uppercase'] {
+    font-size: 14px !important;
+  }
+  .heroGrid {
+    padding-top: 36px !important;
+    padding-bottom: 48px !important;
+  }
+  .detailValue {
+    font-size: 16.5px !important;
+  }
+  .mapFrame {
+    height: 320px !important;
+  }
+  .mapPill {
+    font-size: 16px !important;
+    padding: 14px 18px !important;
+  }
+  .emergencyBand {
+    padding: 28px 22px !important;
+  }
+  .ctaRow {
+    gap: 12px !important;
+  }
+  .page .aerialTitle {
+    font-size: 26px !important;
+  }
+  .aerialTop {
+    padding: 20px 16px !important;
+  }
+  .aerialBottom {
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 24px !important;
+    gap: 14px !important;
+  }
+  .modalOverlay {
+    padding: 20px var(--page-pad) !important;
+  }
+  .modalPanel {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
+  .modalHeader {
+    padding: 20px 20px !important;
+  }
+  .modalBody {
+    padding: 22px 20px 26px !important;
+  }
+  .modalPhone {
+    font-size: 24px !important;
+  }
+}
+
+@media (max-width: 479px) {
+  .ctaRow {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .ctaRow > a {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .bandBtn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .helpline {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+}

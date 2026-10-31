@@ -187,7 +187,8 @@
       "Bash(cd \"C:\\\\Users\\\\guess\\\\Downloads\\\\mgrh-website \\(1\\)\\\\mgrh-website\" && node .tmp-anchor-check.mjs)",
       "Bash(cd \"C:\\\\Users\\\\guess\\\\Downloads\\\\mgrh-website \\(1\\)\\\\mgrh-website\" && npx tsc --noEmit)",
       "Bash(cd \"C:\\\\Users\\\\guess\\\\Downloads\\\\mgrh-website \\(1\\)\\\\mgrh-website\" && ls -1 .tmp-* 2>/dev/null)",
-      "Bash(cd \"C:\\\\Users\\\\guess\\\\Downloads\\\\mgrh-website \\(1\\)\\\\mgrh-website\" && rm -f .tmp-anchor-check.mjs .tmp-anchor-emergency.png .tmp-hdr-scrolled-contact.png .tmp-hdr-scrolled-emergency.png .tmp-hdr-scrolled-home.png .tmp-hdr-top-contact.png .tmp-hdr-top-emergency.png .tmp-hdr-top-home.png .tmp-header-measure.mjs .tmp-header-verify.mjs && ls -1 .tmp-* 2>/dev/null; echo \"cleanup done\")"
+      "Bash(cd \"C:\\\\Users\\\\guess\\\\Downloads\\\\mgrh-website \\(1\\)\\\\mgrh-website\" && rm -f .tmp-anchor-check.mjs .tmp-anchor-emergency.png .tmp-hdr-scrolled-contact.png .tmp-hdr-scrolled-emergency.png .tmp-hdr-scrolled-home.png .tmp-hdr-top-contact.png .tmp-hdr-top-emergency.png .tmp-hdr-top-home.png .tmp-header-measure.mjs .tmp-header-verify.mjs && ls -1 .tmp-* 2>/dev/null; echo \"cleanup done\")",
+      "*"
     ]
   }
 }

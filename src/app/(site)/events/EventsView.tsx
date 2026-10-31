@@ -92,7 +92,7 @@ export default function EventsView({ items }: { items: EventItem[] }) {
     : [];
 
   return (
-    <div>
+    <div className={styles.page}>
       {/* ===== HERO ===== */}
       <section style={{ position: 'relative', overflow: 'hidden' }}>
         <div
@@ -133,11 +133,11 @@ export default function EventsView({ items }: { items: EventItem[] }) {
             animation: 'mgBloom 18s ease-in-out infinite',
           }}
         />
-        <div style={{ position: 'relative', zIndex: 4, maxWidth: 1800, margin: '0 auto', padding: '52px 26px 84px' }}>
+        <div className={styles.heroInner} style={{ position: 'relative', zIndex: 4, maxWidth: 1800, margin: '0 auto', padding: '52px var(--page-pad) 84px' }}>
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(360px, 100%), 1fr))',
               gap: 56,
               alignItems: 'end',
             }}
@@ -219,7 +219,7 @@ export default function EventsView({ items }: { items: EventItem[] }) {
       </section>
 
       {/* ===== SECTION HEAD ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '34px 26px 0' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '34px var(--page-pad) 0' }}>
         <div
           style={{
             display: 'flex',
@@ -240,8 +240,8 @@ export default function EventsView({ items }: { items: EventItem[] }) {
       </section>
 
       {/* ===== FILTERS ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '22px 26px 0' }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '22px var(--page-pad) 0' }}>
+        <div className={styles.filterRow} style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {filters.map((label) => {
             const on = label === filter;
             return (
@@ -271,11 +271,11 @@ export default function EventsView({ items }: { items: EventItem[] }) {
       </section>
 
       {/* ===== EVENT CARDS ===== */}
-      <section id="events" style={{ maxWidth: 1800, margin: '0 auto', padding: '28px 26px 20px', scrollMarginTop: 52 }}>
+      <section id="events" style={{ maxWidth: 1800, margin: '0 auto', padding: '28px var(--page-pad) 20px', scrollMarginTop: 52 }}>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(360px, 100%), 1fr))',
             gap: 26,
             alignItems: 'start',
           }}
@@ -390,6 +390,7 @@ export default function EventsView({ items }: { items: EventItem[] }) {
       {activeEvent ? (
         <div
           onClick={() => setActiveId(null)}
+          className={styles.galleryOverlay}
           style={{
             position: 'fixed',
             inset: 0,
@@ -416,6 +417,7 @@ export default function EventsView({ items }: { items: EventItem[] }) {
             }}
           >
             <div
+              className={styles.galleryHead}
               style={{
                 display: 'flex',
                 alignItems: 'flex-start',
@@ -443,7 +445,7 @@ export default function EventsView({ items }: { items: EventItem[] }) {
                   </span>
                   <span style={{ fontSize: 18.5, fontWeight: 600, color: '#12564C' }}>{activeEvent.dateLong}</span>
                 </div>
-                <h3 style={{ fontWeight: 600, fontSize: 30, lineHeight: 1.24, margin: '0 0 8px', color: '#1F3A34' }}>
+                <h3 className={styles.galleryTitle} style={{ fontWeight: 600, fontSize: 30, lineHeight: 1.24, margin: '0 0 8px', color: '#1F3A34' }}>
                   {activeEvent.title}
                 </h3>
                 <p style={{ margin: 0, fontSize: 20.5, lineHeight: 1.6, color: '#4E5F5A', maxWidth: 660 }}>
@@ -474,8 +476,8 @@ export default function EventsView({ items }: { items: EventItem[] }) {
                 </svg>
               </button>
             </div>
-            <div style={{ padding: '26px 30px 32px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            <div className={styles.galleryBody} style={{ padding: '26px 30px 32px' }}>
+              <div className={styles.galleryGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
                 {activeShots.map((s) => (
                   <div key={s.id} style={{ gridColumn: s.span }}>
                     <div style={{ aspectRatio: s.ratio, overflow: 'hidden', borderRadius: 10, background: '#EEF3F1', position: 'relative' }}>
@@ -502,8 +504,9 @@ export default function EventsView({ items }: { items: EventItem[] }) {
       ) : null}
 
       {/* ===== HELP BAND ===== */}
-      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '46px 26px 70px' }}>
+      <section style={{ maxWidth: 1800, margin: '0 auto', padding: '46px var(--page-pad) 70px' }}>
         <div
+          className={styles.helpBand}
           style={{
             background: '#F1F8F6',
             border: '1px solid #E1F3EF',
@@ -525,6 +528,7 @@ export default function EventsView({ items }: { items: EventItem[] }) {
           </div>
           <a
             href="tel:+912168260247"
+            className={styles.helpBtn}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
