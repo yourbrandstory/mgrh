@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="69dd2650-f959-4eef-a3dc-f5dc55d0dfc8"></script>
+
+
+
+
+
+
+</head>
+<body>
+
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <style>/* latin-ext */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("b064f00e-9c05-47eb-8fe6-bacf2e9f2671") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("c5a612fe-4c84-4f75-bb04-3dc7200e2475") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("b064f00e-9c05-47eb-8fe6-bacf2e9f2671") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("c5a612fe-4c84-4f75-bb04-3dc7200e2475") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("b064f00e-9c05-47eb-8fe6-bacf2e9f2671") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("c5a612fe-4c84-4f75-bb04-3dc7200e2475") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("b064f00e-9c05-47eb-8fe6-bacf2e9f2671") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("c5a612fe-4c84-4f75-bb04-3dc7200e2475") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #0B6558; text-decoration: none; }
+    a:hover { color: #0B6558; }
+    ::selection { background: #CDEBE5; }
+    html { scroll-behavior: smooth; }
+    @keyframes mgDrift { 0% { transform: translate3d(0,0,0) scale(1.12); } 50% { transform: translate3d(-48px,12px,0) scale(1.18); } 100% { transform: translate3d(0,0,0) scale(1.12); } }
+    @keyframes mgBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.28; } }
+    @keyframes mgNudge { 0%, 72%, 100% { transform: translateX(0); } 80% { transform: translateX(5px); } 90% { transform: translateX(2px); } }
+    @keyframes mgHalo { 0%, 100% { box-shadow: 0 0 0 0 rgba(10,142,123,0.34); } 55% { box-shadow: 0 0 0 13px rgba(10,142,123,0); } }
+    @keyframes mgPop { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: none; } }
+    @keyframes mgVeil { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+  <script src="2e3669d0-c76e-491b-91fb-6f4af36e9376"></script>
+</helmet>
+
+<div style="font-family: 'DM Sans', sans-serif; color: #16413A; background: #ffffff;">
+
+  <!-- ===== TOP BAND ===== -->
+  <div style="background: #0B6558; color: #ffffff;">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 11px 26px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 16.5px; font-weight: 500;">
+      <span>Consultation, tests, medicines and hospital stay — free of charge, for everyone.</span>
+      <span style="display: inline-flex; align-items: center; gap: 22px; flex-wrap: wrap;">
+        <a href="Contact us page.dc.html" style="color: #C7EDE6;">Contact</a>
+        <a href="Support us page.dc.html" style="color: #C7EDE6;">Support us</a>
+        <a href="tel:+912168260247" style="color: #ffffff; font-weight: 700;">+91 21682 60247</a>
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header style="position: sticky; top: 0; z-index: 60; background: #ffffff; border-bottom: 1px solid #E0EDE9;">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 14px 26px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a href="#top" style="flex: none; display: block;"><img src="7fd57f42-cbbb-4339-8c18-5aa7e4a898ed" alt="Morarji Gokuldas Rural Hospital" style="height: 132px; width: auto; display: block;"></a>
+      <nav style="flex: 1; min-width: 0; display: flex; align-items: center; justify-content: flex-end; gap: 0;">
+        <div style="flex: 0 1 auto; min-width: 0; margin-left: auto; display: flex; align-items: center; justify-content: flex-start; gap: 0; overflow-x: auto; scrollbar-width: none;">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
+            <a href="{{ n.href }}" style="flex: none; font-weight: 500; font-size: 24px; padding: 9px 15px; border-radius: 6px; color: {{ n.color }}; white-space: nowrap;" style-hover="color: #0A8E7B;">{{ n.label }}</a>
+          </sc-for>
+        </div>
+        <a href="Emergency page.dc.html" style="flex: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 22px; margin-left: 14px; background: #E1332A; color: #fff; padding: 12px 20px; border-radius: 6px; white-space: nowrap;" style-hover="background: #C42A21; color: #fff;">
+          <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 7.5v6M12 16.6v.4"></path></svg>
+          Emergency
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section id="top" style="position: relative; overflow: hidden; background: #EAF6F3;">
+    <div style="position: absolute; inset: 0; overflow: hidden;">
+      <img src="bd382f2b-d679-48b0-bb45-aa7148634cb9" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 72% 64%; display: block;">
+    </div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(96deg, rgba(240,249,247,0.94) 0%, rgba(240,249,247,0.88) 40%, rgba(240,249,247,0.5) 52%, rgba(240,249,247,0) 64%);"></div>
+    <div style="position: absolute; left: 0; right: 0; bottom: -2px; height: 190px; background: #ffffff; border-top-left-radius: 100% 190px; border-top-right-radius: 0; transform: scaleX(1.06); transform-origin: left bottom;"></div>
+
+    <div style="position: relative; z-index: 3; max-width: 1800px; margin: 0 auto; padding: 74px 26px 118px;">
+     <div style="max-width: min(46%, 680px);">
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 16.5px; letter-spacing: 0.14em; font-weight: 500; text-transform: uppercase; color: #5A6A66; margin-bottom: 26px;">
+        <span>MGRH</span><span style="opacity: 0.5;">/</span><span style="color: #5A6A66;">Mahabaleshwar</span>
+      </div>
+      <h1 style="font-weight: 500; font-size: clamp(44px, 4.6vw, 74px); line-height: 0.98; margin: 0 0 26px; color: #0B4F45; letter-spacing: -0.035em; text-wrap: balance;">Quality healthcare, provided free of charge.</h1>
+      <p style="font-size: clamp(18px, 1.5vw, 24px); line-height: 1.5; color: #45605A; margin: 0 0 40px;">Comprehensive healthcare for the local and rural population and tourists, with consultations, diagnostic tests, medication and hospital stay provided free of charge under one roof.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 14px;">
+        <a href="Facilities (V1).dc.html" style="display: inline-flex; align-items: center; gap: 11px; background: #0A8E7B; color: #ffffff; font-weight: 700; font-size: 21px; padding: 17px 32px; border-radius: 999px;" style-hover="background: #0B7F73; color: #ffffff;">
+          Our departments
+          <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+        </a>
+        <a href="Doctors page.dc.html" style="display: inline-flex; align-items: center; gap: 11px; border: 1px solid #9FD0C7; background: rgba(255,255,255,0.7); color: #0B5F55; font-weight: 700; font-size: 21px; padding: 17px 32px; border-radius: 999px;" style-hover="border-color: #0A8E7B; color: #0A8E7B;">Find a doctor</a>
+      </div>
+     </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT THE HOSPITAL ===== -->
+  <section ref="{{ r0 }}" style="max-width: 1800px; margin: 0 auto; padding: 20px 26px 0; opacity: {{ o0 }}; transform: {{ t0 }}; transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.2,0.85,0.3,1);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(430px, 1fr)); gap: 62px; align-items: start;">
+      <div>
+        <div style="font-size: 16px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #0B7F73; margin-bottom: 16px;">About the hospital</div>
+        <h2 style="font-weight: 600; font-size: 42px; line-height: 1.08; letter-spacing: -0.028em; color: #0B4F45; margin: 0 0 22px; max-width: 720px; text-wrap: balance;">A legacy of healthcare since 1914.</h2>
+        <p style="margin: 0 0 20px; font-size: 21px; line-height: 1.62; color: #45605A; max-width: 740px;">Shri Moraji Gokuldas donated the building to the Central Government in 1914. Custody has passed through the Zilla Parishad, the municipal council and the Government of Maharashtra. In February 2019, a tripartite agreement was signed by the Health Ministry, the Government of Maharashtra, the Red Cross Society and Bel-Air.</p>
+        <p style="margin: 0 0 34px; font-size: 21px; line-height: 1.62; color: #45605A; max-width: 740px;">Medical investigations, treatment and operations, hospital stay and medicines are provided free of cost.</p>
+
+        <div style="position: relative; padding-left: 30px; margin-bottom: 36px; max-width: 700px;">
+          <div style="position: absolute; left: 5px; top: 10px; bottom: 10px; width: 2px; background: linear-gradient(#0A8E7B, #A8D6CC);"></div>
+          <sc-for list="{{ milestones }}" as="m" hint-placeholder-count="4">
+            <div style="position: relative; padding: 0 0 22px;">
+              <span style="position: absolute; left: -30px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: #ffffff; border: 3px solid #0A8E7B;"></span>
+              <div style="font-weight: 700; font-size: 17px; letter-spacing: 0.06em; color: #0B7F73; margin-bottom: 3px;">{{ m.year }}</div>
+              <div style="font-size: 19.5px; line-height: 1.5; color: #45605A;">{{ m.text }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <a href="About us page V2.dc.html" style="display: inline-flex; align-items: center; gap: 11px; background: #0A8E7B; color: #ffffff; font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;" style-hover="background: #0B7F73; color: #ffffff;">
+          Read our history
+          <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+        </a>
+      </div>
+
+      <div>
+        <div style="position: relative; max-width: 760px;">
+          <div style="border-top: 4px solid #E1332A; overflow: hidden; background: #EEF3F1; aspect-ratio: 4/3;">
+            <img src="bab25ef2-2055-42c1-a934-013a044d86f6" alt="The hospital building on Medha Road" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div style="position: absolute; right: -14px; bottom: -30px; background: #ffffff; border: 1px solid #DCEBE7; border-radius: 16px; padding: 22px 26px; box-shadow: 0 26px 52px -36px rgba(6,80,68,0.5); max-width: 300px;">
+            <div style="font-weight: 700; font-size: 34px; line-height: 1; letter-spacing: -0.026em; color: #0B4F45; margin-bottom: 7px;">112 years</div>
+            <div style="font-size: 17.5px; line-height: 1.48; color: #4E5F5A;">of healthcare in Mahabaleshwar</div>
+          </div>
+        </div>
+        <div style="margin: 46px 2px 0; font-size: 17px; color: #5A6A66; max-width: 760px;">The hospital on Mahabaleshwar - Medha Road</div>
+
+        <div style="margin-top: 30px; background: #E8F6F3; border: 1px solid #BEE3DB; border-radius: 16px; padding: 28px 30px; max-width: 760px;">
+          <div style="font-size: 15.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #0B6558; margin-bottom: 12px;">Our promise</div>
+          <p style="margin: 0; font-weight: 500; font-size: 22px; line-height: 1.46; color: #0B4F45;">Consultation, diagnostic tests, medication and hospital stay — all provided free of charge, under one roof.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== NUMBERS BAND ===== -->
+  <section style="position: relative; overflow: hidden; margin-top: 58px; background: #0B8574; box-shadow: inset 0 26px 52px -32px rgba(3,42,36,0.9), inset 0 -26px 52px -32px rgba(3,42,36,0.75);">
+    <div aria-hidden="true" style="position: absolute; inset: 0; background-image: url(&quot;b8e5f55c-6ce9-4314-bbc9-48713498a4c8&quot;); background-size: cover; background-position: center; opacity: 0.28;"></div>
+    <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(100deg, rgba(7,102,88,0.95) 0%, rgba(9,124,108,0.88) 46%, rgba(14,148,142,0.74) 78%, rgba(24,168,178,0.6) 100%);"></div>
+    <div style="position: relative; z-index: 2; max-width: 1800px; margin: 0 auto; padding: 58px 26px 62px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 44px;">
+        <sc-for list="{{ glance }}" as="g" hint-placeholder-count="4">
+          <div style="border-top: 3px solid rgba(255,255,255,0.46); padding-top: 20px;">
+            <div style="font-weight: 700; font-size: 46px; line-height: 1; letter-spacing: -0.026em; color: #ffffff; margin-bottom: 9px; text-shadow: 0 2px 16px rgba(3,42,36,0.4);">{{ g.value }}</div>
+            <div style="font-size: 18.5px; line-height: 1.5; color: #FFFFFF;">{{ g.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EMERGENCY + REACH ===== -->
+  <section ref="{{ r4 }}" style="max-width: 1800px; margin: 0 auto; padding: 80px 26px 0; opacity: {{ o4 }}; transform: {{ t4 }}; transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.2,0.85,0.3,1);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(430px, 1fr)); gap: 24px; align-items: stretch;">
+      <div style="background: #FDF1F0; border: 1px solid #F6D8D5; border-radius: 18px; padding: 42px 44px;">
+        <div style="display: inline-flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #9E2018; margin-bottom: 16px;">
+          <span style="width: 9px; height: 9px; border-radius: 50%; background: #E1332A; animation: mgBlink 1.5s ease-in-out infinite;"></span>
+          Emergency &amp; casualty
+        </div>
+        <h3 style="font-weight: 600; font-size: 35px; line-height: 1.12; letter-spacing: -0.024em; color: #9E2018; margin: 0 0 16px;">Emergency and Casualty Care.</h3>
+        <p style="margin: 0 0 30px; font-size: 20px; line-height: 1.6; color: #7C4741; max-width: 620px;">The Emergency and Casualty department provides essential facilities for effective and timely care. The hospital provides emergency care, intensive care and modern operation theatre facilities.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 14px;">
+          <a href="tel:+912168260247" style="display: inline-flex; align-items: center; gap: 10px; background: #E1332A; color: #fff; font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;" style-hover="background: #C42A21; color: #fff;">+91 21682 60247</a>
+          <a href="Emergency page.dc.html" style="display: inline-flex; align-items: center; gap: 10px; border: 1px solid #E9B3AF; color: #B4251E; font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;" style-hover="border-color: #E1332A; color: #E1332A;">What to expect</a>
+        </div>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #DCEBE7; border-radius: 18px; padding: 42px 44px;">
+        <div style="font-size: 16px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #0B7F73; margin-bottom: 16px;">Reach the hospital</div>
+        <h3 style="font-weight: 600; font-size: 35px; line-height: 1.12; letter-spacing: -0.024em; color: #12564C; margin: 0 0 22px;">Located on Mahabaleshwar-Medha Road.</h3>
+        <div style="display: flex; flex-direction: column; margin-bottom: 28px;">
+          <sc-for list="{{ reachRows }}" as="r" hint-placeholder-count="4">
+            <div style="display: grid; grid-template-columns: minmax(0, 140px) 1fr; gap: 20px; align-items: baseline; padding: 13px 0; border-bottom: 1px solid #EEF3F1;">
+              <span style="font-size: 15.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #0B7F73;">{{ r.label }}</span>
+              <span style="font-size: 19.5px; line-height: 1.5; color: #23423B;">{{ r.value }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 14px;">
+          <a href="Contact us page.dc.html" style="display: inline-flex; align-items: center; gap: 10px; background: #0A8E7B; color: #fff; font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;" style-hover="background: #0B7F73; color: #fff;">Contact &amp; directions</a>
+          <a href="https://wa.me/912168260247" style="display: inline-flex; align-items: center; gap: 10px; border: 1px solid #9FD0C7; color: #0B5F55; font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;" style-hover="border-color: #0A8E7B; color: #0A8E7B;">WhatsApp us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FACILITIES ===== -->
+  <section ref="{{ r1 }}" style="margin-top: 82px; background: #EAF5F2; border-top: 1px solid #DCEBE7; border-bottom: 1px solid #DCEBE7; padding: 64px 0; opacity: {{ o1 }}; transform: {{ t1 }}; transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.2,0.85,0.3,1);">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 0 26px;">
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 14px; flex-wrap: wrap;">
+        <span style="width: 30px; height: 4px; border-radius: 2px; background: #0A8E7B; flex: none;"></span>
+        <h2 style="font-weight: 500; font-size: 36px; margin: 0; color: #1F3A34;">Our <span style="font-weight: 700;">facilities</span></h2>
+        <span style="font-size: 18px; font-weight: 600; color: #5A6A66;">14 departments</span>
+      </div>
+      <p style="margin: 0 0 34px; font-size: 21px; line-height: 1.6; color: #45605A; max-width: 900px;">The hospital provides OPD, Emergency and Casualty, ICU, operation theatres, diagnostics, maternity care, wards, pharmacy and other essential facilities on one campus.</p>
+
+      <div style="display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 6px; margin-bottom: 34px;">
+        <sc-for list="{{ centres }}" as="c" hint-placeholder-count="3">
+          <a href="Facilities (V1).dc.html" style="flex: none; width: 400px; max-width: 82vw; scroll-snap-align: start; display: block; background: #ffffff; border: 1px solid #E0EDE9; border-radius: 16px; overflow: hidden; color: #16413A; transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;" style-hover="transform: translateY(-5px); box-shadow: 0 30px 56px -42px rgba(6,80,68,0.5); border-color: #A8D6CC; color: #16413A;">
+            <div role="img" aria-label="{{ c.name }}" style="aspect-ratio: 16/10; background-color: #EEF3F1; background-image: {{ c.bg }}; background-size: cover; background-position: center;"></div>
+            <div style="padding: 22px 24px 24px; display: flex; align-items: baseline; justify-content: space-between; gap: 14px;">
+              <span style="font-weight: 600; font-size: 21px; line-height: 1.26; color: #0B4F45;">{{ c.name }}</span>
+              <span style="flex: none; font-size: 15.5px; font-weight: 600; color: #5A6A66;">{{ c.count }}</span>
+            </div>
+          </a>
+        </sc-for>
+        <a href="Facilities (V1).dc.html" style="flex: none; width: 300px; max-width: 82vw; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; gap: 14px; background: #E8F6F3; border: 1px solid #BEE3DB; border-radius: 16px; padding: 30px 32px; color: #0B4F45;" style-hover="border-color: #0A8E7B; color: #0B4F45;">
+          <span style="font-weight: 600; font-size: 23px; line-height: 1.24;">Eleven more departments</span>
+          <span style="font-size: 17.5px; line-height: 1.5; color: #4E5F5A;">Theatres, maternity, dental, diagnostics and the wards — all photographed.</span>
+          <span style="display: inline-flex; align-items: center; gap: 9px; font-size: 19px; font-weight: 700; color: #0A8E7B;">
+            Read more
+            <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+          </span>
+        </a>
+      </div>
+
+      <div style="background: #ffffff; border: 1px solid #DCEBE7; border-radius: 18px; padding: 38px 42px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+        <div style="max-width: 780px;">
+          <h3 style="font-weight: 600; font-size: 28px; line-height: 1.2; margin: 0 0 10px; color: #0B4F45;">See the ward you will be treated in.</h3>
+          <p style="margin: 0; font-size: 19.5px; line-height: 1.58; color: #4E5F5A;">Every department is photographed — theatres, ICU, maternity, the pathology bench and the wards — so you know what to expect before you arrive.</p>
+        </div>
+        <a href="Facilities (V1).dc.html" style="display: inline-flex; align-items: center; gap: 11px; background: #0A8E7B; color: #ffffff; font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px; white-space: nowrap;" style-hover="background: #0B7F73; color: #ffffff;">
+          View all facilities
+          <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROGRAMMES ===== -->
+  <section ref="{{ r2 }}" style="margin-top: 82px; background: #F4FAF8; border-top: 1px solid #E2EFEB; border-bottom: 1px solid #E2EFEB; padding: 64px 0; opacity: {{ o2 }}; transform: {{ t2 }}; transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.2,0.85,0.3,1);">
+   <div style="max-width: 1800px; margin: 0 auto; padding: 0 26px;">
+    <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 14px; flex-wrap: wrap;">
+      <span style="width: 30px; height: 4px; border-radius: 2px; background: #0A8E7B; flex: none;"></span>
+      <h2 style="font-weight: 500; font-size: 36px; margin: 0; color: #1F3A34;">Our <span style="font-weight: 700;">programmes</span></h2>
+      <span style="font-size: 18px; font-weight: 600; color: #5A6A66;">12 running</span>
+    </div>
+    <p style="margin: 0 0 34px; font-size: 21px; line-height: 1.6; color: #45605A; max-width: 900px;">Work that does not wait for a patient to walk in — national control programmes, school clinics and screening camps that go out into the villages.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; align-items: stretch;">
+      <sc-for list="{{ programmes }}" as="p" hint-placeholder-count="4">
+        <div sc-camel-on-click="{{ p.open }}" role="button" tabindex="0" style="display: flex; flex-direction: column; height: 100%; background: #ffffff; border: 1px solid #E0EDE9; border-radius: 16px; padding: 28px 30px 30px; color: #16413A; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;" style-hover="transform: translateY(-5px); box-shadow: 0 30px 58px -42px rgba(6,80,68,0.5); border-color: #A8D6CC;" style-focus="outline: 3px solid #A8DED4; outline-offset: 2px;">
+          <div style="width: 50px; height: 50px; border-radius: 12px; background: #E1F3EF; display: flex; align-items: center; justify-content: center; margin-bottom: 18px;">{{ p.icon }}</div>
+          <div style="font-weight: 600; font-size: 21.5px; line-height: 1.26; color: #0B4F45; margin-bottom: 7px;">{{ p.name }}</div>
+          <div style="font-size: 17.5px; line-height: 1.5; color: #5A6A66; margin-bottom: 16px;">{{ p.desc }}</div>
+          <div style="aspect-ratio: 16/10; border-radius: 10px; overflow: hidden; background: #EEF3F1; margin: auto 0 16px;">
+            <image-slot id="{{ p.slot }}" shape="rect" fit="cover" placeholder="{{ p.name }}"></image-slot>
+          </div>
+          <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 700; color: #0B6558;">
+            View photos
+            <svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 16l5-5 4 4 3-3 6 6"></path></svg>
+          </span>
+        </div>
+      </sc-for>
+    </div>
+    <a href="Programmes page.dc.html" style="display: inline-flex; align-items: center; gap: 10px; margin-top: 32px; background: #0A8E7B; border: 1px solid #0A8E7B; color: #ffffff; font-weight: 700; font-size: 19px; padding: 15px 28px; border-radius: 999px; animation: mgHalo 2.6s ease-out infinite;" style-hover="background: #0B6558; border-color: #0B6558; color: #ffffff;">
+      Read more
+      <span style="display: inline-flex; animation: mgNudge 2.6s ease-in-out infinite;">
+        <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+      </span>
+    </a>
+   </div>
+  </section>
+
+  <!-- ===== EVENTS ===== -->
+  <section ref="{{ r3 }}" style="margin-top: 80px; background: #108C89; color: #ffffff; opacity: {{ o3 }}; transform: {{ t3 }}; transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.2,0.85,0.3,1);">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 62px 26px; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 56px; align-items: center;">
+      <div>
+        <div style="font-size: 19px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #FFFFFF; margin-bottom: 16px;">Camps &amp; events</div>
+        <h2 style="font-weight: 600; font-size: 40px; line-height: 1.1; letter-spacing: -0.026em; margin: 0 0 20px; color: #ffffff; max-width: 640px; text-wrap: balance;">Check out our upcoming events.</h2>
+        <p style="margin: 0 0 32px; font-size: 24px; line-height: 1.55; color: #FFFFFF; max-width: 660px;">Blood donation drives, eye and cancer screening camps, school health clinics and immunisation rounds — held on campus and out in the villages, free to attend.</p>
+        <a href="Event page.dc.html" style="display: inline-flex; align-items: center; gap: 11px; background: #ffffff; color: #0B6558; font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;">
+          See the calendar
+          <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+        </a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <sc-for list="{{ events }}" as="e" hint-placeholder-count="3">
+          <a href="Event page.dc.html" style="display: grid; grid-template-columns: 86px 1fr; gap: 20px; align-items: center; background: rgba(0,0,0,0.16); border: 1px solid rgba(255,255,255,0.24); border-radius: 14px; padding: 18px 22px; color: #ffffff; transition: background 0.25s ease;" style-hover="background: rgba(255,255,255,0.2); color: #ffffff;">
+            <div style="text-align: center; background: rgba(255,255,255,0.94); border-radius: 10px; padding: 9px 6px;">
+              <div style="font-weight: 700; font-size: 24px; line-height: 1; color: #0B4F45;">{{ e.day }}</div>
+              <div style="font-weight: 600; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #C42A21; margin-top: 4px;">{{ e.month }}</div>
+            </div>
+            <div>
+              <div style="font-weight: 600; font-size: 21px; line-height: 1.26; margin-bottom: 5px;">{{ e.title }}</div>
+              <div style="font-size: 19px; font-weight: 700; color: #FFFFFF;">{{ e.venue }}</div>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SUPPORT US ===== -->
+  <section style="margin-top: 82px; background: #EAF5F2; border-top: 1px solid #DCEBE7; padding: 64px 0 72px;">
+   <div style="max-width: 1800px; margin: 0 auto; padding: 0 26px;">
+    <div style="display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid #D6E7E2; padding-bottom: 16px; margin-bottom: 26px; flex-wrap: wrap;">
+      <span style="width: 30px; height: 4px; border-radius: 2px; background: #0A8E7B; flex: none;"></span>
+      <h2 style="font-weight: 500; font-size: 34px; margin: 0; color: #1F3A34;">Support <span style="font-weight: 700;">us</span></h2>
+      <a href="Support us page.dc.html" style="margin-left: auto; font-size: 18.5px; font-weight: 700; color: #0B6558;">Ways to help →</a>
+    </div>
+    <p style="margin: 0 0 32px; font-size: 21px; line-height: 1.6; color: #45605A; max-width: 1000px;">You can support the hospital through donations, volunteering and essential equipment.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px;">
+      <sc-for list="{{ support }}" as="sp" hint-placeholder-count="3">
+        <a href="Support us page.dc.html" style="display: block; background: #ffffff; border: 1px solid #E0EDE9; border-left: 6px solid {{ sp.accent }}; border-radius: 16px; padding: 30px 32px 32px; color: #16413A; transition: box-shadow 0.3s ease, transform 0.3s ease;" style-hover="box-shadow: 0 30px 58px -40px rgba(6,80,68,0.5); transform: translateY(-4px); color: #16413A;">
+          <h3 style="font-weight: 600; font-size: 24px; line-height: 1.22; margin: 0 0 10px; color: #0B4F45;">{{ sp.title }}</h3>
+          <p style="margin: 0 0 18px; font-size: 18.5px; line-height: 1.56; color: #4E5F5A;">{{ sp.desc }}</p>
+          <span style="display: inline-flex; align-items: center; gap: 9px; font-size: 18px; font-weight: 700; color: #0B6558;">
+            {{ sp.cta }}
+            <svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+          </span>
+        </a>
+      </sc-for>
+    </div>
+   </div>
+  </section>
+
+  <!-- ===== PROGRAMME GALLERY ===== -->
+  <sc-if value="{{ galleryOpen }}" hint-placeholder-val="{{ false }}">
+    <div sc-camel-on-click="{{ closeGallery }}" style="position: fixed; inset: 0; z-index: 140; background: rgba(9,45,40,0.62); backdrop-filter: blur(3px); display: flex; align-items: flex-start; justify-content: center; padding: 46px 26px; overflow-y: auto; animation: mgVeil 0.24s ease;">
+      <div sc-camel-on-click="{{ stop }}" style="width: 100%; max-width: 1040px; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 44px 92px -32px rgba(6,50,44,0.6); animation: mgPop 0.34s cubic-bezier(0.2,0.85,0.3,1);">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding: 28px 32px 24px; border-bottom: 1px solid #EEF3F1;">
+          <div>
+            <div style="font-size: 15px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #0B6558; margin-bottom: 9px;">Programme</div>
+            <h3 style="font-weight: 600; font-size: 28px; line-height: 1.22; margin: 0 0 8px; color: #0B4F45;">{{ active.name }}</h3>
+            <p style="margin: 0; font-size: 18.5px; line-height: 1.56; color: #4E5F5A; max-width: 660px;">{{ active.desc }}</p>
+          </div>
+          <button type="button" sc-camel-on-click="{{ closeGallery }}" aria-label="Close" style="flex: none; width: 42px; height: 42px; border-radius: 50%; border: 1px solid #E0EDE9; background: #ffffff; cursor: pointer; display: flex; align-items: center; justify-content: center;" style-hover="background: #FDF1F0; border-color: #F6BDB8;">
+            <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#E1332A" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+          </button>
+        </div>
+        <div style="padding: 26px 32px 32px;">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+            <sc-for list="{{ activeShots }}" as="sh" hint-placeholder-count="5">
+              <div style="grid-column: {{ sh.span }};">
+                <div style="aspect-ratio: {{ sh.ratio }}; overflow: hidden; border-radius: 10px; background: #EEF3F1;">
+                  <image-slot id="{{ sh.id }}" shape="rect" fit="cover" placeholder="{{ sh.label }}"></image-slot>
+                </div>
+                <div style="margin: 8px 2px 0; font-size: 14px; color: #5A6A66;">{{ sh.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <a href="Programmes page.dc.html" style="display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; background: #0A8E7B; color: #ffffff; font-weight: 700; font-size: 18px; padding: 14px 26px; border-radius: 999px;" style-hover="background: #0B6558; color: #ffffff;">Open the programmes page</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== FOOTER ===== -->
+  <footer style="position: relative; background: #10908C; color: #DCEDEA;">
+    <svg aria-hidden="true" sc-camel-view-box="0 0 1000 190" sc-camel-preserve-aspect-ratio="none" style="position: absolute; top: -1px; left: 0; width: 100%; height: 191px; display: block; z-index: 1;"><path d="M0 0h1000v190H0z" fill="#EAF5F2"></path><path d="M0 26C300 -18 700 122 1000 178V191H0Z" fill="#10908C"></path></svg>
+    <div style="position: relative; z-index: 2; max-width: 1800px; margin: 0 auto; padding: 168px 26px 0;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.26); border-radius: 16px; padding: 22px 28px; margin-bottom: 52px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="width: 12px; height: 12px; border-radius: 50%; background: #ffffff; box-shadow: 0 0 0 5px rgba(225,51,42,0.5); flex: none;"></span>
+          <div>
+            <div style="font-weight: 700; font-size: 23px; color: #ffffff;">In an emergency, come straight in.</div>
+            <div style="font-size: 18px; color: #DCEDEA; margin-top: 3px;">Casualty is open 24 hours, every day. No appointment needed.</div>
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <a href="tel:+912168260247" style="display: inline-flex; align-items: center; gap: 10px; background: #E1332A; color: #ffffff; font-weight: 700; font-size: 19px; padding: 13px 24px; border-radius: 999px;" style-hover="background: #C42A21; color: #ffffff;"><svg width="19" height="19" sc-camel-view-box="0 0 24 24" fill="#ffffff" style="flex: none;"><path d="M6.6 2.2c.5-.1 1 .2 1.1.7l1.1 4.6c.1.4-.1.9-.5 1.1L6.4 9.8a13.5 13.5 0 0 0 7.8 7.8l1.2-1.9c.2-.4.7-.6 1.1-.5l4.6 1.1c.5.1.8.6.7 1.1-.5 2.6-2.8 4.4-5.4 4.3C9.1 21.3 2.7 14.9 2.3 7.6 2.2 5 4 2.7 6.6 2.2Z"></path></svg>+91 21682 60247</a>
+          <a href="Emergency page updated version.dc.html" style="display: inline-flex; align-items: center; gap: 10px; background: #ffffff; color: #0E7D6B; font-weight: 700; font-size: 19px; padding: 13px 24px; border-radius: 999px;">Emergency information</a>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 44px; padding-bottom: 44px;">
+        <div>
+          <div style="font-weight: 700; font-size: 26px; line-height: 1.25; color: #ffffff; margin-bottom: 12px;">Morarji Gokuldas Rural Hospital</div>
+          <p style="margin: 0 0 18px; font-size: 18.5px; line-height: 1.6; color: #EAF7F4; max-width: 420px;">A 30-bed government rural hospital in Mahabaleshwar, serving the town, nearby villages and visitors since 1914.</p>
+          <p style="margin: 0; font-size: 18.5px; line-height: 1.6; color: #EAF7F4;">All consultations, tests, medicines and stays are free of charge.</p>
+        </div>
+        <div>
+          <div style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: #C7EDE6; margin-bottom: 16px;">Find us</div>
+          <div style="font-size: 18.5px; line-height: 1.6; color: #EAF7F4; margin-bottom: 14px;">Mahabaleshwar – Medha Road<br>District Satara – 412 806<br>Maharashtra, India</div>
+          <a href="Contact us page updated version.dc.html" style="font-size: 18px; font-weight: 600; color: #ffffff; text-decoration: underline; text-underline-offset: 4px;">Get directions</a>
+        </div>
+        <div>
+          <div style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: #C7EDE6; margin-bottom: 16px;">Opening hours</div>
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 18.5px; line-height: 1.5; color: #EAF7F4;">
+            <div><span style="font-weight: 600; color: #ffffff;">OPD</span><br>09:00 am – 01:00 pm<br>04:00 pm – 06:00 pm</div>
+            <div><span style="font-weight: 600; color: #ffffff;">Casualty</span><br>Open 24 hours</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: #C7EDE6; margin-bottom: 16px;">Explore</div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="Facilities (V1) update version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Facilities</a>
+            <a href="Doctors page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Doctors</a>
+            <a href="Programmes page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Programmes</a>
+            <a href="Event page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Camps &amp; Events</a>
+            <a href="Support us page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Support Us</a>
+            <a href="Contact us page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.3); padding: 20px 0 26px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 17px; color: #D3EDE8;">
+        <span>© 2026 Morarji Gokuldas Rural Hospital, Mahabaleshwar</span>
+        <a href="mailto:info@mgrh-mahabaleshwar.org" style="color: #D3EDE8;" style-hover="color: #ffffff;">info@mgrh-mahabaleshwar.org</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1800}}">
+class Component extends DCLogic {
+  state = { activeProg: null, seen: { 0: true, 1: true, 2: true, 3: true, 4: true } };
+  refs5 = [0,1,2,3,4].map(() => React.createRef());
+
+  componentDidMount() {
+    this.arm();
+    this._onKey = e => { if (e.key === 'Escape') this.setState({ activeProg: null }); };
+    window.addEventListener('keydown', this._onKey);
+  }
+  componentDidUpdate() { if (!this._armed) this.arm(); }
+
+  arm() {
+    if (this._armed || typeof IntersectionObserver === 'undefined') return;
+    const els = this.refs5.map(r => r.current);
+    if (els.some(e => !e)) return;
+    this._armed = true;
+
+    const h = document.documentElement.clientHeight || 800;
+    const seen = {};
+    els.forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      seen[i] = r.top < h * 0.9 && r.bottom > 0;
+      el.setAttribute('data-sec', String(i));
+    });
+    this.setState({ seen });
+
+    this._io = new IntersectionObserver(entries => {
+      let next = null;
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const k = e.target.getAttribute('data-sec');
+        if (k && !this.state.seen[k]) { next = next || {}; next[k] = true; }
+        this._io.unobserve(e.target);
+      });
+      if (next) this.setState(s => ({ seen: { ...s.seen, ...next } }));
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+    els.forEach(el => this._io.observe(el));
+
+    this._scrolled = false;
+    this._onScroll = () => { this._scrolled = true; };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._safety = setTimeout(() => {
+      if (this._scrolled) return;
+      const all = {};
+      this.refs5.forEach((r, i) => { all[i] = true; });
+      this.setState(st => ({ seen: { ...st.seen, ...all } }));
+    }, 1800);
+  }
+
+  componentWillUnmount() {
+    if (this._io) this._io.disconnect();
+    clearTimeout(this._safety);
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('keydown', this._onKey);
+  }
+
+  renderVals() {
+    const seen = this.state.seen;
+    const ce = React.createElement;
+    const fIcon = (stroke, paths) => ce('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'none', stroke, strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flex: 'none', marginTop: '2px' } },
+      paths.map((d, i) => ce('path', { key: i, d })));
+    const plain = arr => arr.map(t => ({ text: t, color: '#ffffff', hasIcon: false, icon: null }));
+    const icon = paths => ce('svg', { width: 25, height: 25, viewBox: '0 0 24 24', fill: 'none', stroke: '#0A5F52', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round' },
+      paths.map((d, i) => ce('path', { key: i, d })));
+
+    const R = (typeof window !== 'undefined' && window.__resources) || {};
+    const asset = (id, path) => R[id] || path;
+    const centreData = [
+      { name: 'Casualty & Critical Care', count: '3 units', img: asset('cBuilding', 'assets/contact-building.png'),
+        desc: 'The door that never closes. Triage, resuscitation and an intensive care unit with monitored beds, ventilator support and a resident officer through the night.',
+        units: ['Casualty ward', 'Intensive Care Unit', 'Ambulance service'] },
+      { name: 'Operation Theatres', count: '2 theatres', img: asset('cOt', 'assets/photo-ot-banner.png'),
+        desc: 'A major theatre for abdominal, orthopaedic and obstetric surgery, and a minor theatre for procedures that need sterile conditions but not a full list.',
+        units: ['Major OT', 'Minor OT', 'Post-operative recovery'] },
+      { name: 'Maternity & Newborn', count: '4 units', img: asset('cIcu', 'assets/photo-icu-bed.png'),
+        desc: 'Antenatal visits through every trimester, supervised deliveries with round-the-clock nursing cover, and postnatal care for mother and baby before discharge.',
+        units: ['Labour room', 'Antenatal clinic', 'Postnatal ward', 'Immunisation'] },
+      { name: 'Diagnostics & Imaging', count: '5 units', img: asset('cPath', 'assets/photo-pathology.png'),
+        desc: 'Blood work, X-ray, sonography and 2D echo on the same campus, so the doctor who ordered a test reads the result the same visit rather than the next week.',
+        units: ['Pathology Lab', 'X-ray', 'Sonography', '2D Echo', 'ECG'] },
+      { name: 'Outpatient & Dental', count: '3 units', img: asset('cCorridor', 'assets/photo-corridor.png'),
+        desc: 'General consultation from nine to five, visiting specialist clinics on fixed days, and a dental chair for extractions, fillings and oral cancer screening.',
+        units: ['General OPD', 'Specialist clinics', 'Dental'] },
+      { name: 'Wards & Support', count: '4 units', img: asset('cWard', 'assets/about-after-2.png'),
+        desc: 'Separate male and female wards, a paediatric corner, and the pharmacy, linen and kitchen that keep an inpatient stay running — without a bill at the end.',
+        units: ['Male ward', 'Female ward', 'Paediatric beds', 'Pharmacy'] },
+    ];
+
+    const progData = [
+        { name: 'Mother and Child Health', desc: 'Mother and Child Health Clinic services are provided as part of the hospital’s community health programmes.',
+          icon: icon(['M12 20s-7-4.4-7-9.2A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.8C19 15.6 12 20 12 20Z']) },
+        { name: 'National Control Programmes', desc: 'Tuberculosis, leprosy and non-communicable disease care under the national schemes.',
+          icon: icon(['M4 20.5V9.4l8-5 8 5v11.1', 'M2.5 20.5h19', 'M12 10.4v5.2M9.4 13h5.2']) },
+        { name: 'Screening Camps', desc: 'The hospital conducts screening programmes for cancer as part of its community health initiatives.',
+          icon: icon(['M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z', 'M16.2 16.2 21 21']) },
+        { name: 'School Health Clinics', desc: 'The hospital conducts School Health Clinics as part of its community health programmes.',
+          icon: icon(['M3.5 9 12 5l8.5 4-8.5 4L3.5 9Z', 'M7 11v4.5c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V11']) },
+    ];
+
+    const ai = this.state.activeProg;
+    const activeProg = (ai === null || ai === undefined) ? null : progData[ai];
+    const RH = ['3/2', '4/3', '3/2', '4/3'];
+    const shots = activeProg
+      ? ['General view', 'Clinic in progress', 'Staff and health workers', 'Records and follow-up', 'Out in the villages'].map((label, n) => ({
+          id: 'pg-home-' + ai + '-' + (n + 1),
+          label,
+          ratio: n === 0 ? '16/9' : RH[n % RH.length],
+          span: n === 0 ? 'span 2' : 'auto',
+        }))
+      : [];
+
+    return {
+      r0: this.refs5[0], o0: seen[0] ? 1 : 0, t0: seen[0] ? 'none' : 'translateY(26px)',
+      r1: this.refs5[1], o1: seen[1] ? 1 : 0, t1: seen[1] ? 'none' : 'translateY(26px)',
+      r2: this.refs5[2], o2: seen[2] ? 1 : 0, t2: seen[2] ? 'none' : 'translateY(26px)',
+      r3: this.refs5[3], o3: seen[3] ? 1 : 0, t3: seen[3] ? 'none' : 'translateY(26px)',
+      r4: this.refs5[4], o4: seen[4] ? 1 : 0, t4: seen[4] ? 'none' : 'translateY(26px)',
+
+      milestones: [
+        { year: '1914', text: 'Shri Moraji Gokuldas donates the hospital building to the Central Government.' },
+        { year: '1962', text: 'Handed to the Zilla Parishad, Satara, running as a primary health centre.' },
+        { year: '1988', text: 'Transferred to the Government of Maharashtra on 1st February.' },
+        { year: '2019', text: 'Tripartite agreement with the Indian Red Cross Society and Bel-Air, Panchgani.' },
+      ],
+      glance: [
+        { value: '1914', label: 'The year the hospital was donated' },
+        { value: '14', label: 'Departments on a single campus' },
+        { value: '24 hrs', label: 'Casualty, every day of the year' },
+        { value: '₹0', label: 'Charged — consultation to discharge' },
+      ],
+      centres: centreData.slice(0, 3).map(c => ({ name: c.name, count: c.count, bg: 'url("' + c.img + '")' })),
+
+      programmes: progData.map((p, i) => ({
+        name: p.name, desc: p.desc, icon: p.icon,
+        slot: 'pg-home-card-' + i,
+        open: () => this.setState({ activeProg: i }),
+      })),
+      galleryOpen: !!activeProg,
+      active: activeProg || {},
+      activeShots: shots,
+      closeGallery: () => this.setState({ activeProg: null }),
+      stop: ev => ev.stopPropagation(),
+
+      events: [
+        { day: '12', month: 'Jul', title: 'Voluntary Blood Donation Camp', venue: 'Hospital campus, Mahabaleshwar' },
+        { day: '21', month: 'Jun', title: 'Free Eye Screening & Cataract Camp', venue: 'OPD block, Mahabaleshwar' },
+        { day: '08', month: 'May', title: 'School Health Check-up Drive', venue: 'Zilla Parishad School, Metgutad' },
+      ],
+      support: [
+        { title: 'Volunteer with us', desc: 'Camp support, patient guidance at the OPD counter, or clinical volunteering for qualified staff and students.', cta: 'See the roles', accent: '#2BB2C4' },
+        { title: 'Not sure how you can help?', desc: 'Call the office and ask what is needed this month — equipment, a few hours, or a camp to host.', cta: 'Talk to the office', accent: '#E1332A' },
+        { title: 'Make a donation', desc: 'Your support can help the hospital continue providing essential healthcare services free of charge.', cta: 'How to give', accent: '#0A8E7B' },
+      ],
+      reachRows: [
+        { label: 'Address', value: 'Mahabaleshwar - Medha Road, District - Satara – 412 806, Maharashtra' },
+        { label: 'Telephone', value: '+91 21682 60247' },
+        { label: 'Email', value: 'info@mgrh-mahabaleshwar.org' },
+        { label: 'OPD hours', value: '09:00 am – 01:00 pm and 04:00 pm – 06:00 pm' },
+      ],
+      nav: [
+        { label: 'Home', color: '#0A8E7B', href: '#top' },
+        { label: 'About Us', color: '#35514B', href: 'About us page V2.dc.html' },
+        { label: 'Facilities', color: '#35514B', href: 'Facilities (V1).dc.html' },
+        { label: 'Doctors', color: '#35514B', href: 'Doctors page.dc.html' },
+        { label: 'Programmes', color: '#35514B', href: 'Programmes page.dc.html' },
+        { label: 'Events', color: '#35514B', href: 'Event page.dc.html' },
+        { label: 'Support Us', color: '#35514B', href: 'Support us page.dc.html' },
+        { label: 'Contact', color: '#35514B', href: 'Contact us page.dc.html' },
+      ],
+      footCols: [
+        { head: 'Quick links', items: plain(['About Us', 'Facilities', 'Doctors', 'Programmes', 'Camps & Events', 'Support Us', 'Contact']).concat([
+          { text: 'Emergency', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M12 2.6 22 20.4H2Z', 'M12 9.6v4.4M12 16.6v.4']) },
+        ]) },
+        { head: 'Our facilities', items: plain(['Casualty Ward — 24 hours', 'Intensive Care Unit', 'Operation Theatres', 'Maternity & Labour Room', 'Pathology Lab', 'X-ray & Sonography', 'Dental', 'Pharmacy']) },
+        { head: 'Visit us', items: plain(['Morarji Gokuldas Rural Hospital', 'Mahabaleshwar - Medha Road', 'District - Satara – 412 806', 'Maharashtra, India', 'OPD 09:00 am – 01:00 pm, 04:00 pm – 06:00 pm', 'Casualty open 24 hours']) },
+        { head: 'Contact', items: [
+          { text: 'Hospital: +91 21682 60247', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1Z']) },
+          { text: 'Emergency: +91 21682 60247', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1Z']) },
+          { text: 'National ambulance: 108', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M3 16.5h14v-8H3z', 'M17 11h2.6l1.4 3v2.5H17z', 'M7 19a1.6 1.6 0 1 0 0-3.2A1.6 1.6 0 0 0 7 19ZM18 19a1.6 1.6 0 1 0 0-3.2 1.6 1.6 0 0 0 0 3.2Z', 'M10 10.6v3.4M8.3 12.3h3.4']) },
+          { text: 'info@mgrh-mahabaleshwar.org', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M3 6.5h18v11H3z', 'M3.6 7.2 12 13l8.4-5.8']) },
+          { text: 'msmshwar@gmail.com', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M3 6.5h18v11H3z', 'M3.6 7.2 12 13l8.4-5.8']) },
+        ] },
+      ],
+    };
+  }
+}
+</script>
+
+
+</body></html>

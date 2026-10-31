@@ -6,8 +6,14 @@
   html {
     scroll-behavior: smooth;
   }
-  body {
+  :root {
+  --font-dm-sans: 'DM Sans';
+}
+
+body {
     @apply bg-white font-sans text-ink antialiased;
+    /* the designs leave line-height at the browser default */
+    line-height: normal;
   }
   a {
     @apply text-primary-dark no-underline;
@@ -70,6 +76,19 @@
   border-radius: 999px;
 }
 
+/* Page-hero slow drift (matches the approved About Us hero) */
+@keyframes mgPan {
+  0% {
+    transform: scale(1.1) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.16) translate3d(-24px, -10px, 0);
+  }
+  100% {
+    transform: scale(1.1) translate3d(0, 0, 0);
+  }
+}
+
 @keyframes cmsSpin {
   to {
     transform: rotate(360deg);
@@ -127,3 +146,110 @@
     animation: none !important;
   }
 }
+
+/* ---------- Home page keyframes (pixel-perfect port) ---------- */
+@keyframes mgDrift {
+  0% { transform: scale(1.12); }
+  50% { transform: translate3d(-48px, 12px, 0) scale(1.18); }
+  100% { transform: scale(1.12); }
+}
+@keyframes mgBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+@keyframes mgBlinkHome {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.28; }
+}
+@keyframes mgNudge {
+  0%, 72%, 100% { transform: translateX(0); }
+  80% { transform: translateX(5px); }
+  90% { transform: translateX(2px); }
+}
+@keyframes mgHalo {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(10, 142, 123, 0.34); }
+  55% { box-shadow: 0 0 0 13px rgba(10, 142, 123, 0); }
+}
+@keyframes mgPop {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mgVeil {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---------- About page keyframes (pixel-perfect port) ---------- */
+@keyframes mgDrift {
+  0% { transform: translate3d(0, 0, 0) scale(1.2); }
+  25% { transform: translate3d(-78px, -26px, 0) scale(1.26); }
+  50% { transform: translate3d(-104px, 18px, 0) scale(1.2); }
+  75% { transform: translate3d(-42px, 38px, 0) scale(1.26); }
+  100% { transform: translate3d(0, 0, 0) scale(1.2); }
+}
+@keyframes mgBloom {
+  0%, 100% { opacity: 0.5; transform: translate3d(0, 0, 0) scale(1); }
+  50% { opacity: 0.85; transform: translate3d(20px, 12px, 0) scale(1.12); }
+}
+
+/* About page hover states (structure stays inline styles; :hover via CSS) */
+.about-card:hover { transform: translateY(-6px); box-shadow: 0 30px 58px -38px rgba(6,110,96,0.55); border-color: #A8D6CC; }
+.about-vision:hover { box-shadow: 0 26px 54px -34px rgba(6,120,100,0.6); }
+.about-mission:hover { box-shadow: 0 26px 54px -34px rgba(20,120,140,0.6); }
+.about-fab-btn:hover { background: #C42A21; }
+.about-fab-link:hover { background: #F1F8F6; color: #06A88C; }
+
+/* ---------- Events page keyframes (pixel-perfect port) ---------- */
+@keyframes mgCardIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mgFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mgPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.35; }
+}
+@keyframes mgSheen {
+  0% { transform: translateX(-130%) skewX(-18deg); }
+  100% { transform: translateX(230%) skewX(-18deg); }
+}
+
+/* ---------- Emergency page keyframes (pixel-perfect port) ---------- */
+@keyframes mgRing {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(225,51,42,0.5); }
+  50% { box-shadow: 0 0 0 18px rgba(225,51,42,0); }
+}
+@keyframes mgPopIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mgFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes mgSlideUp {
+  from { opacity: 0; transform: translateY(120%); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Contact page keyframes (pixel-perfect port) ---------- */
+@keyframes mgAerial {
+  0% { transform: scale(1.1) translate3d(0, 0, 0); }
+  25% { transform: scale(1.16) translate3d(-44px, -18px, 0); }
+  50% { transform: scale(1.1) translate3d(-62px, 14px, 0); }
+  75% { transform: scale(1.16) translate3d(-24px, 28px, 0); }
+  100% { transform: scale(1.1) translate3d(0, 0, 0); }
+}
+@keyframes mgPopInContact {
+  from { opacity: 0; transform: translateY(26px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Shared header variants ---------- */
+.site-nav-scroll::-webkit-scrollbar { display: none; }
+.site-nav-hover-green:hover { color: #0a8e7b !important; }
+.site-nav-hover-teal:hover { color: #06a88c !important; }
+.site-emergency-hover:hover { background: #c42a21 !important; color: #ffffff !important; }

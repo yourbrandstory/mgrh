@@ -99,7 +99,7 @@ function Shell({ children }: { children: React.ReactNode }) {
     <>
       <div className="flex items-center gap-3 px-[22px] pb-5 pt-[22px]">
         <div className="rounded-[10px] bg-white px-[9px] py-1.5">
-          <img src="/images/logo.png" alt="MGRH" className="block h-10 w-auto" />
+          <img src="/images/00-shared/logo.png" alt="MGRH" className="block h-10 w-auto" />
         </div>
         <div className="text-[15px] font-semibold leading-[1.3] text-white">
           Website<br />

@@ -1,6 +1,6 @@
 # MGRH website setup
 
-The public website and the content editor at `/admin` run on Next.js 14 (App Router) with Supabase for accounts, content and photos.
+The public website and the content editor at `/admin` run on Next.js 16 (App Router) with Supabase for accounts, content and photos.
 
 ## 1. Create the Supabase project
 
@@ -43,7 +43,7 @@ npm run dev
 ```
 
 - Public website: `http://localhost:3000`
-- Editor: `http://localhost:3000/admin` (sign in with the administrator account)
+- Editor: `http://localhost:3000/admin` (serves the approved static UI and signs in through Supabase)
 
 Useful checks:
 
@@ -58,10 +58,10 @@ npm run build
 - **Draft preview:** while signed in, append `?preview=1` to a public page (for example `/doctors?preview=1`) to see drafts with a “Draft — not visible on the public website” banner. The editor’s **View website** button opens the preview.
 - **Publishing:** administrators can always publish. Editors can publish only when **Settings → Editors can publish content** is switched on. The database enforces the same rule.
 - **Photos:** uploaded photos are cropped in the browser to 800 × 800 (doctors) or 1200 × 900 (facilities and events), saved as JPEG quality 0.86, and limited to 5 MB. The untouched original is also stored so a photo can be re-cropped later.
-- **Revalidation:** after each save the editor calls `POST /api/revalidate`. The route accepts either a signed-in staff session or the `x-revalidate-secret` header.
+- **Revalidation:** the legacy React editor used `POST /api/revalidate`. The static admin UI writes directly to Supabase; public pages are served from `public/site/`.
 - **Backup:** administrators can download a JSON backup from **Settings** and restore it there. Restoring overwrites matching records.
 - **Activity log:** every add, edit, publish, delete, reorder, upload and invitation is recorded under **Activity**.
 
 ## 6. Privacy
 
-`/admin` and `/api/admin` are excluded from the sitemap and `robots.txt`, and all `/admin/*` responses carry `X-Robots-Tag: noindex, nofollow`. Do not link to `/admin` from the public website.
+`/admin` redirects to `/admin-ui/index.html`; both paths are excluded from the sitemap and `robots.txt`, and carry `X-Robots-Tag: noindex, nofollow`. `/api/admin` remains session-protected. Do not link to `/admin` from the public website.

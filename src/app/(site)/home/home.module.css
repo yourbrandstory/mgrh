@@ -1,0 +1,100 @@
+.heroPrimary:hover {
+  background: #0b7f73 !important;
+  color: #ffffff !important;
+}
+
+.heroSecondary:hover {
+  border-color: #0a8e7b !important;
+  color: #0a8e7b !important;
+}
+
+.readHistory:hover {
+  background: #0b7f73 !important;
+  color: #ffffff !important;
+}
+
+.emergencyCall:hover {
+  background: #c42a21 !important;
+  color: #ffffff !important;
+}
+
+.expect:hover {
+  border-color: #e1332a !important;
+  color: #e1332a !important;
+}
+
+.contactBtn:hover {
+  background: #0b7f73 !important;
+  color: #ffffff !important;
+}
+
+.whatsapp:hover {
+  border-color: #0a8e7b !important;
+  color: #0a8e7b !important;
+}
+
+.facilityCard:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 30px 56px -42px rgba(6, 80, 68, 0.5) !important;
+  border-color: #a8d6cc !important;
+  color: #16413a !important;
+}
+
+.facilityMore:hover {
+  border-color: #0a8e7b !important;
+  color: #0b4f45 !important;
+}
+
+.viewAll:hover {
+  background: #0b7f73 !important;
+  color: #ffffff !important;
+}
+
+.programmeCard:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 30px 58px -42px rgba(6, 80, 68, 0.5) !important;
+  border-color: #a8d6cc !important;
+}
+
+.programmeCard:focus-visible {
+  outline: 3px solid #a8ded4;
+  outline-offset: 2px;
+}
+
+.readMore:hover {
+  background: #0b6558 !important;
+  border-color: #0b6558 !important;
+  color: #ffffff !important;
+}
+
+.eventRow:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.supportCard:hover {
+  box-shadow: 0 30px 58px -40px rgba(6, 80, 68, 0.5) !important;
+  transform: translateY(-4px) !important;
+  color: #16413a !important;
+}
+
+.closeGallery:hover {
+  background: #fdf1f0 !important;
+  border-color: #f6bdb8 !important;
+}
+
+.openProgrammes:hover {
+  background: #0b6558 !important;
+  color: #ffffff !important;
+}
+
+.placeholderLabel {
+  max-width: 90%;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  opacity: 0.75;
+}
+
+.placeholderLabel::after {
+  content: attr(data-label);
+}

@@ -1,9 +1,9 @@
-import { revalidatePath } from 'next/cache';
+﻿import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { createServerSupabase, createServiceSupabase } from '@/lib/supabase/server';
 
 export async function POST(request: Request) {
-  const supabase = createServerSupabase();
+  const supabase = await createServerSupabase();
   const {
     data: { user },
   } = await supabase.auth.getUser();

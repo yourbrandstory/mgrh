@@ -1,0 +1,1 @@
+const fs = require("fs"); const content = fs.readFileSync("reference/site/home.html", "utf-8"); const m = content.match(/<script type="__bundler\/template">([\s\S]*?)<\/script>/); if (m) { const template = JSON.parse(m[1]); fs.writeFileSync("template_extracted.html", template, "utf-8"); console.log("PARSED_LENGTH:", template.length); } else { console.log("NOT FOUND"); }

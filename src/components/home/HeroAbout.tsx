@@ -68,7 +68,7 @@ export function About() {
         <div>
           <div className="relative max-w-[760px]">
             <div className="aspect-[4/3] overflow-hidden border-t-4 border-emergency bg-surface">
-              <img src={s.about_image_url} alt="The hospital building on Medha Road" className="block h-full w-full object-cover" />
+              <img src="/images/01-home/home-about-hospital-building.png" alt="The hospital building on Medha Road" className="block h-full w-full object-cover" />
             </div>
             <div className="absolute bottom-[-30px] right-3 max-w-[300px] rounded-2xl border border-line bg-white px-[26px] py-[22px] shadow-[0_26px_52px_-36px_rgba(6,80,68,0.5)] md:right-[-14px]">
               <div className="mb-[7px] text-[30px] font-bold leading-none tracking-[-0.026em] text-primary-deep md:text-[34px]">{years} years</div>

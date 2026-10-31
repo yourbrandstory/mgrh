@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { createServerSupabase, createServiceSupabase } from '@/lib/supabase/server';
 
 async function requireAdmin() {
-  const supabase = createServerSupabase();
+  const supabase = await createServerSupabase();
   const {
     data: { user },
   } = await supabase.auth.getUser();

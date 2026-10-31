@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useSiteContent } from '../hooks/useSiteContent';
+import PageHero from '../components/PageHero';
 import { Container } from '../components/ui';
 
 export default function ProgrammesPage() {
@@ -13,6 +14,7 @@ export default function ProgrammesPage() {
 
   return (
     <>
+      <PageHero src="/images/05-programmes/programmes-hero-clinic.png" />
       <section className="bg-white">
         <Container className="pt-[46px] pb-[60px]">
           <div className="mb-6 text-[15px] font-medium text-muted">
@@ -30,6 +32,29 @@ export default function ProgrammesPage() {
                 <div className="text-[16px] text-muted">Photos coming soon</div>
               </div>
             ))}
+          </div>
+
+          {/* Reaching the town */}
+          <div className="mt-[46px] grid items-center gap-9 lg:grid-cols-[minmax(0,1fr)_minmax(320px,520px)]">
+            <div>
+              <h3 className="mb-3 text-[26px] font-semibold leading-[1.24] text-primary-deep md:text-[28px]">
+                Reaching the town, not only the ward
+              </h3>
+              <p className="m-0 max-w-[560px] text-[18px] leading-[1.62] text-body md:text-[20px]">
+                School clinics, immunisation drives, screening camps and blood donation camps take the hospital out into
+                Mahabaleshwar and the villages around it every service free of charge
+              </p>
+            </div>
+            <div>
+              <div className="aspect-[4/5] overflow-hidden border-t-4 border-emergency bg-surface">
+                <img
+                  src="/images/05-programmes/programmes-community-band-town.png"
+                  alt="Mahabaleshwar town from above, with the hospital's forested campus alongside"
+                  className="block h-full w-full object-cover object-[50%_45%]"
+                />
+              </div>
+              <div className="mx-[2px] mt-[9px] text-[15px] text-muted">Mahabaleshwar town, served by the hospital</div>
+            </div>
           </div>
         </Container>
       </section>

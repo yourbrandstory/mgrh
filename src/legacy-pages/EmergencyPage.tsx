@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSiteContent } from '../hooks/useSiteContent';
+import PageHero from '../components/PageHero';
 import { Container } from '../components/ui';
 
 export default function EmergencyPage() {
@@ -22,6 +23,7 @@ export default function EmergencyPage() {
 
   return (
     <>
+      <PageHero src="/images/09-emergency/emergency-hero.png" />
       <section className="bg-[#FDF1F0]">
         <Container className="pt-[46px] pb-[60px]">
           <div className="mb-6 text-[15px] font-medium text-muted">

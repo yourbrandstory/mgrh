@@ -1,4 +1,4 @@
-import { revalidatePath } from 'next/cache';
+﻿import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { createServerSupabase } from '@/lib/supabase/server';
 import { REVALIDATE_SECRET } from '@/lib/supabase/env';
@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   if (REVALIDATE_SECRET && header === REVALIDATE_SECRET) allowed = true;
 
   if (!allowed) {
-    const supabase = createServerSupabase();
+    const supabase = await createServerSupabase();
     const {
       data: { user },
     } = await supabase.auth.getUser();

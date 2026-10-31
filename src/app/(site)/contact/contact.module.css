@@ -1,0 +1,25 @@
+.whatsappButton:hover {
+  background: #17853f !important;
+  color: #ffffff !important;
+}
+
+.emailButton:hover {
+  border-color: #0a8e7b !important;
+  color: #0a8e7b !important;
+}
+
+.redPill:hover {
+  background: #c42a21 !important;
+}
+
+.aerialClose:hover {
+  background: rgba(0, 0, 0, 0.42) !important;
+}
+
+.modalClose:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+
+.helpline:hover {
+  border-color: #e1332a !important;
+}

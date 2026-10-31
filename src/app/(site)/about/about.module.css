@@ -1,0 +1,18 @@
+.jumpLink:hover {
+  border-color: #06a88c !important;
+  color: #06a88c !important;
+}
+
+.whyCard:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 30px 58px -38px rgba(6, 110, 96, 0.55) !important;
+  border-color: #a8d6cc !important;
+}
+
+.visionCard:hover {
+  box-shadow: 0 26px 54px -34px rgba(6, 120, 100, 0.6) !important;
+}
+
+.missionCard:hover {
+  box-shadow: 0 26px 54px -34px rgba(20, 120, 140, 0.6) !important;
+}

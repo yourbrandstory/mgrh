@@ -1,9 +1,5 @@
-﻿import type { Metadata } from 'next';
-import AboutPage from '@/legacy-pages/AboutPage';
-import { settings } from '@/data/siteContent';
+import AboutView from './AboutView';
 
-export const metadata: Metadata = { title: `About Us | ${settings.hospital_name}` };
-
-export default function Page() {
-  return <AboutPage />;
+export default function AboutPage() {
+  return <AboutView />;
 }

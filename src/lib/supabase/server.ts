@@ -9,8 +9,8 @@ import {
   SUPABASE_URL,
 } from './env';
 
-export function createServerSupabase() {
-  const cookieStore = cookies();
+export async function createServerSupabase() {
+  const cookieStore = await cookies();
 
   return createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     cookies: {

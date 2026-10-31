@@ -142,18 +142,18 @@ export const settings: SiteSettings = {
   opd_hours_morning: '09:00 am – 01:00 pm',
   opd_hours_evening: '04:00 pm – 06:00 pm',
   casualty_hours: 'Open 24 hours',
-  logo_url: '/images/logo.png',
+  logo_url: '/images/00-shared/logo.png',
   hero_title: 'Quality healthcare, provided free of charge.',
   hero_subtitle:
     'Comprehensive healthcare for the local and rural population and tourists, with consultations, diagnostic tests, medication and hospital stay provided free of charge under one roof.',
-  hero_image_url: '/images/hero-doctors.jpg',
+  hero_image_url: '/images/01-home/home-hero-doctors.png',
   about_eyebrow: 'About the hospital',
   about_title: 'A legacy of healthcare since 1914.',
   about_text:
     'Shri Moraji Gokuldas donated the building to the Central Government in 1914. Custody has passed through the Zilla Parishad, the municipal council and the Government of Maharashtra. In February 2019, a tripartite agreement was signed by the Health Ministry, the Government of Maharashtra, the Red Cross Society and Bel-Air.',
   about_text_2:
     'Medical investigations, treatment and operations, hospital stay and medicines are provided free of cost.',
-  about_image_url: '/images/hospital-building.jpg',
+  about_image_url: '/images/02-about/about-who-we-are-hospital-front.png',
   about_image_caption: 'The hospital on Mahabaleshwar - Medha Road',
   founded_year: 1914,
   promise_text:
@@ -182,7 +182,7 @@ export const settings: SiteSettings = {
   footer_free_note: 'All consultations, tests, medicines and stays are free of charge.',
   emergency_strip_title: 'In an emergency, come straight in.',
   emergency_strip_text: 'Casualty is open 24 hours, every day. No appointment needed.',
-  stats_background_url: '/images/stats-background.jpg',
+  stats_background_url: '/images/01-home/home-numbers-band-aerial.png',
 };
 
 export const navItems: NavItem[] = [
@@ -273,7 +273,7 @@ export const facilities: Facility[] = [
     description:
       'Separate male and female wards, a paediatric corner, and the pharmacy, linen and kitchen that keep an inpatient stay running — without a bill at the end.',
     units: ['Male ward', 'Female ward', 'Paediatric beds', 'Pharmacy'],
-    image_url: '/images/general-ward.png',
+    image_url: '/images/01-home/home-card-wards-support.png',
     show_on_home: false,
     sort_order: 6,
   },

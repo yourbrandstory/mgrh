@@ -1,0 +1,8 @@
+.card:hover {
+  border-color: #bee3db !important;
+  box-shadow: 0 20px 44px -34px rgba(6, 120, 100, 0.5) !important;
+}
+
+.filter:hover {
+  border-color: #06a88c !important;
+}

@@ -1,0 +1,763 @@
+<!DOCTYPE html><html><head><style>
+    .sc-placeholder{background:color-mix(in srgb,currentColor 8%,transparent);
+      border:1px solid color-mix(in srgb,currentColor 50%,transparent);
+      border-radius:2px;box-sizing:border-box;overflow:hidden}
+    @keyframes sc-shine{0%{background-position:100% 50%}100%{background-position:0% 50%}}
+    html.sc-dc-streaming .sc-placeholder,
+    html.sc-dc-streaming .sc-interp.sc-missing{position:relative;
+      background:color-mix(in srgb,currentColor 5%,transparent);
+      border-color:transparent}
+    html.sc-dc-streaming .sc-placeholder::before,
+    html.sc-dc-streaming .sc-interp.sc-missing::before{content:'';
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(217,119,87,0) 25%,rgba(247,225,211,.95) 37%,rgba(217,119,87,0) 63%);
+      background-size:400% 100%;animation:sc-shine 1.4s ease infinite}
+    html.sc-dc-streaming .sc-placeholder:nth-child(n+9 of .sc-placeholder)::before,
+    html.sc-dc-streaming .sc-interp.sc-missing:nth-child(n+9 of .sc-interp.sc-missing)::before{animation:none;
+      background:color-mix(in srgb,currentColor 8%,transparent)}
+    .sc-placeholder-error{padding:4px 8px;font:11px/1.4 ui-monospace,monospace;
+      color:color-mix(in srgb,currentColor 70%,transparent);word-break:break-word}
+    .sc-interp.sc-missing{display:inline-block;width:2em;height:1em;overflow:hidden;
+      vertical-align:text-bottom;background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.5);
+      border-radius:2px;box-sizing:border-box;color:transparent;
+      user-select:none}
+    .sc-interp.sc-unresolved{font-family:ui-monospace,monospace;font-size:.85em;
+      color:color-mix(in srgb,currentColor 50%,transparent);
+      background:color-mix(in srgb,currentColor 10%,transparent);border-radius:3px;
+      padding:0 3px}
+    .sc-host.sc-has-error{position:relative}
+    .sc-logic-error{position:absolute;top:8px;left:8px;z-index:2147483647;max-width:60ch;
+      padding:6px 10px;background:#b00020;color:#fff;font:12px/1.4 ui-monospace,monospace;
+      border-radius:4px;white-space:pre-wrap;pointer-events:none}
+    /* Mirrors PRINT_BASELINE_CSS in apps/web deck-stage-export.ts — keep both
+       in sync until dc-runtime regains a build step. */
+    @media print {
+      @page { margin: 0.5cm; }
+      figure, table { break-inside: avoid; }
+      #dc-root, #dc-root > .sc-host { height: auto; }
+      *, *::before, *::after {
+        print-color-adjust: exact; -webkit-print-color-adjust: exact;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        animation-delay: -99s !important; animation-duration: .001s !important;
+        animation-iteration-count: 1 !important; animation-fill-mode: both !important;
+        animation-play-state: running !important; transition-duration: 0s !important;
+      }
+    }
+  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script><style>x-dc{display:none!important}</style><script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z" crossorigin="anonymous"></script><script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1" crossorigin="anonymous"></script>
+<meta name="ext-resource-dependency" content="assets/contact-building.png" data-resource-id="cBuilding">
+<meta name="ext-resource-dependency" content="assets/photo-ot-banner.png" data-resource-id="cOt">
+<meta name="ext-resource-dependency" content="assets/photo-icu-bed.png" data-resource-id="cIcu">
+<meta name="ext-resource-dependency" content="assets/photo-pathology.png" data-resource-id="cPath">
+<meta name="ext-resource-dependency" content="assets/photo-corridor.png" data-resource-id="cCorridor">
+<meta name="ext-resource-dependency" content="assets/about-after-2.png" data-resource-id="cWard">
+<style></style><link rel="preconnect" href="https://fonts.googleapis.com" data-dc-tpl="1"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" data-dc-tpl="2"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap" rel="stylesheet" data-dc-tpl="3"><style data-dc-tpl="4">
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #0B6558; text-decoration: none; }
+    a:hover { color: #0B6558; }
+    ::selection { background: #CDEBE5; }
+    html { scroll-behavior: smooth; }
+    @keyframes mgDrift { 0% { transform: translate3d(0,0,0) scale(1.12); } 50% { transform: translate3d(-48px,12px,0) scale(1.18); } 100% { transform: translate3d(0,0,0) scale(1.12); } }
+    @keyframes mgBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.28; } }
+    @keyframes mgNudge { 0%, 72%, 100% { transform: translateX(0); } 80% { transform: translateX(5px); } 90% { transform: translateX(2px); } }
+    @keyframes mgHalo { 0%, 100% { box-shadow: 0 0 0 0 rgba(10,142,123,0.34); } 55% { box-shadow: 0 0 0 13px rgba(10,142,123,0); } }
+    @keyframes mgPop { from { opacity: 0; transform: translateY(24px) scale(0.97); } to { opacity: 1; transform: none; } }
+    @keyframes mgVeil { from { opacity: 0; } to { opacity: 1; } }
+  </style><script src="./image-slot.js" data-dc-tpl="5"></script></head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#EAF6F3">
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#0A8E7B"></rect><g fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"><path d="M62 148V86l38-20 38 20v62"></path><path d="M56 148h88"></path><path d="M100 96v26M87 109h26"></path></g></svg>
+</template>
+<div id="dc-root"><div class="sc-host" data-sc-name="01-home"><div data-dc-tpl="6" style="font-family: &quot;DM Sans&quot;, sans-serif; color: rgb(22, 65, 58); background: rgb(255, 255, 255);">
+
+  
+  <div data-dc-tpl="7" style="background: rgb(11, 101, 88); color: rgb(255, 255, 255);">
+    <div data-dc-tpl="8" style="max-width: 1800px; margin: 0px auto; padding: 11px 26px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 16.5px; font-weight: 500;">
+      <span data-dc-tpl="9">Consultation, tests, medicines and hospital stay — free of charge, for everyone.</span>
+      <span data-dc-tpl="10" style="display: inline-flex; align-items: center; gap: 22px; flex-wrap: wrap;">
+        <a data-dc-tpl="11" href="Contact us page.dc.html" style="color: rgb(199, 237, 230);">Contact</a>
+        <a data-dc-tpl="12" href="Support us page.dc.html" style="color: rgb(199, 237, 230);">Support us</a>
+        <a data-dc-tpl="13" href="tel:+912168260247" style="color: rgb(255, 255, 255); font-weight: 700;">+91 21682 60247</a>
+      </span>
+    </div>
+  </div>
+
+  
+  <header data-dc-tpl="14" style="position: sticky; top: 0px; z-index: 60; background: rgb(255, 255, 255); border-bottom: 1px solid rgb(224, 237, 233);">
+    <div data-dc-tpl="15" style="max-width: 1800px; margin: 0px auto; padding: 14px 26px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a data-dc-tpl="16" href="#top" style="flex: 0 0 auto; display: block;"><img data-dc-tpl="17" src="assets/mgrh-logo.png" alt="Morarji Gokuldas Rural Hospital" style="height: 132px; width: auto; display: block;"></a>
+      <nav data-dc-tpl="18" style="flex: 1 1 0%; min-width: 0px; display: flex; align-items: center; justify-content: flex-end; gap: 0px;">
+        <div data-dc-tpl="19" style="flex: 0 1 auto; min-width: 0px; margin-left: auto; display: flex; align-items: center; justify-content: flex-start; gap: 0px; overflow-x: auto; scrollbar-width: none;">
+          
+            <a data-dc-tpl="21" href="#top" class="scp0" style="flex: 0 0 auto; font-weight: 500; font-size: 24px; padding: 9px 15px; border-radius: 6px; color: rgb(10, 142, 123); white-space: nowrap;"><span class="sc-interp">Home</span></a>
+          
+            <a data-dc-tpl="21" href="About us page V2.dc.html" class="scp0" style="flex: 0 0 auto; font-weight: 500; font-size: 24px; padding: 9px 15px; border-radius: 6px; color: rgb(53, 81, 75); white-space: nowrap;"><span class="sc-interp">About Us</span></a>
+          
+            <a data-dc-tpl="21" href="Facilities (V1).dc.html" class="scp0" style="flex: 0 0 auto; font-weight: 500; font-size: 24px; padding: 9px 15px; border-radius: 6px; color: rgb(53, 81, 75); white-space: nowrap;"><span class="sc-interp">Facilities</span></a>
+          
+            <a data-dc-tpl="21" href="Doctors page.dc.html" class="scp0" style="flex: 0 0 auto; font-weight: 500; font-size: 24px; padding: 9px 15px; border-radius: 6px; color: rgb(53, 81, 75); white-space: nowrap;"><span class="sc-interp">Doctors</span></a>
+          
+            <a data-dc-tpl="21" href="Programmes page.dc.html" class="scp0" style="flex: 0 0 auto; font-weight: 500; font-size: 24px; padding: 9px 15px; border-radius: 6px; color: rgb(53, 81, 75); white-space: nowrap;"><span class="sc-interp">Programmes</span></a>
+          
+            <a data-dc-tpl="21" href="Event page.dc.html" class="scp0" style="flex: 0 0 auto; font-weight: 500; font-size: 24px; padding: 9px 15px; border-radius: 6px; color: rgb(53, 81, 75); white-space: nowrap;"><span class="sc-interp">Events</span></a>
+          
+            <a data-dc-tpl="21" href="Support us page.dc.html" class="scp0" style="flex: 0 0 auto; font-weight: 500; font-size: 24px; padding: 9px 15px; border-radius: 6px; color: rgb(53, 81, 75); white-space: nowrap;"><span class="sc-interp">Support Us</span></a>
+          
+            <a data-dc-tpl="21" href="Contact us page.dc.html" class="scp0" style="flex: 0 0 auto; font-weight: 500; font-size: 24px; padding: 9px 15px; border-radius: 6px; color: rgb(53, 81, 75); white-space: nowrap;"><span class="sc-interp">Contact</span></a>
+          
+        </div>
+        <a data-dc-tpl="22" href="Emergency page.dc.html" class="scp1" style="flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 22px; margin-left: 14px; background: rgb(225, 51, 42); color: rgb(255, 255, 255); padding: 12px 20px; border-radius: 6px; white-space: nowrap;">
+          <svg data-dc-tpl="23" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle data-dc-tpl="24" cx="12" cy="12" r="9.5"></circle><path data-dc-tpl="25" d="M12 7.5v6M12 16.6v.4"></path></svg>
+          Emergency
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  
+  <section data-dc-tpl="26" id="top" style="position: relative; overflow: hidden; background: rgb(234, 246, 243);">
+    <div data-dc-tpl="27" style="position: absolute; inset: 0px; overflow: hidden;">
+      <img data-dc-tpl="28" src="assets/home-hero-doctors.png" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: 72% 64%; display: block;">
+    </div>
+    <div data-dc-tpl="29" style="position: absolute; inset: 0px; background: linear-gradient(96deg, rgba(240, 249, 247, 0.94) 0%, rgba(240, 249, 247, 0.88) 40%, rgba(240, 249, 247, 0.5) 52%, rgba(240, 249, 247, 0) 64%);"></div>
+    <div data-dc-tpl="30" style="position: absolute; left: 0px; right: 0px; bottom: -2px; height: 190px; background: rgb(255, 255, 255); border-top-left-radius: 100% 190px; border-top-right-radius: 0px; transform: scaleX(1.06); transform-origin: left bottom;"></div>
+
+    <div data-dc-tpl="31" style="position: relative; z-index: 3; max-width: 1800px; margin: 0px auto; padding: 74px 26px 118px;">
+     <div data-dc-tpl="32" style="max-width: min(46%, 680px);">
+      <div data-dc-tpl="33" style="display: flex; align-items: center; gap: 9px; font-size: 16.5px; letter-spacing: 0.14em; font-weight: 500; text-transform: uppercase; color: rgb(90, 106, 102); margin-bottom: 26px;">
+        <span data-dc-tpl="34">MGRH</span><span data-dc-tpl="35" style="opacity: 0.5;">/</span><span data-dc-tpl="36" style="color: rgb(90, 106, 102);">Mahabaleshwar</span>
+      </div>
+      <h1 data-dc-tpl="37" style="font-weight: 500; font-size: clamp(44px, 4.6vw, 74px); line-height: 0.98; margin: 0px 0px 26px; color: rgb(11, 79, 69); letter-spacing: -0.035em; text-wrap: balance;">Quality healthcare, provided free of charge.</h1>
+      <p data-dc-tpl="38" style="font-size: clamp(18px, 1.5vw, 24px); line-height: 1.5; color: rgb(69, 96, 90); margin: 0px 0px 40px;">Comprehensive healthcare for the local and rural population and tourists, with consultations, diagnostic tests, medication and hospital stay provided free of charge under one roof.</p>
+      <div data-dc-tpl="39" style="display: flex; flex-wrap: wrap; gap: 14px;">
+        <a data-dc-tpl="40" href="Facilities (V1).dc.html" class="scp2" style="display: inline-flex; align-items: center; gap: 11px; background: rgb(10, 142, 123); color: rgb(255, 255, 255); font-weight: 700; font-size: 21px; padding: 17px 32px; border-radius: 999px;">
+          Our departments
+          <svg data-dc-tpl="41" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="42" d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+        </a>
+        <a data-dc-tpl="43" href="Doctors page.dc.html" class="scp3" style="display: inline-flex; align-items: center; gap: 11px; border: 1px solid rgb(159, 208, 199); background: rgba(255, 255, 255, 0.7); color: rgb(11, 95, 85); font-weight: 700; font-size: 21px; padding: 17px 32px; border-radius: 999px;">Find a doctor</a>
+      </div>
+     </div>
+    </div>
+  </section>
+
+  
+  <section data-dc-tpl="44" data-sec="0" style="max-width: 1800px; margin: 0px auto; padding: 20px 26px 0px; opacity: 1; transform: none; transition: opacity 0.8s, transform 0.9s cubic-bezier(0.2, 0.85, 0.3, 1);">
+    <div data-dc-tpl="45" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(430px, 1fr)); gap: 62px; align-items: start;">
+      <div data-dc-tpl="46">
+        <div data-dc-tpl="47" style="font-size: 16px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(11, 127, 115); margin-bottom: 16px;">About the hospital</div>
+        <h2 data-dc-tpl="48" style="font-weight: 600; font-size: 42px; line-height: 1.08; letter-spacing: -0.028em; color: rgb(11, 79, 69); margin: 0px 0px 22px; max-width: 720px; text-wrap: balance;">A legacy of healthcare since 1914.</h2>
+        <p data-dc-tpl="49" style="margin: 0px 0px 20px; font-size: 21px; line-height: 1.62; color: rgb(69, 96, 90); max-width: 740px;">Shri Moraji Gokuldas donated the building to the Central Government in 1914. Custody has passed through the Zilla Parishad, the municipal council and the Government of Maharashtra. In February 2019, a tripartite agreement was signed by the Health Ministry, the Government of Maharashtra, the Red Cross Society and Bel-Air.</p>
+        <p data-dc-tpl="50" style="margin: 0px 0px 34px; font-size: 21px; line-height: 1.62; color: rgb(69, 96, 90); max-width: 740px;">Medical investigations, treatment and operations, hospital stay and medicines are provided free of cost.</p>
+
+        <div data-dc-tpl="51" style="position: relative; padding-left: 30px; margin-bottom: 36px; max-width: 700px;">
+          <div data-dc-tpl="52" style="position: absolute; left: 5px; top: 10px; bottom: 10px; width: 2px; background: linear-gradient(rgb(10, 142, 123), rgb(168, 214, 204));"></div>
+          
+            <div data-dc-tpl="54" style="position: relative; padding: 0px 0px 22px;">
+              <span data-dc-tpl="55" style="position: absolute; left: -30px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: rgb(255, 255, 255); border: 3px solid rgb(10, 142, 123);"></span>
+              <div data-dc-tpl="56" style="font-weight: 700; font-size: 17px; letter-spacing: 0.06em; color: rgb(11, 127, 115); margin-bottom: 3px;"><span class="sc-interp">1914</span></div>
+              <div data-dc-tpl="57" style="font-size: 19.5px; line-height: 1.5; color: rgb(69, 96, 90);"><span class="sc-interp">Shri Moraji Gokuldas donates the hospital building to the Central Government.</span></div>
+            </div>
+          
+            <div data-dc-tpl="54" style="position: relative; padding: 0px 0px 22px;">
+              <span data-dc-tpl="55" style="position: absolute; left: -30px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: rgb(255, 255, 255); border: 3px solid rgb(10, 142, 123);"></span>
+              <div data-dc-tpl="56" style="font-weight: 700; font-size: 17px; letter-spacing: 0.06em; color: rgb(11, 127, 115); margin-bottom: 3px;"><span class="sc-interp">1962</span></div>
+              <div data-dc-tpl="57" style="font-size: 19.5px; line-height: 1.5; color: rgb(69, 96, 90);"><span class="sc-interp">Handed to the Zilla Parishad, Satara, running as a primary health centre.</span></div>
+            </div>
+          
+            <div data-dc-tpl="54" style="position: relative; padding: 0px 0px 22px;">
+              <span data-dc-tpl="55" style="position: absolute; left: -30px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: rgb(255, 255, 255); border: 3px solid rgb(10, 142, 123);"></span>
+              <div data-dc-tpl="56" style="font-weight: 700; font-size: 17px; letter-spacing: 0.06em; color: rgb(11, 127, 115); margin-bottom: 3px;"><span class="sc-interp">1988</span></div>
+              <div data-dc-tpl="57" style="font-size: 19.5px; line-height: 1.5; color: rgb(69, 96, 90);"><span class="sc-interp">Transferred to the Government of Maharashtra on 1st February.</span></div>
+            </div>
+          
+            <div data-dc-tpl="54" style="position: relative; padding: 0px 0px 22px;">
+              <span data-dc-tpl="55" style="position: absolute; left: -30px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: rgb(255, 255, 255); border: 3px solid rgb(10, 142, 123);"></span>
+              <div data-dc-tpl="56" style="font-weight: 700; font-size: 17px; letter-spacing: 0.06em; color: rgb(11, 127, 115); margin-bottom: 3px;"><span class="sc-interp">2019</span></div>
+              <div data-dc-tpl="57" style="font-size: 19.5px; line-height: 1.5; color: rgb(69, 96, 90);"><span class="sc-interp">Tripartite agreement with the Indian Red Cross Society and Bel-Air, Panchgani.</span></div>
+            </div>
+          
+        </div>
+
+        <a data-dc-tpl="58" href="About us page V2.dc.html" class="scp2" style="display: inline-flex; align-items: center; gap: 11px; background: rgb(10, 142, 123); color: rgb(255, 255, 255); font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;">
+          Read our history
+          <svg data-dc-tpl="59" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="60" d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+        </a>
+      </div>
+
+      <div data-dc-tpl="61">
+        <div data-dc-tpl="62" style="position: relative; max-width: 760px;">
+          <div data-dc-tpl="63" style="border-top: 4px solid rgb(225, 51, 42); overflow: hidden; background: rgb(238, 243, 241); aspect-ratio: 4 / 3;">
+            <img data-dc-tpl="64" src="assets/contact-building.png" alt="The hospital building on Medha Road" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+          </div>
+          <div data-dc-tpl="65" style="position: absolute; right: -14px; bottom: -30px; background: rgb(255, 255, 255); border: 1px solid rgb(220, 235, 231); border-radius: 16px; padding: 22px 26px; box-shadow: rgba(6, 80, 68, 0.5) 0px 26px 52px -36px; max-width: 300px;">
+            <div data-dc-tpl="66" style="font-weight: 700; font-size: 34px; line-height: 1; letter-spacing: -0.026em; color: rgb(11, 79, 69); margin-bottom: 7px;">112 years</div>
+            <div data-dc-tpl="67" style="font-size: 17.5px; line-height: 1.48; color: rgb(78, 95, 90);">of healthcare in Mahabaleshwar</div>
+          </div>
+        </div>
+        <div data-dc-tpl="68" style="margin: 46px 2px 0px; font-size: 17px; color: rgb(90, 106, 102); max-width: 760px;">The hospital on Mahabaleshwar - Medha Road</div>
+
+        <div data-dc-tpl="69" style="margin-top: 30px; background: rgb(232, 246, 243); border: 1px solid rgb(190, 227, 219); border-radius: 16px; padding: 28px 30px; max-width: 760px;">
+          <div data-dc-tpl="70" style="font-size: 15.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(11, 101, 88); margin-bottom: 12px;">Our promise</div>
+          <p data-dc-tpl="71" style="margin: 0px; font-weight: 500; font-size: 22px; line-height: 1.46; color: rgb(11, 79, 69);">Consultation, diagnostic tests, medication and hospital stay — all provided free of charge, under one roof.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  
+  <section data-dc-tpl="72" style="position: relative; overflow: hidden; margin-top: 58px; background: rgb(11, 133, 116); box-shadow: rgba(3, 42, 36, 0.9) 0px 26px 52px -32px inset, rgba(3, 42, 36, 0.75) 0px -26px 52px -32px inset;">
+    <div data-dc-tpl="73" aria-hidden="true" style="position: absolute; inset: 0px; background-image: url(&quot;assets/contact-aerial.png&quot;); background-size: cover; background-position: center center; opacity: 0.28;"></div>
+    <div data-dc-tpl="74" aria-hidden="true" style="position: absolute; inset: 0px; background: linear-gradient(100deg, rgba(7, 102, 88, 0.95) 0%, rgba(9, 124, 108, 0.88) 46%, rgba(14, 148, 142, 0.74) 78%, rgba(24, 168, 178, 0.6) 100%);"></div>
+    <div data-dc-tpl="75" style="position: relative; z-index: 2; max-width: 1800px; margin: 0px auto; padding: 58px 26px 62px;">
+      <div data-dc-tpl="76" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 44px;">
+        
+          <div data-dc-tpl="78" style="border-top: 3px solid rgba(255, 255, 255, 0.46); padding-top: 20px;">
+            <div data-dc-tpl="79" style="font-weight: 700; font-size: 46px; line-height: 1; letter-spacing: -0.026em; color: rgb(255, 255, 255); margin-bottom: 9px; text-shadow: rgba(3, 42, 36, 0.4) 0px 2px 16px;"><span class="sc-interp">1914</span></div>
+            <div data-dc-tpl="80" style="font-size: 18.5px; line-height: 1.5; color: rgb(255, 255, 255);"><span class="sc-interp">The year the hospital was donated</span></div>
+          </div>
+        
+          <div data-dc-tpl="78" style="border-top: 3px solid rgba(255, 255, 255, 0.46); padding-top: 20px;">
+            <div data-dc-tpl="79" style="font-weight: 700; font-size: 46px; line-height: 1; letter-spacing: -0.026em; color: rgb(255, 255, 255); margin-bottom: 9px; text-shadow: rgba(3, 42, 36, 0.4) 0px 2px 16px;"><span class="sc-interp">14</span></div>
+            <div data-dc-tpl="80" style="font-size: 18.5px; line-height: 1.5; color: rgb(255, 255, 255);"><span class="sc-interp">Departments on a single campus</span></div>
+          </div>
+        
+          <div data-dc-tpl="78" style="border-top: 3px solid rgba(255, 255, 255, 0.46); padding-top: 20px;">
+            <div data-dc-tpl="79" style="font-weight: 700; font-size: 46px; line-height: 1; letter-spacing: -0.026em; color: rgb(255, 255, 255); margin-bottom: 9px; text-shadow: rgba(3, 42, 36, 0.4) 0px 2px 16px;"><span class="sc-interp">24 hrs</span></div>
+            <div data-dc-tpl="80" style="font-size: 18.5px; line-height: 1.5; color: rgb(255, 255, 255);"><span class="sc-interp">Casualty, every day of the year</span></div>
+          </div>
+        
+          <div data-dc-tpl="78" style="border-top: 3px solid rgba(255, 255, 255, 0.46); padding-top: 20px;">
+            <div data-dc-tpl="79" style="font-weight: 700; font-size: 46px; line-height: 1; letter-spacing: -0.026em; color: rgb(255, 255, 255); margin-bottom: 9px; text-shadow: rgba(3, 42, 36, 0.4) 0px 2px 16px;"><span class="sc-interp">₹0</span></div>
+            <div data-dc-tpl="80" style="font-size: 18.5px; line-height: 1.5; color: rgb(255, 255, 255);"><span class="sc-interp">Charged — consultation to discharge</span></div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+  
+  <section data-dc-tpl="81" data-sec="4" style="max-width: 1800px; margin: 0px auto; padding: 80px 26px 0px; opacity: 1; transform: none; transition: opacity 0.8s, transform 0.9s cubic-bezier(0.2, 0.85, 0.3, 1);">
+    <div data-dc-tpl="82" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(430px, 1fr)); gap: 24px; align-items: stretch;">
+      <div data-dc-tpl="83" style="background: rgb(253, 241, 240); border: 1px solid rgb(246, 216, 213); border-radius: 18px; padding: 42px 44px;">
+        <div data-dc-tpl="84" style="display: inline-flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(158, 32, 24); margin-bottom: 16px;">
+          <span data-dc-tpl="85" style="width: 9px; height: 9px; border-radius: 50%; background: rgb(225, 51, 42); animation: 1.5s ease-in-out 0s infinite normal none running mgBlink;"></span>
+          Emergency &amp; casualty
+        </div>
+        <h3 data-dc-tpl="86" style="font-weight: 600; font-size: 35px; line-height: 1.12; letter-spacing: -0.024em; color: rgb(158, 32, 24); margin: 0px 0px 16px;">Emergency and Casualty Care.</h3>
+        <p data-dc-tpl="87" style="margin: 0px 0px 30px; font-size: 20px; line-height: 1.6; color: rgb(124, 71, 65); max-width: 620px;">The Emergency and Casualty department provides essential facilities for effective and timely care. The hospital provides emergency care, intensive care and modern operation theatre facilities.</p>
+        <div data-dc-tpl="88" style="display: flex; flex-wrap: wrap; gap: 14px;">
+          <a data-dc-tpl="89" href="tel:+912168260247" class="scp1" style="display: inline-flex; align-items: center; gap: 10px; background: rgb(225, 51, 42); color: rgb(255, 255, 255); font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;">+91 21682 60247</a>
+          <a data-dc-tpl="90" href="Emergency page.dc.html" class="scp4" style="display: inline-flex; align-items: center; gap: 10px; border: 1px solid rgb(233, 179, 175); color: rgb(180, 37, 30); font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;">What to expect</a>
+        </div>
+      </div>
+      <div data-dc-tpl="91" style="background: rgb(255, 255, 255); border: 1px solid rgb(220, 235, 231); border-radius: 18px; padding: 42px 44px;">
+        <div data-dc-tpl="92" style="font-size: 16px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(11, 127, 115); margin-bottom: 16px;">Reach the hospital</div>
+        <h3 data-dc-tpl="93" style="font-weight: 600; font-size: 35px; line-height: 1.12; letter-spacing: -0.024em; color: rgb(18, 86, 76); margin: 0px 0px 22px;">Located on Mahabaleshwar-Medha Road.</h3>
+        <div data-dc-tpl="94" style="display: flex; flex-direction: column; margin-bottom: 28px;">
+          
+            <div data-dc-tpl="96" style="display: grid; grid-template-columns: minmax(0px, 140px) 1fr; gap: 20px; align-items: baseline; padding: 13px 0px; border-bottom: 1px solid rgb(238, 243, 241);">
+              <span data-dc-tpl="97" style="font-size: 15.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(11, 127, 115);"><span class="sc-interp">Address</span></span>
+              <span data-dc-tpl="98" style="font-size: 19.5px; line-height: 1.5; color: rgb(35, 66, 59);"><span class="sc-interp">Mahabaleshwar - Medha Road, District - Satara – 412 806, Maharashtra</span></span>
+            </div>
+          
+            <div data-dc-tpl="96" style="display: grid; grid-template-columns: minmax(0px, 140px) 1fr; gap: 20px; align-items: baseline; padding: 13px 0px; border-bottom: 1px solid rgb(238, 243, 241);">
+              <span data-dc-tpl="97" style="font-size: 15.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(11, 127, 115);"><span class="sc-interp">Telephone</span></span>
+              <span data-dc-tpl="98" style="font-size: 19.5px; line-height: 1.5; color: rgb(35, 66, 59);"><span class="sc-interp">+91 21682 60247</span></span>
+            </div>
+          
+            <div data-dc-tpl="96" style="display: grid; grid-template-columns: minmax(0px, 140px) 1fr; gap: 20px; align-items: baseline; padding: 13px 0px; border-bottom: 1px solid rgb(238, 243, 241);">
+              <span data-dc-tpl="97" style="font-size: 15.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(11, 127, 115);"><span class="sc-interp">Email</span></span>
+              <span data-dc-tpl="98" style="font-size: 19.5px; line-height: 1.5; color: rgb(35, 66, 59);"><span class="sc-interp">info@mgrh-mahabaleshwar.org</span></span>
+            </div>
+          
+            <div data-dc-tpl="96" style="display: grid; grid-template-columns: minmax(0px, 140px) 1fr; gap: 20px; align-items: baseline; padding: 13px 0px; border-bottom: 1px solid rgb(238, 243, 241);">
+              <span data-dc-tpl="97" style="font-size: 15.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(11, 127, 115);"><span class="sc-interp">OPD hours</span></span>
+              <span data-dc-tpl="98" style="font-size: 19.5px; line-height: 1.5; color: rgb(35, 66, 59);"><span class="sc-interp">09:00 am – 01:00 pm and 04:00 pm – 06:00 pm</span></span>
+            </div>
+          
+        </div>
+        <div data-dc-tpl="99" style="display: flex; flex-wrap: wrap; gap: 14px;">
+          <a data-dc-tpl="100" href="Contact us page.dc.html" class="scp5" style="display: inline-flex; align-items: center; gap: 10px; background: rgb(10, 142, 123); color: rgb(255, 255, 255); font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;">Contact &amp; directions</a>
+          <a data-dc-tpl="101" href="https://wa.me/912168260247" class="scp3" style="display: inline-flex; align-items: center; gap: 10px; border: 1px solid rgb(159, 208, 199); color: rgb(11, 95, 85); font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;">WhatsApp us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section data-dc-tpl="102" data-sec="1" style="margin-top: 82px; background: rgb(234, 245, 242); border-top: 1px solid rgb(220, 235, 231); border-bottom: 1px solid rgb(220, 235, 231); padding: 64px 0px; opacity: 1; transform: none; transition: opacity 0.8s, transform 0.9s cubic-bezier(0.2, 0.85, 0.3, 1);">
+    <div data-dc-tpl="103" style="max-width: 1800px; margin: 0px auto; padding: 0px 26px;">
+      <div data-dc-tpl="104" style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 14px; flex-wrap: wrap;">
+        <span data-dc-tpl="105" style="width: 30px; height: 4px; border-radius: 2px; background: rgb(10, 142, 123); flex: 0 0 auto;"></span>
+        <h2 data-dc-tpl="106" style="font-weight: 500; font-size: 36px; margin: 0px; color: rgb(31, 58, 52);">Our <span data-dc-tpl="107" style="font-weight: 700;">facilities</span></h2>
+        <span data-dc-tpl="108" style="font-size: 18px; font-weight: 600; color: rgb(90, 106, 102);">14 departments</span>
+      </div>
+      <p data-dc-tpl="109" style="margin: 0px 0px 34px; font-size: 21px; line-height: 1.6; color: rgb(69, 96, 90); max-width: 900px;">The hospital provides OPD, Emergency and Casualty, ICU, operation theatres, diagnostics, maternity care, wards, pharmacy and other essential facilities on one campus.</p>
+
+      <div data-dc-tpl="110" style="display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 6px; margin-bottom: 34px;">
+        
+          <a data-dc-tpl="112" href="Facilities (V1).dc.html" class="scp6" style="flex: 0 0 auto; width: 400px; max-width: 82vw; scroll-snap-align: start; display: block; background: rgb(255, 255, 255); border: 1px solid rgb(224, 237, 233); border-radius: 16px; overflow: hidden; color: rgb(22, 65, 58); transition: transform 0.28s, box-shadow 0.28s, border-color 0.28s;">
+            <div data-dc-tpl="113" role="img" aria-label="Casualty &amp; Critical Care" style="aspect-ratio: 16 / 10; background-color: rgb(238, 243, 241); background-image: url(&quot;assets/contact-building.png&quot;); background-size: cover; background-position: center center;"></div>
+            <div data-dc-tpl="114" style="padding: 22px 24px 24px; display: flex; align-items: baseline; justify-content: space-between; gap: 14px;">
+              <span data-dc-tpl="115" style="font-weight: 600; font-size: 21px; line-height: 1.26; color: rgb(11, 79, 69);"><span class="sc-interp">Casualty &amp; Critical Care</span></span>
+              <span data-dc-tpl="116" style="flex: 0 0 auto; font-size: 15.5px; font-weight: 600; color: rgb(90, 106, 102);"><span class="sc-interp">3 units</span></span>
+            </div>
+          </a>
+        
+          <a data-dc-tpl="112" href="Facilities (V1).dc.html" class="scp6" style="flex: 0 0 auto; width: 400px; max-width: 82vw; scroll-snap-align: start; display: block; background: rgb(255, 255, 255); border: 1px solid rgb(224, 237, 233); border-radius: 16px; overflow: hidden; color: rgb(22, 65, 58); transition: transform 0.28s, box-shadow 0.28s, border-color 0.28s;">
+            <div data-dc-tpl="113" role="img" aria-label="Operation Theatres" style="aspect-ratio: 16 / 10; background-color: rgb(238, 243, 241); background-image: url(&quot;assets/photo-ot-banner.png&quot;); background-size: cover; background-position: center center;"></div>
+            <div data-dc-tpl="114" style="padding: 22px 24px 24px; display: flex; align-items: baseline; justify-content: space-between; gap: 14px;">
+              <span data-dc-tpl="115" style="font-weight: 600; font-size: 21px; line-height: 1.26; color: rgb(11, 79, 69);"><span class="sc-interp">Operation Theatres</span></span>
+              <span data-dc-tpl="116" style="flex: 0 0 auto; font-size: 15.5px; font-weight: 600; color: rgb(90, 106, 102);"><span class="sc-interp">2 theatres</span></span>
+            </div>
+          </a>
+        
+          <a data-dc-tpl="112" href="Facilities (V1).dc.html" class="scp6" style="flex: 0 0 auto; width: 400px; max-width: 82vw; scroll-snap-align: start; display: block; background: rgb(255, 255, 255); border: 1px solid rgb(224, 237, 233); border-radius: 16px; overflow: hidden; color: rgb(22, 65, 58); transition: transform 0.28s, box-shadow 0.28s, border-color 0.28s;">
+            <div data-dc-tpl="113" role="img" aria-label="Maternity &amp; Newborn" style="aspect-ratio: 16 / 10; background-color: rgb(238, 243, 241); background-image: url(&quot;assets/photo-icu-bed.png&quot;); background-size: cover; background-position: center center;"></div>
+            <div data-dc-tpl="114" style="padding: 22px 24px 24px; display: flex; align-items: baseline; justify-content: space-between; gap: 14px;">
+              <span data-dc-tpl="115" style="font-weight: 600; font-size: 21px; line-height: 1.26; color: rgb(11, 79, 69);"><span class="sc-interp">Maternity &amp; Newborn</span></span>
+              <span data-dc-tpl="116" style="flex: 0 0 auto; font-size: 15.5px; font-weight: 600; color: rgb(90, 106, 102);"><span class="sc-interp">4 units</span></span>
+            </div>
+          </a>
+        
+        <a data-dc-tpl="117" href="Facilities (V1).dc.html" class="scp7" style="flex: 0 0 auto; width: 300px; max-width: 82vw; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; gap: 14px; background: rgb(232, 246, 243); border: 1px solid rgb(190, 227, 219); border-radius: 16px; padding: 30px 32px; color: rgb(11, 79, 69);">
+          <span data-dc-tpl="118" style="font-weight: 600; font-size: 23px; line-height: 1.24;">Eleven more departments</span>
+          <span data-dc-tpl="119" style="font-size: 17.5px; line-height: 1.5; color: rgb(78, 95, 90);">Theatres, maternity, dental, diagnostics and the wards — all photographed.</span>
+          <span data-dc-tpl="120" style="display: inline-flex; align-items: center; gap: 9px; font-size: 19px; font-weight: 700; color: rgb(10, 142, 123);">
+            Read more
+            <svg data-dc-tpl="121" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="122" d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+          </span>
+        </a>
+      </div>
+
+      <div data-dc-tpl="123" style="background: rgb(255, 255, 255); border: 1px solid rgb(220, 235, 231); border-radius: 18px; padding: 38px 42px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+        <div data-dc-tpl="124" style="max-width: 780px;">
+          <h3 data-dc-tpl="125" style="font-weight: 600; font-size: 28px; line-height: 1.2; margin: 0px 0px 10px; color: rgb(11, 79, 69);">See the ward you will be treated in.</h3>
+          <p data-dc-tpl="126" style="margin: 0px; font-size: 19.5px; line-height: 1.58; color: rgb(78, 95, 90);">Every department is photographed — theatres, ICU, maternity, the pathology bench and the wards — so you know what to expect before you arrive.</p>
+        </div>
+        <a data-dc-tpl="127" href="Facilities (V1).dc.html" class="scp2" style="display: inline-flex; align-items: center; gap: 11px; background: rgb(10, 142, 123); color: rgb(255, 255, 255); font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px; white-space: nowrap;">
+          View all facilities
+          <svg data-dc-tpl="128" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="129" d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  
+  <section data-dc-tpl="130" data-sec="2" style="margin-top: 82px; background: rgb(244, 250, 248); border-top: 1px solid rgb(226, 239, 235); border-bottom: 1px solid rgb(226, 239, 235); padding: 64px 0px; opacity: 1; transform: none; transition: opacity 0.8s, transform 0.9s cubic-bezier(0.2, 0.85, 0.3, 1);">
+   <div data-dc-tpl="131" style="max-width: 1800px; margin: 0px auto; padding: 0px 26px;">
+    <div data-dc-tpl="132" style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 14px; flex-wrap: wrap;">
+      <span data-dc-tpl="133" style="width: 30px; height: 4px; border-radius: 2px; background: rgb(10, 142, 123); flex: 0 0 auto;"></span>
+      <h2 data-dc-tpl="134" style="font-weight: 500; font-size: 36px; margin: 0px; color: rgb(31, 58, 52);">Our <span data-dc-tpl="135" style="font-weight: 700;">programmes</span></h2>
+      <span data-dc-tpl="136" style="font-size: 18px; font-weight: 600; color: rgb(90, 106, 102);">12 running</span>
+    </div>
+    <p data-dc-tpl="137" style="margin: 0px 0px 34px; font-size: 21px; line-height: 1.6; color: rgb(69, 96, 90); max-width: 900px;">Work that does not wait for a patient to walk in — national control programmes, school clinics and screening camps that go out into the villages.</p>
+    <div data-dc-tpl="138" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; align-items: stretch;">
+      
+        <div data-dc-tpl="140" role="button" tabindex="0" class="scp8 scp9" style="display: flex; flex-direction: column; height: 100%; background: rgb(255, 255, 255); border: 1px solid rgb(224, 237, 233); border-radius: 16px; padding: 28px 30px 30px; color: rgb(22, 65, 58); cursor: pointer; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;">
+          <div data-dc-tpl="141" style="width: 50px; height: 50px; border-radius: 12px; background: rgb(225, 243, 239); display: flex; align-items: center; justify-content: center; margin-bottom: 18px;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#0A5F52" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-9.2A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.8C19 15.6 12 20 12 20Z"></path></svg></div>
+          <div data-dc-tpl="142" style="font-weight: 600; font-size: 21.5px; line-height: 1.26; color: rgb(11, 79, 69); margin-bottom: 7px;"><span class="sc-interp">Mother and Child Health</span></div>
+          <div data-dc-tpl="143" style="font-size: 17.5px; line-height: 1.5; color: rgb(90, 106, 102); margin-bottom: 16px;"><span class="sc-interp">Mother and Child Health Clinic services are provided as part of the hospital’s community health programmes.</span></div>
+          <div data-dc-tpl="144" style="aspect-ratio: 16 / 10; border-radius: 10px; overflow: hidden; background: rgb(238, 243, 241); margin: auto 0px 16px;">
+            <image-slot data-dc-tpl="145" id="pg-home-card-0" shape="rect" fit="cover" placeholder="Mother and Child Health"></image-slot>
+          </div>
+          <span data-dc-tpl="146" style="display: inline-flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 700; color: rgb(11, 101, 88);">
+            View photos
+            <svg data-dc-tpl="147" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect data-dc-tpl="148" x="3" y="5" width="18" height="14" rx="2"></rect><path data-dc-tpl="149" d="M3 16l5-5 4 4 3-3 6 6"></path></svg>
+          </span>
+        </div>
+      
+        <div data-dc-tpl="140" role="button" tabindex="0" class="scp8 scp9" style="display: flex; flex-direction: column; height: 100%; background: rgb(255, 255, 255); border: 1px solid rgb(224, 237, 233); border-radius: 16px; padding: 28px 30px 30px; color: rgb(22, 65, 58); cursor: pointer; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;">
+          <div data-dc-tpl="141" style="width: 50px; height: 50px; border-radius: 12px; background: rgb(225, 243, 239); display: flex; align-items: center; justify-content: center; margin-bottom: 18px;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#0A5F52" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20.5V9.4l8-5 8 5v11.1"></path><path d="M2.5 20.5h19"></path><path d="M12 10.4v5.2M9.4 13h5.2"></path></svg></div>
+          <div data-dc-tpl="142" style="font-weight: 600; font-size: 21.5px; line-height: 1.26; color: rgb(11, 79, 69); margin-bottom: 7px;"><span class="sc-interp">National Control Programmes</span></div>
+          <div data-dc-tpl="143" style="font-size: 17.5px; line-height: 1.5; color: rgb(90, 106, 102); margin-bottom: 16px;"><span class="sc-interp">Tuberculosis, leprosy and non-communicable disease care under the national schemes.</span></div>
+          <div data-dc-tpl="144" style="aspect-ratio: 16 / 10; border-radius: 10px; overflow: hidden; background: rgb(238, 243, 241); margin: auto 0px 16px;">
+            <image-slot data-dc-tpl="145" id="pg-home-card-1" shape="rect" fit="cover" placeholder="National Control Programmes"></image-slot>
+          </div>
+          <span data-dc-tpl="146" style="display: inline-flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 700; color: rgb(11, 101, 88);">
+            View photos
+            <svg data-dc-tpl="147" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect data-dc-tpl="148" x="3" y="5" width="18" height="14" rx="2"></rect><path data-dc-tpl="149" d="M3 16l5-5 4 4 3-3 6 6"></path></svg>
+          </span>
+        </div>
+      
+        <div data-dc-tpl="140" role="button" tabindex="0" class="scp8 scp9" style="display: flex; flex-direction: column; height: 100%; background: rgb(255, 255, 255); border: 1px solid rgb(224, 237, 233); border-radius: 16px; padding: 28px 30px 30px; color: rgb(22, 65, 58); cursor: pointer; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;">
+          <div data-dc-tpl="141" style="width: 50px; height: 50px; border-radius: 12px; background: rgb(225, 243, 239); display: flex; align-items: center; justify-content: center; margin-bottom: 18px;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#0A5F52" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z"></path><path d="M16.2 16.2 21 21"></path></svg></div>
+          <div data-dc-tpl="142" style="font-weight: 600; font-size: 21.5px; line-height: 1.26; color: rgb(11, 79, 69); margin-bottom: 7px;"><span class="sc-interp">Screening Camps</span></div>
+          <div data-dc-tpl="143" style="font-size: 17.5px; line-height: 1.5; color: rgb(90, 106, 102); margin-bottom: 16px;"><span class="sc-interp">The hospital conducts screening programmes for cancer as part of its community health initiatives.</span></div>
+          <div data-dc-tpl="144" style="aspect-ratio: 16 / 10; border-radius: 10px; overflow: hidden; background: rgb(238, 243, 241); margin: auto 0px 16px;">
+            <image-slot data-dc-tpl="145" id="pg-home-card-2" shape="rect" fit="cover" placeholder="Screening Camps"></image-slot>
+          </div>
+          <span data-dc-tpl="146" style="display: inline-flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 700; color: rgb(11, 101, 88);">
+            View photos
+            <svg data-dc-tpl="147" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect data-dc-tpl="148" x="3" y="5" width="18" height="14" rx="2"></rect><path data-dc-tpl="149" d="M3 16l5-5 4 4 3-3 6 6"></path></svg>
+          </span>
+        </div>
+      
+        <div data-dc-tpl="140" role="button" tabindex="0" class="scp8 scp9" style="display: flex; flex-direction: column; height: 100%; background: rgb(255, 255, 255); border: 1px solid rgb(224, 237, 233); border-radius: 16px; padding: 28px 30px 30px; color: rgb(22, 65, 58); cursor: pointer; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;">
+          <div data-dc-tpl="141" style="width: 50px; height: 50px; border-radius: 12px; background: rgb(225, 243, 239); display: flex; align-items: center; justify-content: center; margin-bottom: 18px;"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#0A5F52" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9 12 5l8.5 4-8.5 4L3.5 9Z"></path><path d="M7 11v4.5c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V11"></path></svg></div>
+          <div data-dc-tpl="142" style="font-weight: 600; font-size: 21.5px; line-height: 1.26; color: rgb(11, 79, 69); margin-bottom: 7px;"><span class="sc-interp">School Health Clinics</span></div>
+          <div data-dc-tpl="143" style="font-size: 17.5px; line-height: 1.5; color: rgb(90, 106, 102); margin-bottom: 16px;"><span class="sc-interp">The hospital conducts School Health Clinics as part of its community health programmes.</span></div>
+          <div data-dc-tpl="144" style="aspect-ratio: 16 / 10; border-radius: 10px; overflow: hidden; background: rgb(238, 243, 241); margin: auto 0px 16px;">
+            <image-slot data-dc-tpl="145" id="pg-home-card-3" shape="rect" fit="cover" placeholder="School Health Clinics"></image-slot>
+          </div>
+          <span data-dc-tpl="146" style="display: inline-flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 700; color: rgb(11, 101, 88);">
+            View photos
+            <svg data-dc-tpl="147" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect data-dc-tpl="148" x="3" y="5" width="18" height="14" rx="2"></rect><path data-dc-tpl="149" d="M3 16l5-5 4 4 3-3 6 6"></path></svg>
+          </span>
+        </div>
+      
+    </div>
+    <a data-dc-tpl="150" href="Programmes page.dc.html" class="scpa" style="display: inline-flex; align-items: center; gap: 10px; margin-top: 32px; background: rgb(10, 142, 123); border: 1px solid rgb(10, 142, 123); color: rgb(255, 255, 255); font-weight: 700; font-size: 19px; padding: 15px 28px; border-radius: 999px; animation: 2.6s ease-out 0s infinite normal none running mgHalo;">
+      Read more
+      <span data-dc-tpl="151" style="display: inline-flex; animation: 2.6s ease-in-out 0s infinite normal none running mgNudge;">
+        <svg data-dc-tpl="152" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="153" d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+      </span>
+    </a>
+   </div>
+  </section>
+
+  
+  <section data-dc-tpl="154" data-sec="3" style="margin-top: 80px; background: rgb(16, 140, 137); color: rgb(255, 255, 255); opacity: 1; transform: none; transition: opacity 0.8s, transform 0.9s cubic-bezier(0.2, 0.85, 0.3, 1);">
+    <div data-dc-tpl="155" style="max-width: 1800px; margin: 0px auto; padding: 62px 26px; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 56px; align-items: center;">
+      <div data-dc-tpl="156">
+        <div data-dc-tpl="157" style="font-size: 19px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(255, 255, 255); margin-bottom: 16px;">Camps &amp; events</div>
+        <h2 data-dc-tpl="158" style="font-weight: 600; font-size: 40px; line-height: 1.1; letter-spacing: -0.026em; margin: 0px 0px 20px; color: rgb(255, 255, 255); max-width: 640px; text-wrap: balance;">Check out our upcoming events.</h2>
+        <p data-dc-tpl="159" style="margin: 0px 0px 32px; font-size: 24px; line-height: 1.55; color: rgb(255, 255, 255); max-width: 660px;">Blood donation drives, eye and cancer screening camps, school health clinics and immunisation rounds — held on campus and out in the villages, free to attend.</p>
+        <a data-dc-tpl="160" href="Event page.dc.html" style="display: inline-flex; align-items: center; gap: 11px; background: rgb(255, 255, 255); color: rgb(11, 101, 88); font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;">
+          See the calendar
+          <svg data-dc-tpl="161" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="162" d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+        </a>
+      </div>
+      <div data-dc-tpl="163" style="display: flex; flex-direction: column; gap: 14px;">
+        
+          <a data-dc-tpl="165" href="Event page.dc.html" class="scpb" style="display: grid; grid-template-columns: 86px 1fr; gap: 20px; align-items: center; background: rgba(0, 0, 0, 0.16); border: 1px solid rgba(255, 255, 255, 0.24); border-radius: 14px; padding: 18px 22px; color: rgb(255, 255, 255); transition: background 0.25s;">
+            <div data-dc-tpl="166" style="text-align: center; background: rgba(255, 255, 255, 0.94); border-radius: 10px; padding: 9px 6px;">
+              <div data-dc-tpl="167" style="font-weight: 700; font-size: 24px; line-height: 1; color: rgb(11, 79, 69);"><span class="sc-interp">12</span></div>
+              <div data-dc-tpl="168" style="font-weight: 600; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(196, 42, 33); margin-top: 4px;"><span class="sc-interp">Jul</span></div>
+            </div>
+            <div data-dc-tpl="169">
+              <div data-dc-tpl="170" style="font-weight: 600; font-size: 21px; line-height: 1.26; margin-bottom: 5px;"><span class="sc-interp">Voluntary Blood Donation Camp</span></div>
+              <div data-dc-tpl="171" style="font-size: 19px; font-weight: 700; color: rgb(255, 255, 255);"><span class="sc-interp">Hospital campus, Mahabaleshwar</span></div>
+            </div>
+          </a>
+        
+          <a data-dc-tpl="165" href="Event page.dc.html" class="scpb" style="display: grid; grid-template-columns: 86px 1fr; gap: 20px; align-items: center; background: rgba(0, 0, 0, 0.16); border: 1px solid rgba(255, 255, 255, 0.24); border-radius: 14px; padding: 18px 22px; color: rgb(255, 255, 255); transition: background 0.25s;">
+            <div data-dc-tpl="166" style="text-align: center; background: rgba(255, 255, 255, 0.94); border-radius: 10px; padding: 9px 6px;">
+              <div data-dc-tpl="167" style="font-weight: 700; font-size: 24px; line-height: 1; color: rgb(11, 79, 69);"><span class="sc-interp">21</span></div>
+              <div data-dc-tpl="168" style="font-weight: 600; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(196, 42, 33); margin-top: 4px;"><span class="sc-interp">Jun</span></div>
+            </div>
+            <div data-dc-tpl="169">
+              <div data-dc-tpl="170" style="font-weight: 600; font-size: 21px; line-height: 1.26; margin-bottom: 5px;"><span class="sc-interp">Free Eye Screening &amp; Cataract Camp</span></div>
+              <div data-dc-tpl="171" style="font-size: 19px; font-weight: 700; color: rgb(255, 255, 255);"><span class="sc-interp">OPD block, Mahabaleshwar</span></div>
+            </div>
+          </a>
+        
+          <a data-dc-tpl="165" href="Event page.dc.html" class="scpb" style="display: grid; grid-template-columns: 86px 1fr; gap: 20px; align-items: center; background: rgba(0, 0, 0, 0.16); border: 1px solid rgba(255, 255, 255, 0.24); border-radius: 14px; padding: 18px 22px; color: rgb(255, 255, 255); transition: background 0.25s;">
+            <div data-dc-tpl="166" style="text-align: center; background: rgba(255, 255, 255, 0.94); border-radius: 10px; padding: 9px 6px;">
+              <div data-dc-tpl="167" style="font-weight: 700; font-size: 24px; line-height: 1; color: rgb(11, 79, 69);"><span class="sc-interp">08</span></div>
+              <div data-dc-tpl="168" style="font-weight: 600; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(196, 42, 33); margin-top: 4px;"><span class="sc-interp">May</span></div>
+            </div>
+            <div data-dc-tpl="169">
+              <div data-dc-tpl="170" style="font-weight: 600; font-size: 21px; line-height: 1.26; margin-bottom: 5px;"><span class="sc-interp">School Health Check-up Drive</span></div>
+              <div data-dc-tpl="171" style="font-size: 19px; font-weight: 700; color: rgb(255, 255, 255);"><span class="sc-interp">Zilla Parishad School, Metgutad</span></div>
+            </div>
+          </a>
+        
+      </div>
+    </div>
+  </section>
+
+  
+  <section data-dc-tpl="172" style="margin-top: 82px; background: rgb(234, 245, 242); border-top: 1px solid rgb(220, 235, 231); padding: 64px 0px 72px;">
+   <div data-dc-tpl="173" style="max-width: 1800px; margin: 0px auto; padding: 0px 26px;">
+    <div data-dc-tpl="174" style="display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid rgb(214, 231, 226); padding-bottom: 16px; margin-bottom: 26px; flex-wrap: wrap;">
+      <span data-dc-tpl="175" style="width: 30px; height: 4px; border-radius: 2px; background: rgb(10, 142, 123); flex: 0 0 auto;"></span>
+      <h2 data-dc-tpl="176" style="font-weight: 500; font-size: 34px; margin: 0px; color: rgb(31, 58, 52);">Support <span data-dc-tpl="177" style="font-weight: 700;">us</span></h2>
+      <a data-dc-tpl="178" href="Support us page.dc.html" style="margin-left: auto; font-size: 18.5px; font-weight: 700; color: rgb(11, 101, 88);">Ways to help →</a>
+    </div>
+    <p data-dc-tpl="179" style="margin: 0px 0px 32px; font-size: 21px; line-height: 1.6; color: rgb(69, 96, 90); max-width: 1000px;">You can support the hospital through donations, volunteering and essential equipment.</p>
+    <div data-dc-tpl="180" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px;">
+      
+        <a data-dc-tpl="182" href="Support us page.dc.html" class="scpc" style="display: block; background: rgb(255, 255, 255); border-width: 1px 1px 1px 6px; border-style: solid; border-color: rgb(224, 237, 233) rgb(224, 237, 233) rgb(224, 237, 233) rgb(43, 178, 196); border-image: none; border-radius: 16px; padding: 30px 32px 32px; color: rgb(22, 65, 58); transition: box-shadow 0.3s, transform 0.3s;">
+          <h3 data-dc-tpl="183" style="font-weight: 600; font-size: 24px; line-height: 1.22; margin: 0px 0px 10px; color: rgb(11, 79, 69);"><span class="sc-interp">Volunteer with us</span></h3>
+          <p data-dc-tpl="184" style="margin: 0px 0px 18px; font-size: 18.5px; line-height: 1.56; color: rgb(78, 95, 90);"><span class="sc-interp">Camp support, patient guidance at the OPD counter, or clinical volunteering for qualified staff and students.</span></p>
+          <span data-dc-tpl="185" style="display: inline-flex; align-items: center; gap: 9px; font-size: 18px; font-weight: 700; color: rgb(11, 101, 88);">
+            <span class="sc-interp">See the roles</span>
+            <svg data-dc-tpl="186" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="187" d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+          </span>
+        </a>
+      
+        <a data-dc-tpl="182" href="Support us page.dc.html" class="scpc" style="display: block; background: rgb(255, 255, 255); border-width: 1px 1px 1px 6px; border-style: solid; border-color: rgb(224, 237, 233) rgb(224, 237, 233) rgb(224, 237, 233) rgb(225, 51, 42); border-image: none; border-radius: 16px; padding: 30px 32px 32px; color: rgb(22, 65, 58); transition: box-shadow 0.3s, transform 0.3s;">
+          <h3 data-dc-tpl="183" style="font-weight: 600; font-size: 24px; line-height: 1.22; margin: 0px 0px 10px; color: rgb(11, 79, 69);"><span class="sc-interp">Not sure how you can help?</span></h3>
+          <p data-dc-tpl="184" style="margin: 0px 0px 18px; font-size: 18.5px; line-height: 1.56; color: rgb(78, 95, 90);"><span class="sc-interp">Call the office and ask what is needed this month — equipment, a few hours, or a camp to host.</span></p>
+          <span data-dc-tpl="185" style="display: inline-flex; align-items: center; gap: 9px; font-size: 18px; font-weight: 700; color: rgb(11, 101, 88);">
+            <span class="sc-interp">Talk to the office</span>
+            <svg data-dc-tpl="186" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="187" d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+          </span>
+        </a>
+      
+        <a data-dc-tpl="182" href="Support us page.dc.html" class="scpc" style="display: block; background: rgb(255, 255, 255); border-width: 1px 1px 1px 6px; border-style: solid; border-color: rgb(224, 237, 233) rgb(224, 237, 233) rgb(224, 237, 233) rgb(10, 142, 123); border-image: none; border-radius: 16px; padding: 30px 32px 32px; color: rgb(22, 65, 58); transition: box-shadow 0.3s, transform 0.3s;">
+          <h3 data-dc-tpl="183" style="font-weight: 600; font-size: 24px; line-height: 1.22; margin: 0px 0px 10px; color: rgb(11, 79, 69);"><span class="sc-interp">Make a donation</span></h3>
+          <p data-dc-tpl="184" style="margin: 0px 0px 18px; font-size: 18.5px; line-height: 1.56; color: rgb(78, 95, 90);"><span class="sc-interp">Your support can help the hospital continue providing essential healthcare services free of charge.</span></p>
+          <span data-dc-tpl="185" style="display: inline-flex; align-items: center; gap: 9px; font-size: 18px; font-weight: 700; color: rgb(11, 101, 88);">
+            <span class="sc-interp">How to give</span>
+            <svg data-dc-tpl="186" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0B6558" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="187" d="M5 12h13M12 5.5l6.5 6.5L12 18.5"></path></svg>
+          </span>
+        </a>
+      
+    </div>
+   </div>
+  </section>
+
+  
+  
+
+  
+  <footer data-dc-tpl="207" style="position: relative; background: rgb(16, 144, 140); color: rgb(220, 237, 234);">
+    <svg data-dc-tpl="208" aria-hidden="true" viewBox="0 0 1000 190" preserveAspectRatio="none" style="position: absolute; top: -1px; left: 0px; width: 100%; height: 191px; display: block; z-index: 1;"><path data-dc-tpl="209" d="M0 0h1000v190H0z" fill="#EAF5F2"></path><path data-dc-tpl="210" d="M0 26C300 -18 700 122 1000 178V191H0Z" fill="#10908C"></path></svg>
+    <div data-dc-tpl="211" style="position: relative; z-index: 2; max-width: 1800px; margin: 0px auto; padding: 168px 26px 0px;">
+      <div data-dc-tpl="212" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.26); border-radius: 16px; padding: 22px 28px; margin-bottom: 52px;">
+        <div data-dc-tpl="213" style="display: flex; align-items: center; gap: 14px;">
+          <span data-dc-tpl="214" style="width: 12px; height: 12px; border-radius: 50%; background: rgb(255, 255, 255); box-shadow: rgba(225, 51, 42, 0.5) 0px 0px 0px 5px; flex: 0 0 auto;"></span>
+          <div data-dc-tpl="215">
+            <div data-dc-tpl="216" style="font-weight: 700; font-size: 23px; color: rgb(255, 255, 255);">In an emergency, come straight in.</div>
+            <div data-dc-tpl="217" style="font-size: 18px; color: rgb(220, 237, 234); margin-top: 3px;">Casualty is open 24 hours, every day. No appointment needed.</div>
+          </div>
+        </div>
+        <div data-dc-tpl="218" style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <a data-dc-tpl="219" href="tel:+912168260247" class="scpf" style="display: inline-flex; align-items: center; gap: 10px; background: rgb(225, 51, 42); color: rgb(255, 255, 255); font-weight: 700; font-size: 19px; padding: 13px 24px; border-radius: 999px;"><svg data-dc-tpl="220" width="19" height="19" viewBox="0 0 24 24" fill="#ffffff" style="flex: 0 0 auto;"><path data-dc-tpl="221" d="M6.6 2.2c.5-.1 1 .2 1.1.7l1.1 4.6c.1.4-.1.9-.5 1.1L6.4 9.8a13.5 13.5 0 0 0 7.8 7.8l1.2-1.9c.2-.4.7-.6 1.1-.5l4.6 1.1c.5.1.8.6.7 1.1-.5 2.6-2.8 4.4-5.4 4.3C9.1 21.3 2.7 14.9 2.3 7.6 2.2 5 4 2.7 6.6 2.2Z"></path></svg>+91 21682 60247</a>
+          <a data-dc-tpl="222" href="Emergency page updated version.dc.html" style="display: inline-flex; align-items: center; gap: 10px; background: rgb(255, 255, 255); color: rgb(14, 125, 107); font-weight: 700; font-size: 19px; padding: 13px 24px; border-radius: 999px;">Emergency information</a>
+        </div>
+      </div>
+
+      <div data-dc-tpl="223" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 44px; padding-bottom: 44px;">
+        <div data-dc-tpl="224">
+          <div data-dc-tpl="225" style="font-weight: 700; font-size: 26px; line-height: 1.25; color: rgb(255, 255, 255); margin-bottom: 12px;">Morarji Gokuldas Rural Hospital</div>
+          <p data-dc-tpl="226" style="margin: 0px 0px 18px; font-size: 18.5px; line-height: 1.6; color: rgb(234, 247, 244); max-width: 420px;">A 30-bed government rural hospital in Mahabaleshwar, serving the town, nearby villages and visitors since 1914.</p>
+          <p data-dc-tpl="227" style="margin: 0px; font-size: 18.5px; line-height: 1.6; color: rgb(234, 247, 244);">All consultations, tests, medicines and stays are free of charge.</p>
+        </div>
+        <div data-dc-tpl="228">
+          <div data-dc-tpl="229" style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(199, 237, 230); margin-bottom: 16px;">Find us</div>
+          <div data-dc-tpl="230" style="font-size: 18.5px; line-height: 1.6; color: rgb(234, 247, 244); margin-bottom: 14px;">Mahabaleshwar – Medha Road<br data-dc-tpl="231">District Satara – 412 806<br data-dc-tpl="232">Maharashtra, India</div>
+          <a data-dc-tpl="233" href="Contact us page updated version.dc.html" style="font-size: 18px; font-weight: 600; color: rgb(255, 255, 255); text-decoration: underline; text-underline-offset: 4px;">Get directions</a>
+        </div>
+        <div data-dc-tpl="234">
+          <div data-dc-tpl="235" style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(199, 237, 230); margin-bottom: 16px;">Opening hours</div>
+          <div data-dc-tpl="236" style="display: flex; flex-direction: column; gap: 12px; font-size: 18.5px; line-height: 1.5; color: rgb(234, 247, 244);">
+            <div data-dc-tpl="237"><span data-dc-tpl="238" style="font-weight: 600; color: rgb(255, 255, 255);">OPD</span><br data-dc-tpl="239">09:00 am – 01:00 pm<br data-dc-tpl="240">04:00 pm – 06:00 pm</div>
+            <div data-dc-tpl="241"><span data-dc-tpl="242" style="font-weight: 600; color: rgb(255, 255, 255);">Casualty</span><br data-dc-tpl="243">Open 24 hours</div>
+          </div>
+        </div>
+        <div data-dc-tpl="244">
+          <div data-dc-tpl="245" style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(199, 237, 230); margin-bottom: 16px;">Explore</div>
+          <div data-dc-tpl="246" style="display: flex; flex-direction: column; gap: 10px;">
+            <a data-dc-tpl="247" href="Facilities (V1) update version.dc.html" class="scpg" style="font-size: 18.5px; color: rgb(234, 247, 244);">Facilities</a>
+            <a data-dc-tpl="248" href="Doctors page updated version.dc.html" class="scpg" style="font-size: 18.5px; color: rgb(234, 247, 244);">Doctors</a>
+            <a data-dc-tpl="249" href="Programmes page updated version.dc.html" class="scpg" style="font-size: 18.5px; color: rgb(234, 247, 244);">Programmes</a>
+            <a data-dc-tpl="250" href="Event page updated version.dc.html" class="scpg" style="font-size: 18.5px; color: rgb(234, 247, 244);">Camps &amp; Events</a>
+            <a data-dc-tpl="251" href="Support us page updated version.dc.html" class="scpg" style="font-size: 18.5px; color: rgb(234, 247, 244);">Support Us</a>
+            <a data-dc-tpl="252" href="Contact us page updated version.dc.html" class="scpg" style="font-size: 18.5px; color: rgb(234, 247, 244);">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div data-dc-tpl="253" style="border-top: 1px solid rgba(255, 255, 255, 0.3); padding: 20px 0px 26px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 17px; color: rgb(211, 237, 232);">
+        <span data-dc-tpl="254">© 2026 Morarji Gokuldas Rural Hospital, Mahabaleshwar</span>
+        <a data-dc-tpl="255" href="mailto:info@mgrh-mahabaleshwar.org" class="scpg" style="color: rgb(211, 237, 232);">info@mgrh-mahabaleshwar.org</a>
+      </div>
+    </div>
+  </footer></div></div></div>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1800}}">
+class Component extends DCLogic {
+  state = { activeProg: null, seen: { 0: true, 1: true, 2: true, 3: true, 4: true } };
+  refs5 = [0,1,2,3,4].map(() => React.createRef());
+
+  componentDidMount() {
+    this.arm();
+    this._onKey = e => { if (e.key === 'Escape') this.setState({ activeProg: null }); };
+    window.addEventListener('keydown', this._onKey);
+  }
+  componentDidUpdate() { if (!this._armed) this.arm(); }
+
+  arm() {
+    if (this._armed || typeof IntersectionObserver === 'undefined') return;
+    const els = this.refs5.map(r => r.current);
+    if (els.some(e => !e)) return;
+    this._armed = true;
+
+    const h = document.documentElement.clientHeight || 800;
+    const seen = {};
+    els.forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      seen[i] = r.top < h * 0.9 && r.bottom > 0;
+      el.setAttribute('data-sec', String(i));
+    });
+    this.setState({ seen });
+
+    this._io = new IntersectionObserver(entries => {
+      let next = null;
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const k = e.target.getAttribute('data-sec');
+        if (k && !this.state.seen[k]) { next = next || {}; next[k] = true; }
+        this._io.unobserve(e.target);
+      });
+      if (next) this.setState(s => ({ seen: { ...s.seen, ...next } }));
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+    els.forEach(el => this._io.observe(el));
+
+    this._scrolled = false;
+    this._onScroll = () => { this._scrolled = true; };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._safety = setTimeout(() => {
+      if (this._scrolled) return;
+      const all = {};
+      this.refs5.forEach((r, i) => { all[i] = true; });
+      this.setState(st => ({ seen: { ...st.seen, ...all } }));
+    }, 1800);
+  }
+
+  componentWillUnmount() {
+    if (this._io) this._io.disconnect();
+    clearTimeout(this._safety);
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('keydown', this._onKey);
+  }
+
+  renderVals() {
+    const seen = this.state.seen;
+    const ce = React.createElement;
+    const fIcon = (stroke, paths) => ce('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'none', stroke, strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flex: 'none', marginTop: '2px' } },
+      paths.map((d, i) => ce('path', { key: i, d })));
+    const plain = arr => arr.map(t => ({ text: t, color: '#ffffff', hasIcon: false, icon: null }));
+    const icon = paths => ce('svg', { width: 25, height: 25, viewBox: '0 0 24 24', fill: 'none', stroke: '#0A5F52', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round' },
+      paths.map((d, i) => ce('path', { key: i, d })));
+
+    const R = (typeof window !== 'undefined' && window.__resources) || {};
+    const asset = (id, path) => R[id] || path;
+    const centreData = [
+      { name: 'Casualty & Critical Care', count: '3 units', img: asset('cBuilding', 'assets/contact-building.png'),
+        desc: 'The door that never closes. Triage, resuscitation and an intensive care unit with monitored beds, ventilator support and a resident officer through the night.',
+        units: ['Casualty ward', 'Intensive Care Unit', 'Ambulance service'] },
+      { name: 'Operation Theatres', count: '2 theatres', img: asset('cOt', 'assets/photo-ot-banner.png'),
+        desc: 'A major theatre for abdominal, orthopaedic and obstetric surgery, and a minor theatre for procedures that need sterile conditions but not a full list.',
+        units: ['Major OT', 'Minor OT', 'Post-operative recovery'] },
+      { name: 'Maternity & Newborn', count: '4 units', img: asset('cIcu', 'assets/photo-icu-bed.png'),
+        desc: 'Antenatal visits through every trimester, supervised deliveries with round-the-clock nursing cover, and postnatal care for mother and baby before discharge.',
+        units: ['Labour room', 'Antenatal clinic', 'Postnatal ward', 'Immunisation'] },
+      { name: 'Diagnostics & Imaging', count: '5 units', img: asset('cPath', 'assets/photo-pathology.png'),
+        desc: 'Blood work, X-ray, sonography and 2D echo on the same campus, so the doctor who ordered a test reads the result the same visit rather than the next week.',
+        units: ['Pathology Lab', 'X-ray', 'Sonography', '2D Echo', 'ECG'] },
+      { name: 'Outpatient & Dental', count: '3 units', img: asset('cCorridor', 'assets/photo-corridor.png'),
+        desc: 'General consultation from nine to five, visiting specialist clinics on fixed days, and a dental chair for extractions, fillings and oral cancer screening.',
+        units: ['General OPD', 'Specialist clinics', 'Dental'] },
+      { name: 'Wards & Support', count: '4 units', img: asset('cWard', 'assets/about-after-2.png'),
+        desc: 'Separate male and female wards, a paediatric corner, and the pharmacy, linen and kitchen that keep an inpatient stay running — without a bill at the end.',
+        units: ['Male ward', 'Female ward', 'Paediatric beds', 'Pharmacy'] },
+    ];
+
+    const progData = [
+        { name: 'Mother and Child Health', desc: 'Mother and Child Health Clinic services are provided as part of the hospital’s community health programmes.',
+          icon: icon(['M12 20s-7-4.4-7-9.2A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.8C19 15.6 12 20 12 20Z']) },
+        { name: 'National Control Programmes', desc: 'Tuberculosis, leprosy and non-communicable disease care under the national schemes.',
+          icon: icon(['M4 20.5V9.4l8-5 8 5v11.1', 'M2.5 20.5h19', 'M12 10.4v5.2M9.4 13h5.2']) },
+        { name: 'Screening Camps', desc: 'The hospital conducts screening programmes for cancer as part of its community health initiatives.',
+          icon: icon(['M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z', 'M16.2 16.2 21 21']) },
+        { name: 'School Health Clinics', desc: 'The hospital conducts School Health Clinics as part of its community health programmes.',
+          icon: icon(['M3.5 9 12 5l8.5 4-8.5 4L3.5 9Z', 'M7 11v4.5c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V11']) },
+    ];
+
+    const ai = this.state.activeProg;
+    const activeProg = (ai === null || ai === undefined) ? null : progData[ai];
+    const RH = ['3/2', '4/3', '3/2', '4/3'];
+    const shots = activeProg
+      ? ['General view', 'Clinic in progress', 'Staff and health workers', 'Records and follow-up', 'Out in the villages'].map((label, n) => ({
+          id: 'pg-home-' + ai + '-' + (n + 1),
+          label,
+          ratio: n === 0 ? '16/9' : RH[n % RH.length],
+          span: n === 0 ? 'span 2' : 'auto',
+        }))
+      : [];
+
+    return {
+      r0: this.refs5[0], o0: seen[0] ? 1 : 0, t0: seen[0] ? 'none' : 'translateY(26px)',
+      r1: this.refs5[1], o1: seen[1] ? 1 : 0, t1: seen[1] ? 'none' : 'translateY(26px)',
+      r2: this.refs5[2], o2: seen[2] ? 1 : 0, t2: seen[2] ? 'none' : 'translateY(26px)',
+      r3: this.refs5[3], o3: seen[3] ? 1 : 0, t3: seen[3] ? 'none' : 'translateY(26px)',
+      r4: this.refs5[4], o4: seen[4] ? 1 : 0, t4: seen[4] ? 'none' : 'translateY(26px)',
+
+      milestones: [
+        { year: '1914', text: 'Shri Moraji Gokuldas donates the hospital building to the Central Government.' },
+        { year: '1962', text: 'Handed to the Zilla Parishad, Satara, running as a primary health centre.' },
+        { year: '1988', text: 'Transferred to the Government of Maharashtra on 1st February.' },
+        { year: '2019', text: 'Tripartite agreement with the Indian Red Cross Society and Bel-Air, Panchgani.' },
+      ],
+      glance: [
+        { value: '1914', label: 'The year the hospital was donated' },
+        { value: '14', label: 'Departments on a single campus' },
+        { value: '24 hrs', label: 'Casualty, every day of the year' },
+        { value: '₹0', label: 'Charged — consultation to discharge' },
+      ],
+      centres: centreData.slice(0, 3).map(c => ({ name: c.name, count: c.count, bg: 'url("' + c.img + '")' })),
+
+      programmes: progData.map((p, i) => ({
+        name: p.name, desc: p.desc, icon: p.icon,
+        slot: 'pg-home-card-' + i,
+        open: () => this.setState({ activeProg: i }),
+      })),
+      galleryOpen: !!activeProg,
+      active: activeProg || {},
+      activeShots: shots,
+      closeGallery: () => this.setState({ activeProg: null }),
+      stop: ev => ev.stopPropagation(),
+
+      events: [
+        { day: '12', month: 'Jul', title: 'Voluntary Blood Donation Camp', venue: 'Hospital campus, Mahabaleshwar' },
+        { day: '21', month: 'Jun', title: 'Free Eye Screening & Cataract Camp', venue: 'OPD block, Mahabaleshwar' },
+        { day: '08', month: 'May', title: 'School Health Check-up Drive', venue: 'Zilla Parishad School, Metgutad' },
+      ],
+      support: [
+        { title: 'Volunteer with us', desc: 'Camp support, patient guidance at the OPD counter, or clinical volunteering for qualified staff and students.', cta: 'See the roles', accent: '#2BB2C4' },
+        { title: 'Not sure how you can help?', desc: 'Call the office and ask what is needed this month — equipment, a few hours, or a camp to host.', cta: 'Talk to the office', accent: '#E1332A' },
+        { title: 'Make a donation', desc: 'Your support can help the hospital continue providing essential healthcare services free of charge.', cta: 'How to give', accent: '#0A8E7B' },
+      ],
+      reachRows: [
+        { label: 'Address', value: 'Mahabaleshwar - Medha Road, District - Satara – 412 806, Maharashtra' },
+        { label: 'Telephone', value: '+91 21682 60247' },
+        { label: 'Email', value: 'info@mgrh-mahabaleshwar.org' },
+        { label: 'OPD hours', value: '09:00 am – 01:00 pm and 04:00 pm – 06:00 pm' },
+      ],
+      nav: [
+        { label: 'Home', color: '#0A8E7B', href: '#top' },
+        { label: 'About Us', color: '#35514B', href: 'About us page V2.dc.html' },
+        { label: 'Facilities', color: '#35514B', href: 'Facilities (V1).dc.html' },
+        { label: 'Doctors', color: '#35514B', href: 'Doctors page.dc.html' },
+        { label: 'Programmes', color: '#35514B', href: 'Programmes page.dc.html' },
+        { label: 'Events', color: '#35514B', href: 'Event page.dc.html' },
+        { label: 'Support Us', color: '#35514B', href: 'Support us page.dc.html' },
+        { label: 'Contact', color: '#35514B', href: 'Contact us page.dc.html' },
+      ],
+      footCols: [
+        { head: 'Quick links', items: plain(['About Us', 'Facilities', 'Doctors', 'Programmes', 'Camps & Events', 'Support Us', 'Contact']).concat([
+          { text: 'Emergency', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M12 2.6 22 20.4H2Z', 'M12 9.6v4.4M12 16.6v.4']) },
+        ]) },
+        { head: 'Our facilities', items: plain(['Casualty Ward — 24 hours', 'Intensive Care Unit', 'Operation Theatres', 'Maternity & Labour Room', 'Pathology Lab', 'X-ray & Sonography', 'Dental', 'Pharmacy']) },
+        { head: 'Visit us', items: plain(['Morarji Gokuldas Rural Hospital', 'Mahabaleshwar - Medha Road', 'District - Satara – 412 806', 'Maharashtra, India', 'OPD 09:00 am – 01:00 pm, 04:00 pm – 06:00 pm', 'Casualty open 24 hours']) },
+        { head: 'Contact', items: [
+          { text: 'Hospital: +91 21682 60247', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1Z']) },
+          { text: 'Emergency: +91 21682 60247', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1Z']) },
+          { text: 'National ambulance: 108', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M3 16.5h14v-8H3z', 'M17 11h2.6l1.4 3v2.5H17z', 'M7 19a1.6 1.6 0 1 0 0-3.2A1.6 1.6 0 0 0 7 19ZM18 19a1.6 1.6 0 1 0 0-3.2 1.6 1.6 0 0 0 0 3.2Z', 'M10 10.6v3.4M8.3 12.3h3.4']) },
+          { text: 'info@mgrh-mahabaleshwar.org', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M3 6.5h18v11H3z', 'M3.6 7.2 12 13l8.4-5.8']) },
+          { text: 'msmshwar@gmail.com', color: '#ffffff', hasIcon: true, icon: fIcon('#ffffff', ['M3 6.5h18v11H3z', 'M3.6 7.2 12 13l8.4-5.8']) },
+        ] },
+      ],
+    };
+  }
+}
+</script>
+
+
+</body></html>

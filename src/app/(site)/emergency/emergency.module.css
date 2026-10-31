@@ -1,0 +1,33 @@
+.contactCard:hover {
+  box-shadow: 0 26px 52px -34px rgba(80, 30, 26, 0.5) !important;
+  transform: translateY(-4px) !important;
+  color: #16413a !important;
+}
+
+.redButton:hover {
+  background: #c42a21 !important;
+  color: #ffffff !important;
+}
+
+.outlineButton:hover {
+  border-color: #e1332a !important;
+  color: #e1332a !important;
+}
+
+.tealButton:hover {
+  background: #0b7f73 !important;
+  color: #ffffff !important;
+}
+
+.waButton:hover {
+  background: #17853f !important;
+  color: #ffffff !important;
+}
+
+.ghostButton:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+}
+
+.callCard:hover {
+  border-color: #e1332a !important;
+}

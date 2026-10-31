@@ -1,0 +1,30 @@
+.placeholderLabel {
+  max-width: 90%;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  opacity: 0.75;
+}
+
+.placeholderLabel::after {
+  content: attr(data-label);
+}
+
+.card:hover {
+  box-shadow: 0 34px 62px -34px rgba(6, 120, 100, 0.55) !important;
+  border-color: #bee3db !important;
+  transform: translateY(-6px) !important;
+}
+
+.card:focus {
+  outline: 3px solid #a8ded4;
+  outline-offset: 2px;
+}
+
+.filter:hover {
+  border-color: #06a88c !important;
+}
+
+.galleryClose:hover {
+  background: #fdf1f0 !important;
+  border-color: #f6bdb8 !important;
+}

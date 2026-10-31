@@ -34,7 +34,7 @@ export function Header() {
   }, [open]);
 
   const navClass = (href: string) =>
-    `flex-none whitespace-nowrap rounded-md px-[11px] py-[9px] font-medium transition-colors hover:bg-mint-2 2xl:px-[15px] ${
+    `flex-none whitespace-nowrap rounded-md px-[15px] py-[9px] font-medium transition-colors hover:bg-mint-2 ${
       pathname === href ? 'text-primary' : 'text-nav hover:text-primary-dark'
     }`;
 
@@ -42,11 +42,11 @@ export function Header() {
     <header className="sticky top-0 z-[60] border-b border-line-2 bg-white">
       <div className="mx-auto flex max-w-site items-center justify-between gap-6 px-4 py-[10px] sm:px-[26px] xl:py-[14px]">
         <Link href="/" className="block flex-none" aria-label={`${settings.hospital_name} — home`}>
-          <img src={settings.logo_url} alt={settings.hospital_name} className="block h-[72px] w-auto md:h-[96px] xl:h-[112px] 2xl:h-[132px]" />
+          <img src={settings.logo_url} alt={settings.hospital_name} className="block h-[72px] w-auto md:h-[96px] xl:h-[132px]" />
         </Link>
 
         <nav className="hidden min-w-0 flex-1 items-center justify-end xl:flex" aria-label="Main">
-          <div className="ml-auto flex min-w-0 items-center text-[19px] 2xl:text-[21px] min-[1700px]:text-[24px]">
+          <div className="ml-auto flex min-w-0 items-center text-[24px]">
             {navItems.map((item) => (
               <Link key={item.href} href={item.href} className={navClass(item.href)}>
                 {item.label}
@@ -55,7 +55,7 @@ export function Header() {
           </div>
           <Link
             href="/emergency"
-            className="ml-[14px] inline-flex flex-none items-center gap-2 whitespace-nowrap rounded-md bg-emergency px-5 py-3 text-[19px] font-bold text-white transition-colors hover:bg-[#C42A21] hover:text-white 2xl:text-[22px]"
+            className="ml-[14px] inline-flex flex-none items-center gap-2 whitespace-nowrap rounded-md bg-emergency px-5 py-3 text-[22px] font-bold text-white transition-colors hover:bg-[#C42A21] hover:text-white"
           >
             <AlertCircle /> Emergency
           </Link>

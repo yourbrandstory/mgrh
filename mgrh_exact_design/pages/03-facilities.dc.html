@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="ext-resource-dependency" content="assets/mgrh-logo.png" data-resource-id="logo" />
+<meta name="ext-resource-dependency" content="assets/facilities-hero.png" data-resource-id="hero" />
+<meta name="ext-resource-dependency" content="assets/photo-icu-bed.png" data-resource-id="icu" />
+<meta name="ext-resource-dependency" content="assets/photo-pathology.png" data-resource-id="path" />
+<meta name="ext-resource-dependency" content="assets/photo-ot-banner.png" data-resource-id="ot" />
+<meta name="ext-resource-dependency" content="assets/photo-corridor.png" data-resource-id="corridor" />
+<meta name="ext-resource-dependency" content=".image-slots.state.json" data-resource-id="image-slot-state" />
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#ffffff">
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#06A085"/><g fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"><path d="M62 148V86l38-20 38 20v62"/><path d="M56 148h88"/><path d="M100 96v26M87 109h26"/></g></svg>
+</template>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap" rel="stylesheet">
+  <script src="./image-slot.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #06A88C; text-decoration: none; }
+    a:hover { color: #0E7D6B; }
+    ::selection { background: #CDEBE5; }
+    html { scroll-behavior: smooth; }
+    @keyframes mgDrift { 0% { transform: translate3d(0,0,0) scale(1.16); } 25% { transform: translate3d(-54px,-18px,0) scale(1.22); } 50% { transform: translate3d(-74px,14px,0) scale(1.16); } 75% { transform: translate3d(-30px,26px,0) scale(1.22); } 100% { transform: translate3d(0,0,0) scale(1.16); } }
+  </style>
+</helmet>
+
+<div style="font-family: 'DM Sans', sans-serif; color: #1F3A34; background: #ffffff;">
+
+  <!-- ===== TOP UTILITY BAND ===== -->
+  <div style="background: #2AA5AE; color: #E4F5F6;">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 10px 26px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-size: 15.5px;">
+      <div style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap;">
+        <span style="display: inline-flex; align-items: center; gap: 9px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#CFEDEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+          Mahabaleshwar - Medha Road, District - Satara – 412 806, Maharashtra
+        </span>
+        <span style="display: inline-flex; align-items: center; gap: 9px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#CFEDEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5V12l3.4 2"></path></svg>
+          OPD 9:00 – 17:00 · Casualty open 24 hours
+        </span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+        <span style="display: inline-flex; align-items: center; gap: 9px; color: #ffffff; font-weight: 600;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="#CFEDEF"><path d="M6.6 2.2c.5-.1 1 .2 1.1.7l1.1 4.6c.1.4-.1.9-.5 1.1L6.4 9.8a13.5 13.5 0 0 0 7.8 7.8l1.2-1.9c.2-.4.7-.6 1.1-.5l4.6 1.1c.5.1.8.6.7 1.1-.5 2.6-2.8 4.4-5.4 4.3C9.1 21.3 2.7 14.9 2.3 7.6 2.2 5 4 2.7 6.6 2.2Z"></path></svg>
+          <a href="tel:+912168260247" style="color: #ffffff;">+91 21682 60247</a>
+        </span>
+        <span style="display: inline-flex; align-items: center; gap: 9px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#CFEDEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3.5 6.5 12 13l8.5-6.5"></path></svg>
+          <a href="mailto:info@mgrh-mahabaleshwar.org" style="color: #F0FAFB;">info@mgrh-mahabaleshwar.org</a>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header ref="{{ headerRef }}" style="position: sticky; top: 0; z-index: 60; background: #ffffff; border-bottom: 1px solid #E6ECEA;">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 14px 26px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <img src="assets/mgrh-logo.png" alt="Morarji Gokuldas Rural Hospital" style="height: 140px; width: auto; display: block;">
+      <nav style="flex: 1; min-width: 0; display: flex; align-items: center; justify-content: flex-end; gap: 0;">
+        <div style="flex: 0 1 auto; min-width: 0; margin-left: auto; display: flex; align-items: center; justify-content: flex-start; gap: 0; overflow-x: auto; scrollbar-width: none;">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
+            <a href="{{ n.href }}" style="flex: none; font-weight: 500; font-size: 26px; padding: 9px 15px; border-radius: 6px; color: {{ n.color }}; cursor: pointer; white-space: nowrap; text-decoration: none;" style-hover="color: #06A88C;">{{ n.label }}</a>
+          </sc-for>
+        </div>
+        <a href="#emergency" style="flex: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 23px; margin-left: 12px; background: #E1332A; color: #fff; padding: 11px 18px; border-radius: 6px; white-space: nowrap;" style-hover="background: #C42A21; color: #fff;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 7.5v6M12 16.6v.4"></path></svg>
+          Emergency
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ===== STICKY JUMP + EMERGENCY BAR ===== -->
+  <div ref="{{ jumpBarRef }}" style="position: fixed; top: {{ jumpBarTop }}; left: 0; right: 0; z-index: 55; box-shadow: 0 12px 30px -22px rgba(12,70,62,0.5); transform: {{ jumpBarTransform }}; transition: transform 0.28s ease; pointer-events: {{ jumpBarEvents }};">
+    <div style="background: #FDF1F0; border-bottom: 1px solid #F6D8D5;">
+      <div style="max-width: 1800px; margin: 0 auto; padding: 8px 26px; display: flex; align-items: center; gap: 12px; font-size: 15px; color: #8A3A33;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#E1332A" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 7.5v6M12 16.6v.4"></path></svg>
+        <span style="font-weight: 700; color: #9E2018;">In an emergency</span>
+        <span>Go directly to the Casualty Ward — no appointment or queue.</span>
+        <a href="tel:+912168260247" style="margin-left: auto; font-weight: 700; color: #C42A21; white-space: nowrap;">+91 21682 60247</a>
+      </div>
+    </div>
+    <div style="background: rgba(255,255,255,0.97); border-bottom: 1px solid #E6ECEA;">
+      <div style="max-width: 1800px; margin: 0 auto; padding: 11px 26px; display: flex; align-items: center; gap: 16px;">
+        <span style="flex: none; font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8C87;">Jump to a section</span>
+        <div style="flex: 1; min-width: 0; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;">
+          <sc-for list="{{ jumps }}" as="j" hint-placeholder-count="6">
+            <a href="{{ j.href }}" style="flex: none; border: 1px solid #D2E8E3; color: #1F3A34; font-weight: 500; font-size: 15px; padding: 7px 15px; border-radius: 999px; white-space: nowrap;" style-hover="border-color: #06A88C; color: #06A88C;">{{ j.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section style="position: relative; overflow: hidden;">
+    <div style="position: absolute; inset: 0; z-index: 0; background: linear-gradient(122deg, #04A08A 0%, #0A9EA2 52%, #45B8CC 100%);"></div>
+    <div style="position: absolute; inset: 0; z-index: 1; overflow: hidden;">
+      <img src="assets/facilities-hero.png" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: center 55%; display: block;">
+    </div>
+    <div style="position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(90deg, rgba(3,96,84,0.92) 0%, rgba(4,104,94,0.82) 36%, rgba(10,140,140,0.45) 62%, rgba(43,178,196,0.12) 100%);"></div>
+    <div style="position: relative; z-index: 3; max-width: 1800px; margin: 0 auto; padding: 52px 26px 84px;">
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 17px; letter-spacing: 0.12em; font-weight: 500; text-transform: uppercase; color: rgba(255,255,255,0.74); margin-bottom: 20px; flex-wrap: wrap;">
+        <span style="cursor: pointer;">Home</span><span style="opacity: 0.5;">/</span>
+        <span style="color: rgba(255,255,255,0.6);">Our facilities and Services</span>
+      </div>
+      <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.28); color: #EAF7F4; font-size: 17px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 15px; border-radius: 999px; margin-bottom: 22px;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #C7EDE6;"></span>
+        Fourteen departments under one roof
+      </div>
+      <div style="max-width: 760px;">
+        <h1 style="font-weight: 500; font-size: 56px; line-height: 1.16; margin: 0 0 20px; color: #ffffff; letter-spacing: -0.02em;">Our Facilities <span style="font-weight: 700;">and Services</span></h1>
+        <p style="font-size: 21px; line-height: 1.6; color: rgba(255,255,255,0.92); margin: 0;">Fourteen departments covering emergency care, surgery, diagnostics, maternity and inpatient wards all under one roof, and all provided free of charge.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUICK JUMP ROW ===== -->
+  <section style="background: #F4FAF8; border-bottom: 1px solid #E6EFEC;">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 26px 26px;">
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <span style="flex: none; font-weight: 600; font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #7A8C87;">Jump to a section</span>
+        <div style="flex: 1; min-width: 0; display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none;">
+          <sc-for list="{{ jumps }}" as="j" hint-placeholder-count="6">
+            <a href="{{ j.href }}" style="flex: none; background: #ffffff; border: 1px solid #D2E8E3; color: #1F3A34; font-weight: 500; font-size: 17px; padding: 11px 19px; border-radius: 999px; white-space: nowrap;" style-hover="border-color: #06A88C; color: #06A88C;">{{ j.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DEPARTMENT SECTIONS (first half) ===== -->
+  <sc-for list="{{ groupsTop }}" as="g" hint-placeholder-count="3">
+    <section id="{{ g.id }}" style="background: {{ g.bg }}; scroll-margin-top: 150px;">
+      <div style="max-width: 1800px; margin: 0 auto; padding: 46px 26px 50px;">
+        <div style="background: {{ g.bandBg }}; border-left: 6px solid #06A88C; border-radius: 14px; padding: 24px 30px; display: flex; align-items: center; justify-content: space-between; gap: 26px; margin-bottom: 34px; flex-wrap: wrap;">
+          <h2 style="font-weight: 600; font-size: 27px; margin: 0; color: #12564C;">{{ g.title }}</h2>
+          <p style="margin: 0; font-size: 18px; color: #4E5F5A; max-width: 560px;">{{ g.blurb }}</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 50px;">
+          <sc-for list="{{ g.items }}" as="f" hint-placeholder-count="3">
+            <div style="display: grid; grid-template-columns: 420px 1fr; gap: 46px; align-items: start;">
+              <div>
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 10px;">
+                  <h3 style="font-weight: 600; font-size: 24px; margin: 0; color: #1F3A34; line-height: 1.26;">{{ f.name }}</h3>
+                  <sc-if value="{{ f.multi }}" hint-placeholder-val="{{ true }}"></sc-if>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <sc-for list="{{ f.paras }}" as="para" hint-placeholder-count="1">
+                    <p style="margin: 0; font-size: 18px; line-height: 1.62; color: #4E5F5A;">{{ para }}</p>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ f.hasTests }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;">
+                    <sc-for list="{{ f.tests }}" as="t" hint-placeholder-count="3">
+                      <span style="background: #E1F3EF; color: #0A5F52; font-weight: 600; font-size: 15.5px; padding: 7px 14px; border-radius: 999px;">{{ t }}</span>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{ f.single }}" hint-placeholder-val="{{ false }}">
+                <div style="max-width: 860px;">
+                  <sc-if value="{{ f.lead.hasSrc }}" hint-placeholder-val="{{ false }}">
+                    <div style="aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background-color: #EEF3F1; background-image: {{ f.lead.bgCss }}; background-size: cover; background-position: center;" role="img" aria-label="{{ f.lead.label }}"></div>
+                  </sc-if>
+                  <sc-if value="{{ f.lead.noSrc }}" hint-placeholder-val="{{ true }}">
+                    <div style="aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: #EEF3F1;">
+                      <image-slot id="{{ f.lead.id }}" shape="rect" fit="cover" placeholder="{{ f.lead.label }}"></image-slot>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-if>
+              <sc-if value="{{ f.multi }}" hint-placeholder-val="{{ true }}">
+              <div style="display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px; align-items: flex-start;">
+                <sc-for list="{{ f.shots }}" as="s" hint-placeholder-count="3">
+                  <div style="flex: none; width: {{ s.width }}; scroll-snap-align: center;">
+                    <sc-if value="{{ s.hasSrc }}" hint-placeholder-val="{{ false }}">
+                      <div style="height: 300px; overflow: hidden; border-radius: 8px; background-color: #EEF3F1; background-image: {{ s.bgCss }}; background-size: cover; background-position: center;" role="img" aria-label="{{ s.label }}"></div>
+                    </sc-if>
+                    <sc-if value="{{ s.noSrc }}" hint-placeholder-val="{{ true }}">
+                      <div style="height: 300px; overflow: hidden; border-radius: 8px; background: #EEF3F1;">
+                        <image-slot id="{{ s.id }}" shape="rect" fit="cover" placeholder="{{ s.label }}"></image-slot>
+                      </div>
+                    </sc-if>
+                    <div style="margin: 10px 2px 0; font-size: 15px; color: #5A6A66;">{{ s.label }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-top: 34px;">
+          <button type="button" onClick="{{ toTop }}" style="display: inline-flex; align-items: center; gap: 8px; background: #ffffff; border: 1px solid #CBE6DF; color: #0A5F52; font-family: inherit; font-weight: 600; font-size: 16px; padding: 10px 18px; border-radius: 999px; cursor: pointer; transition: background 0.25s ease, border-color 0.25s ease;" style-hover="background: #E1F3EF; border-color: #06A88C;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A5F52" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5.5M5.5 12 12 5.5 18.5 12"></path></svg>
+            Back to top
+          </button>
+        </div>
+      </div>
+    </section>
+  </sc-for>
+
+  <!-- ===== BREAKER: NOT SURE WHICH DEPARTMENT ===== -->
+  <section style="background: linear-gradient(122deg, #0A8E7B 0%, #0C9497 55%, #38ADBE 100%);">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 54px 26px; display: flex; align-items: center; justify-content: space-between; gap: 34px; flex-wrap: wrap;">
+      <div style="max-width: 760px;">
+        <h3 style="font-weight: 600; font-size: 27px; margin: 0 0 10px; color: #ffffff;">Not sure which department you need?</h3>
+        <p style="margin: 0; font-size: 18.5px; line-height: 1.6; color: rgba(255,255,255,0.92);">Visit the OPD counter when you arrive. Our staff will direct you to the right department, explain any tests the doctor orders, and share details of government health care schemes you may be eligible for.</p>
+      </div>
+      <a href="tel:+912168260247" style="display: inline-flex; align-items: center; gap: 10px; background: #ffffff; color: #0B6558; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; white-space: nowrap;">Call the hospital</a>
+    </div>
+  </section>
+
+  <!-- ===== DEPARTMENT SECTIONS (second half) ===== -->
+  <sc-for list="{{ groupsBottom }}" as="g" hint-placeholder-count="3">
+    <section id="{{ g.id }}" style="background: {{ g.bg }}; scroll-margin-top: 150px;">
+      <div style="max-width: 1800px; margin: 0 auto; padding: 46px 26px 50px;">
+        <div style="background: {{ g.bandBg }}; border-left: 6px solid #06A88C; border-radius: 14px; padding: 24px 30px; display: flex; align-items: center; justify-content: space-between; gap: 26px; margin-bottom: 34px; flex-wrap: wrap;">
+          <h2 style="font-weight: 600; font-size: 27px; margin: 0; color: #12564C;">{{ g.title }}</h2>
+          <p style="margin: 0; font-size: 18px; color: #4E5F5A; max-width: 560px;">{{ g.blurb }}</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 50px;">
+          <sc-for list="{{ g.items }}" as="f" hint-placeholder-count="3">
+            <div style="display: grid; grid-template-columns: 420px 1fr; gap: 46px; align-items: start;">
+              <div>
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 10px;">
+                  <h3 style="font-weight: 600; font-size: 24px; margin: 0; color: #1F3A34; line-height: 1.26;">{{ f.name }}</h3>
+                  
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <sc-for list="{{ f.paras }}" as="para" hint-placeholder-count="1">
+                    <p style="margin: 0; font-size: 18px; line-height: 1.62; color: #4E5F5A;">{{ para }}</p>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ f.hasTests }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px;">
+                    <sc-for list="{{ f.tests }}" as="t" hint-placeholder-count="3">
+                      <span style="background: #E1F3EF; color: #0A5F52; font-weight: 600; font-size: 15.5px; padding: 7px 14px; border-radius: 999px;">{{ t }}</span>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px; align-items: flex-start;">
+                <sc-for list="{{ f.shots }}" as="s" hint-placeholder-count="3">
+                  <div style="flex: none; width: {{ s.width }}; scroll-snap-align: center;">
+                    <sc-if value="{{ s.hasSrc }}" hint-placeholder-val="{{ false }}">
+                      <div style="height: 300px; overflow: hidden; border-radius: 8px; background-color: #EEF3F1; background-image: {{ s.bgCss }}; background-size: cover; background-position: center;" role="img" aria-label="{{ s.label }}"></div>
+                    </sc-if>
+                    <sc-if value="{{ s.noSrc }}" hint-placeholder-val="{{ true }}">
+                      <div style="height: 300px; overflow: hidden; border-radius: 8px; background: #EEF3F1;">
+                        <image-slot id="{{ s.id }}" shape="rect" fit="cover" placeholder="{{ s.label }}"></image-slot>
+                      </div>
+                    </sc-if>
+                    <div style="margin: 10px 2px 0; font-size: 15px; color: #5A6A66;">{{ s.label }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: flex; justify-content: flex-end; margin-top: 34px;">
+          <button type="button" onClick="{{ toTop }}" style="display: inline-flex; align-items: center; gap: 8px; background: #ffffff; border: 1px solid #CBE6DF; color: #0A5F52; font-family: inherit; font-weight: 600; font-size: 16px; padding: 10px 18px; border-radius: 999px; cursor: pointer; transition: background 0.25s ease, border-color 0.25s ease;" style-hover="background: #E1F3EF; border-color: #06A88C;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A5F52" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5.5M5.5 12 12 5.5 18.5 12"></path></svg>
+            Back to top
+          </button>
+        </div>
+      </div>
+    </section>
+  </sc-for>
+
+  <!-- ===== HELP BAND ===== -->
+  <section style="background: #EDF6F3;">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 54px 26px 78px;">
+      <div style="background: #ffffff; border: 1px solid #DCEBE7; border-radius: 20px; padding: 40px 44px; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap;">
+        <div style="max-width: 700px;">
+          <h3 style="font-weight: 600; font-size: 25px; margin: 0 0 9px; color: #1F3A34;">Every service here costs nothing</h3>
+          <p style="margin: 0; font-size: 18.5px; line-height: 1.6; color: #5A6A66;">Consultation, diagnostic tests, medication and hospital stay are provided free of charge for the rural community around Mahabaleshwar and for visitors to the region.</p>
+        </div>
+        <a href="tel:+912168260247" style="display: inline-flex; align-items: center; gap: 10px; background: #06A88C; color: #fff; font-weight: 700; font-size: 17px; padding: 15px 28px; border-radius: 999px; white-space: nowrap;">Call the hospital</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FLOATING FACILITY BUTTON ===== -->
+  <div style="position: fixed; right: 30px; bottom: 30px; z-index: 90; display: flex; flex-direction: column; align-items: flex-end; gap: 14px;">
+    <sc-if value="{{ fabOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="width: 316px; background: #ffffff; border: 1px solid #E6ECEA; border-radius: 18px; box-shadow: 0 26px 56px -20px rgba(12,70,62,0.45); overflow: hidden;">
+        <div style="padding: 15px 20px 13px; border-bottom: 1px solid #EEF3F1; display: flex; align-items: center; gap: 9px;">
+          <span style="width: 22px; height: 3px; border-radius: 2px; background: #E1332A;"></span>
+          <span style="font-weight: 700; font-size: 16px; color: #1F3A34;">Our facilities</span>
+        </div>
+        <div style="display: flex; flex-direction: column; max-height: 330px; overflow-y: auto;">
+          <sc-for list="{{ facilityLinks }}" as="m" hint-placeholder-count="6">
+            <a href="{{ m.href }}" onClick="{{ m.onClick }}" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 20px; border-bottom: 1px solid #F1F5F3; font-size: 16px; font-weight: 500; color: #1F3A34;" style-hover="background: #F1F8F6; color: #06A88C;">
+              <span>{{ m.label }}</span>
+              <span style="font-size: 13.5px; font-weight: 600; color: #7A8C87;">{{ m.count }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <button type="button" onClick="{{ toggleFab }}" aria-expanded="{{ fabExpanded }}" aria-label="Browse facilities" style="width: 64px; height: 64px; border-radius: 50%; border: none; cursor: pointer; background: #E1332A; color: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 16px 34px -10px rgba(225,51,42,0.6);" style-hover="background: #C42A21;" style-focus="outline: 3px solid #F6BDB8; outline-offset: 2px;">
+      {{ fabIcon }}
+    </button>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer style="position: relative; background: linear-gradient(122deg, #05917D 0%, #099099 55%, #2FA9BF 100%); color: #DCEDEA;">
+    <div style="position: absolute; top: -1px; left: 0; width: 100%; height: 110px; background: #EDF6F3; clip-path: ellipse(130% 100% at 50% 0%); z-index: 1;"></div>
+    <div style="position: relative; z-index: 2; max-width: 1800px; margin: 0 auto; padding: 118px 26px 0;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.26); border-radius: 16px; padding: 22px 28px; margin-bottom: 52px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="width: 12px; height: 12px; border-radius: 50%; background: #ffffff; box-shadow: 0 0 0 5px rgba(225,51,42,0.5); flex: none;"></span>
+          <div>
+            <div style="font-weight: 700; font-size: 23px; color: #ffffff;">In an emergency, come straight in.</div>
+            <div style="font-size: 18px; color: #DCEDEA; margin-top: 3px;">Casualty is open 24 hours, every day. No appointment needed.</div>
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <a href="tel:+912168260247" style="display: inline-flex; align-items: center; gap: 10px; background: #E1332A; color: #ffffff; font-weight: 700; font-size: 19px; padding: 13px 24px; border-radius: 999px;" style-hover="background: #C42A21; color: #ffffff;"><svg width="19" height="19" viewBox="0 0 24 24" fill="#ffffff" style="flex: none;"><path d="M6.6 2.2c.5-.1 1 .2 1.1.7l1.1 4.6c.1.4-.1.9-.5 1.1L6.4 9.8a13.5 13.5 0 0 0 7.8 7.8l1.2-1.9c.2-.4.7-.6 1.1-.5l4.6 1.1c.5.1.8.6.7 1.1-.5 2.6-2.8 4.4-5.4 4.3C9.1 21.3 2.7 14.9 2.3 7.6 2.2 5 4 2.7 6.6 2.2Z"></path></svg>+91 21682 60247</a>
+          <a href="Emergency page updated version.dc.html" style="display: inline-flex; align-items: center; gap: 10px; background: #ffffff; color: #0E7D6B; font-weight: 700; font-size: 19px; padding: 13px 24px; border-radius: 999px;">Emergency information</a>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 44px; padding-bottom: 44px;">
+        <div>
+          <div style="font-weight: 700; font-size: 26px; line-height: 1.25; color: #ffffff; margin-bottom: 12px;">Morarji Gokuldas Rural Hospital</div>
+          <p style="margin: 0 0 18px; font-size: 18.5px; line-height: 1.6; color: #EAF7F4; max-width: 420px;">A 30-bed government rural hospital in Mahabaleshwar, serving the town, nearby villages and visitors since 1914.</p>
+          <p style="margin: 0; font-size: 18.5px; line-height: 1.6; color: #EAF7F4;">All consultations, tests, medicines and stays are free of charge.</p>
+        </div>
+        <div>
+          <div style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: #C7EDE6; margin-bottom: 16px;">Find us</div>
+          <div style="font-size: 18.5px; line-height: 1.6; color: #EAF7F4; margin-bottom: 14px;">Mahabaleshwar – Medha Road<br>District Satara – 412 806<br>Maharashtra, India</div>
+          <a href="Contact us page updated version.dc.html" style="font-size: 18px; font-weight: 600; color: #ffffff; text-decoration: underline; text-underline-offset: 4px;">Get directions</a>
+        </div>
+        <div>
+          <div style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: #C7EDE6; margin-bottom: 16px;">Opening hours</div>
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 18.5px; line-height: 1.5; color: #EAF7F4;">
+            <div><span style="font-weight: 600; color: #ffffff;">OPD</span><br>09:00 am – 01:00 pm<br>04:00 pm – 06:00 pm</div>
+            <div><span style="font-weight: 600; color: #ffffff;">Casualty</span><br>Open 24 hours</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: #C7EDE6; margin-bottom: 16px;">Explore</div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="Facilities (V1) update version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Facilities</a>
+            <a href="Doctors page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Doctors</a>
+            <a href="Programmes page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Programmes</a>
+            <a href="Event page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Camps &amp; Events</a>
+            <a href="Support us page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Support Us</a>
+            <a href="Contact us page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.3); padding: 20px 0 26px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 17px; color: #D3EDE8;">
+        <span>© 2026 Morarji Gokuldas Rural Hospital, Mahabaleshwar</span>
+        <a href="mailto:info@mgrh-mahabaleshwar.org" style="color: #D3EDE8;" style-hover="color: #ffffff;">info@mgrh-mahabaleshwar.org</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1560}}">
+class Component extends DCLogic {
+  state = { showJump: false, headerH: 85, barH: 96, fabOpen: false };
+  headerRef = React.createRef();
+  jumpBarRef = React.createRef();
+
+  componentDidMount() {
+    const measure = () => {
+      const patch = {};
+      const el = this.headerRef.current;
+      if (el) {
+        const hh = Math.round(el.getBoundingClientRect().height);
+        if (hh && hh !== this.state.headerH) patch.headerH = hh;
+      }
+      const bar = this.jumpBarRef.current;
+      if (bar) {
+        const bh = Math.ceil(bar.getBoundingClientRect().height);
+        if (bh && bh !== this.state.barH) patch.barH = bh;
+      }
+      if (Object.keys(patch).length) this.setState(patch);
+    };
+    measure();
+    if (typeof ResizeObserver !== 'undefined') {
+      this._ro = new ResizeObserver(measure);
+      if (this.headerRef.current) this._ro.observe(this.headerRef.current);
+      if (this.jumpBarRef.current) this._ro.observe(this.jumpBarRef.current);
+    }
+    this._onScroll = () => {
+      const show = window.scrollY > 420;
+      if (show !== this.state.showJump) this.setState({ showJump: show });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    if (this._ro) this._ro.disconnect();
+  }
+
+  renderVals() {
+    const R = (typeof window !== 'undefined' && window.__resources) || {};
+    const asset = (id, path) => R[id] || path;
+    const groupData = [
+      { id: 'emergency', title: 'Emergency & Critical Care', blurb: 'Immediate treatment and close monitoring.',
+        items: [
+          { slot: 'p-casualty', views: ['Casualty entrance', 'Treatment bay', 'Emergency equipment'], name: 'Emergency / Casualty Ward', desc: 'First treatment for accidents, injuries and sudden illness. Go directly here no appointment needed.' },
+          { slot: 'p-icu', views: [{ label: 'Patient under care', src: asset('icu', 'assets/photo-icu-bed.png') }, { label: 'Monitoring equipment' }, { label: 'ICU bay' }], name: 'Intensive Care Unit (ICU)', desc: 'ICU is designed for patients with life threatening conditions that require constant monitoring and advanced medical care.' },
+        ] },
+      { id: 'consult', title: 'Consultation & Clinics', blurb: 'Where most visits begin with examinations and everyday care.',
+        items: [
+          { slot: 'p-opd', name: 'Outpatient Department (OPD)', desc: 'At the counter, patients can receive information about various government health care schemes.\n\nIt combines professionalism with a personal touch, ensuring that patients feel both respected and comfortable during their visit.' },
+          { slot: 'p-dental', name: 'Dental Clinic', desc: 'Dental clinic provides basic dental services, such as checkups, fillings and root canals.' },
+        ] },
+      { id: 'diagnostics', title: 'Diagnostics', blurb: 'Tests and imaging that let treatment begin without delay.',
+        items: [
+          { slot: 'p-path', src: asset('path', 'assets/photo-pathology.png'), name: 'Pathology Lab', desc: 'The latest diagnostic methods are available and results are generated quickly and accurately with state-of-the-art instruments and equipment.' },
+          { slot: 'p-radio', name: 'Radiology', desc: 'X-Ray: The digital X-ray facility is equipped with advanced technology to capture x-ray images digitally.\n\n2D Echo: A High Quality 2D Echocardiogram for accurate diagnosis and effective treatment planning for various heart conditions.\n\nSonography Machine: The department has a modern sonography machine for ultrasound imaging, commonly used during pregnancy to monitor fetal development.' },
+        ] },
+      { id: 'surgery', title: 'Surgery', blurb: 'Newly renovated theatres for major and minor procedures.',
+        items: [
+          { slot: 'p-ot', src: asset('ot', 'assets/photo-ot-banner.png'), name: 'Operation Theatre (OT)', desc: 'Modern Operation Theatre is equipped with advanced technology equipments.' },
+          { slot: 'p-minorot', name: 'Minor Operation Theatre', desc: 'Minor OT provides the highest standards of safety and hygiene and is staffed by experienced and qualified medical professionals.' },
+        ] },
+      { id: 'mother', title: 'Maternity & Child Care', blurb: 'Support through pregnancy, delivery and childhood.',
+        items: [
+          { slot: 'p-maternity', name: 'Maternity Ward', desc: 'A dedicated area in the hospital where pregnant women receive care, before, during and after childbirth. The environment is designed to be warm, welcoming and comfortable providing support for mothers and newborns.' },
+          { slot: 'p-labour', name: 'Labour Room', desc: 'Labour Room provides a safe and comfortable environment for both the mother and the baby during labor and delivery.' },
+          { slot: 'p-paed', name: 'Paediatric Ward', desc: 'A specialized section within the hospital that provides medical care specifically for infants, children, and adolescents.' },
+        ] },
+      { id: 'wards', title: 'Wards & Support Services', blurb: 'Inpatient beds, medicines and everyday patient amenities.',
+        items: [
+          { slot: 'p-wards', name: 'Male & Female Wards', desc: 'A healthcare facility equipped for the treatment and care of male and female patients.' },
+          { slot: 'p-pharmacy', name: 'Pharmacy', desc: 'Dispenses medicines at no cost to patients, often based on prescriptions from doctors within the hospital.' },
+          { slot: 'p-additional', src: asset('corridor', 'assets/photo-corridor.png'), name: 'Additional Facilities', desc: 'The hospital campus has doctors and other staff quarters to ensure that medical personnel are available during medical emergencies.\n\nMeals provided for staff and patients typically include breakfast, lunch, and dinner, as well as snacks and beverages throughout the day.\n\nAmbulance services are available round the clock, every day of the week for emergency medical situations.\n\nAutoclave Room dedicated to sterilizing medical equipment, instruments, and supplies. A special device that uses high pressure steam to eliminate bacteria, viruses, fungi, and spores, ensuring that all items are sterile and safe for patient use.' },
+        ] },
+    ];
+
+    const ce = React.createElement;
+    const fo = this.state.fabOpen;
+    const fabIcon = fo
+      ? ce('svg', { width: 26, height: 26, viewBox: '0 0 24 24', fill: 'none', stroke: '#ffffff', strokeWidth: 2.2, strokeLinecap: 'round' },
+          ce('path', { d: 'M6 6l12 12M18 6L6 18' }))
+      : ce('svg', { width: 28, height: 28, viewBox: '0 0 24 24', fill: 'none', stroke: '#ffffff', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round' }, [
+          ce('path', { key: 1, d: 'M4 21V9.4a1 1 0 0 1 .55-.9L11.5 5a1 1 0 0 1 .9 0l7.05 3.5a1 1 0 0 1 .55.9V21' }),
+          ce('path', { key: 2, d: 'M2.5 21h19' }),
+          ce('path', { key: 3, d: 'M12 9.6v5.2M9.4 12.2h5.2', strokeWidth: 2.1 }),
+          ce('path', { key: 4, d: 'M9.6 21v-3.1h4.8V21' }),
+        ]);
+
+    // uniform 300px-tall shots; widths follow the big → small → big rhythm
+    const RHY = ['450px', '260px', '450px'];
+    const shaped = groupData.map((g, gi) => ({
+      id: g.id, title: g.title, blurb: g.blurb,
+      bg: gi % 2 === 0 ? '#ffffff' : '#F7FBFA',
+      bandBg: gi % 2 === 0 ? '#F1F8F6' : '#E9F4F1',
+      items: g.items.map(i => {
+        const views = i.views || ['General view', 'Detail', 'In use'];
+        const shots = views.map((v, n) => {
+          const o = typeof v === 'string' ? { label: v } : v;
+          const src = o.src || (n === 0 ? (i.src || '') : '');
+          return { id: i.slot + '-' + (n + 1), label: o.label,
+            src,
+            hasSrc: !!src,
+            noSrc: !src,
+            bgCss: src ? 'url("' + src + '")' : 'none',
+            width: o.width || RHY[n % RHY.length] };
+        });
+        const single = g.id === 'emergency' && i.slot !== 'p-icu' && i.slot !== 'p-casualty';
+        return { ...i, shots, shotCount: shots.length + ' photos',
+          paras: String(i.desc || '').split(/\n\s*\n/).map(t => t.trim()).filter(Boolean),
+          single, multi: !single, lead: shots[0],
+          hasTests: !!i.hasTests, tests: i.tests || [] };
+      }),
+    }));
+
+    return {
+      fabIcon,
+      fabOpen: fo,
+      fabExpanded: fo ? 'true' : 'false',
+      toggleFab: () => this.setState(s => ({ fabOpen: !s.fabOpen })),
+      facilityLinks: groupData.map(g => ({
+        label: g.title, href: '#' + g.id, count: g.items.length,
+        onClick: () => this.setState({ fabOpen: false }),
+      })),
+      toTop: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+      headerRef: this.headerRef,
+      jumpBarRef: this.jumpBarRef,
+      jumpBarTop: (this.state.headerH || 85) + 'px',
+      jumpBarTransform: this.state.showJump
+        ? 'translateY(0)'
+        : 'translateY(-' + ((this.state.headerH || 85) + (this.state.barH || 96) + 12) + 'px)',
+      jumpBarEvents: this.state.showJump ? 'auto' : 'none',
+      groupsTop: shaped.slice(0, 3),
+      groupsBottom: shaped.slice(3),
+      jumps: groupData.map(g => ({ label: g.title, href: '#' + g.id })),
+      nav: [
+        { label: 'Home', color: '#3A4744', href: 'Home page.dc.html' },
+        { label: 'About Us', color: '#3A4744', href: 'About us page V2.dc.html' },
+        { label: 'Facilities', color: '#06A88C', href: '#emergency' },
+        { label: 'Doctors', color: '#3A4744', href: 'Doctors page.dc.html' },
+        { label: 'Programmes', color: '#3A4744', href: 'Programmes page.dc.html' },
+        { label: 'Events', color: '#3A4744', href: 'Event page.dc.html' },
+        { label: 'Support Us', color: '#3A4744', href: 'Support us page.dc.html' },
+        { label: 'Contact', color: '#3A4744', href: 'tel:+912168260247' },
+      ],
+      footCols: [
+        { head: 'Explore', items: ['Home', 'About Us', 'Camps & Events', 'Facilities'] },
+        { head: 'Emergency', items: ['Casualty Ward', 'Intensive Care Unit', 'Ambulance service'] },
+        { head: 'Diagnostics', items: ['Pathology Lab', 'X-ray', 'Sonography', '2D Echo'] },
+        { head: 'Visit', items: ['Mahabaleshwar - Medha Road', 'District - Satara – 412 806', 'Maharashtra, India', '+91 21682 60247', 'E: info@mgrh-mahabaleshwar.org', 'msmshwar@gmail.com'] },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#ffffff">
+  <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#06A085"/><g fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"><path d="M62 148V86l38-20 38 20v62"/><path d="M56 148h88"/><path d="M100 96v26M87 109h26"/></g></svg>
+</template>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: #0A8E7B; text-decoration: none; }
+    a:hover { color: #0B6558; }
+    ::selection { background: #CDEBE5; }
+    html { scroll-behavior: smooth; }
+    @keyframes mgRing { 0%, 100% { box-shadow: 0 0 0 0 rgba(225,51,42,0.45); } 50% { box-shadow: 0 0 0 16px rgba(225,51,42,0); } }
+    @keyframes mgPopIn { from { opacity: 0; transform: translateY(26px) scale(0.97); } to { opacity: 1; transform: none; } }
+    @keyframes mgFade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes mgAerial { 0% { transform: scale(1.1) translate3d(0,0,0); } 25% { transform: scale(1.16) translate3d(-44px,-18px,0); } 50% { transform: scale(1.1) translate3d(-62px,14px,0); } 75% { transform: scale(1.16) translate3d(-24px,28px,0); } 100% { transform: scale(1.1) translate3d(0,0,0); } }
+  </style>
+</helmet>
+
+<div style="font-family: 'DM Sans', sans-serif; color: #16413A; background: #ffffff;">
+
+  <!-- ===== TOP UTILITY BAND ===== -->
+  <div style="background: #2AA5AE; color: #E4F5F6;">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 10px 26px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-size: 15.5px;">
+      <span style="display: inline-flex; align-items: center; gap: 9px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#CFEDEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+        Mahabaleshwar - Medha Road, District - Satara – 412 806, Maharashtra
+      </span>
+      <div style="display: flex; align-items: center; gap: 26px; flex-wrap: wrap;">
+        <span style="display: inline-flex; align-items: center; gap: 9px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#CFEDEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5V12l3.4 2"></path></svg>
+          OPD 09:00 a.m. to 01:00 p.m. and 04:00 p.m. to 06:00 p.m. · Casualty open 24 hours
+        </span>
+        <a href="https://www.mgrh-mahabaleshwar.org" style="color: #F0FAFB;">www.mgrh-mahabaleshwar.org</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header style="position: sticky; top: 0; z-index: 60; background: #ffffff; border-bottom: 1px solid #E0EDE9;">
+    <div style="max-width: 1800px; margin: 0 auto; padding: 14px 26px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <img src="assets/mgrh-logo.png" alt="Morarji Gokuldas Rural Hospital" style="height: 132px; width: auto; display: block;">
+      <nav style="flex: 1; min-width: 0; display: flex; align-items: center; justify-content: flex-end; gap: 0;">
+        <div style="flex: 0 1 auto; min-width: 0; margin-left: auto; display: flex; align-items: center; justify-content: flex-start; gap: 0; overflow-x: auto; scrollbar-width: none;">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
+            <a href="{{ n.href }}" style="flex: none; font-weight: 500; font-size: 24px; padding: 9px 15px; border-radius: 6px; color: {{ n.color }}; cursor: pointer; white-space: nowrap; text-decoration: none;" style-hover="color: #0A8E7B;">{{ n.label }}</a>
+          </sc-for>
+        </div>
+        <button type="button" onClick="{{ openEmergency }}" style="flex: none; display: inline-flex; align-items: center; gap: 8px; font-family: inherit; font-weight: 700; font-size: 22px; margin-left: 14px; background: #E1332A; color: #fff; padding: 12px 20px; border: none; border-radius: 6px; white-space: nowrap; cursor: pointer;" style-hover="background: #C42A21;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 7.5v6M12 16.6v.4"></path></svg>
+          Emergency
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section style="position: relative; overflow: hidden;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(100deg, #10A08A 0%, #14A695 34%, #1BAAA8 66%, #2BB2C4 100%);"></div>
+    <div style="position: absolute; inset: 0; background: #48A8A2;"></div>
+    <div style="position: absolute; top: 0; right: 0; bottom: 0; width: 52%; overflow: hidden;">
+      <img src="assets/contact-hero.png" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: center 52%; display: block;">
+    </div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(3,96,84,0.92) 0%, rgba(4,110,100,0.8) 40%, rgba(40,150,144,0.25) 62%, rgba(72,168,162,0) 78%);"></div>
+    <div style="position: relative; z-index: 2; max-width: 1800px; margin: 0 auto; padding: 52px 26px 76px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 400px); gap: 60px; align-items: center;">
+      <div>
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 17px; letter-spacing: 0.12em; font-weight: 500; text-transform: uppercase; color: rgba(255,255,255,0.74); margin-bottom: 20px; flex-wrap: wrap;">
+        <span style="cursor: pointer;">Home</span><span style="opacity: 0.5;">/</span>
+        <span style="color: rgba(255,255,255,0.6);">Contact Us</span>
+      </div>
+      <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.28); color: #EAF7F4; font-size: 17px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 15px; border-radius: 999px; margin-bottom: 22px;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #C7EDE6;"></span>
+        Open everyday of the year
+      </div>
+      <h1 style="font-weight: 500; font-size: 62px; line-height: 1.02; margin: 0 0 20px; color: #ffffff; letter-spacing: -0.03em;">Contact <span style="font-weight: 700;">Us</span></h1>
+      <p style="font-size: 23px; line-height: 1.5; color: rgba(255,255,255,0.92); margin: 0; max-width: 780px;">Have a question, need information about our services, or need help reaching the hospital?</p>
+      </div>
+      <div>
+        
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT DETAILS + PHOTO ===== -->
+  <section style="max-width: 1800px; margin: 0 auto; padding: 56px 26px 0;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 56px; align-items: start;">
+      <div>
+        <div style="display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid #E6ECEA; padding-bottom: 14px; margin-bottom: 30px;">
+          <span style="width: 30px; height: 4px; border-radius: 2px; background: #06A88C; flex: none;"></span>
+          <h2 style="font-weight: 600; font-size: 31px; margin: 0; color: #1F3A34;">Reach the hospital</h2>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <sc-for list="{{ details }}" as="d" hint-placeholder-count="4">
+            <div style="display: grid; grid-template-columns: 54px 1fr; gap: 20px; align-items: start; padding: 22px 0; border-bottom: 1px solid #F1F5F3;">
+              <div style="width: 54px; height: 54px; border-radius: 12px; background: #E1F3EF; display: flex; align-items: center; justify-content: center;">{{ d.icon }}</div>
+              <div>
+                <div style="font-size: 14.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #0B7F73; margin-bottom: 7px;">{{ d.label }}</div>
+                <div style="font-size: 21px; line-height: 1.55; color: #23423B;">{{ d.value }}</div>
+                <sc-if value="{{ d.hasExtra }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size: 21px; line-height: 1.55; color: #23423B;">{{ d.extra }}</div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px;">
+          <a href="https://wa.me/912168260247" style="display: inline-flex; align-items: center; gap: 11px; background: #1FA855; color: #ffffff; font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;" style-hover="background: #17853F; color: #ffffff;">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.6.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.6-1.2a.5.5 0 0 0 0-.5c0-.1-.6-1.4-.8-1.9s-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.6 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3Z"></path></svg>
+            WhatsApp us
+          </a>
+          <a href="mailto:info@mgrh-mahabaleshwar.org" style="display: inline-flex; align-items: center; gap: 11px; border: 1px solid #9FD0C7; color: #0B5F55; font-weight: 700; font-size: 20px; padding: 16px 30px; border-radius: 999px;" style-hover="border-color: #0A8E7B; color: #0A8E7B;">Send an email</a>
+        </div>
+      </div>
+
+      <div>
+        <div style="border-top: 4px solid #E1332A; overflow: hidden; background: #EEF3F1; aspect-ratio: 693/484;">
+          <img src="assets/contact-building.png" alt="The hospital building at Mahabaleshwar" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+        <div style="margin: 11px 2px 0; font-size: 17px; color: #5A6A66;">The hospital on Medha Road, Mahabaleshwar</div>
+
+        <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2px; background: #E6EFEC; border-radius: 14px; overflow: hidden;">
+          <sc-for list="{{ hours }}" as="h" hint-placeholder-count="3">
+            <div style="background: #F4FAF8; padding: 24px 26px;">
+              <div style="font-weight: 600; font-size: 19px; color: #12564C; margin-bottom: 6px;">{{ h.title }}</div>
+              <div style="font-size: 18px; line-height: 1.5; color: #4E5F5A;">{{ h.detail }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAP ===== -->
+  <section style="max-width: 1800px; margin: 0 auto; padding: 60px 26px 0;">
+    <div style="display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid #E6ECEA; padding-bottom: 14px; margin-bottom: 26px;">
+      <span style="width: 30px; height: 4px; border-radius: 2px; background: #06A88C; flex: none;"></span>
+      <h2 style="font-weight: 600; font-size: 31px; margin: 0; color: #1F3A34;">Finding us</h2>
+    </div>
+    <p style="margin: 0 0 26px; font-size: 21px; line-height: 1.6; color: #45605A; max-width: 900px;">The hospital sits on Medha Road, a short drive from the Mahabaleshwar bus stand, with the campus set back among the trees.</p>
+    <div style="position: relative; border-radius: 16px; overflow: hidden; border: 1px solid #DDEEEA; background: #EEF3F1;">
+      <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=73.63%2C17.895%2C73.72%2C17.955&amp;layer=mapnik&amp;marker=17.9247%2C73.6577" title="Map of Morarji Gokuldas Rural Hospital, Mahabaleshwar" style="width: 100%; height: 760px; border: 0; display: block;"></iframe>
+      <button type="button" onClick="{{ openAerial }}" aria-label="See the campus from above" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 11px; background: #E1332A; color: #ffffff; font-family: inherit; font-weight: 700; font-size: 19px; padding: 15px 26px; border: none; border-radius: 999px; cursor: pointer; box-shadow: 0 18px 40px -14px rgba(120,20,14,0.6); animation: mgRing 2.6s ease-out infinite;" style-hover="background: #C42A21;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+        See the campus from above
+      </button>
+    </div>
+    <div style="margin: 12px 2px 0; font-size: 17px; color: #5A6A66;">Mahabaleshwar - Medha Road, District - Satara – 412 806, Maharashtra</div>
+  </section>
+
+  <!-- ===== EMERGENCY BAND ===== -->
+  <section style="max-width: 1800px; margin: 0 auto; padding: 60px 26px 90px;">
+    <div style="background: #FDF1F0; border-left: 6px solid #E1332A; border-radius: 16px; padding: 40px 42px; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap;">
+      <div style="max-width: 900px;">
+        <h3 style="font-weight: 700; font-size: 27px; margin: 0 0 10px; color: #9E2018;">If it is an emergency, just come</h3>
+        <p style="margin: 0; font-size: 20px; line-height: 1.6; color: #7C4741;">The casualty ward is open every hour of the year — no appointment, no queue, no payment.</p>
+      </div>
+      <button type="button" onClick="{{ openEmergency }}" style="display: inline-flex; align-items: center; gap: 10px; background: #E1332A; color: #fff; font-family: inherit; font-weight: 700; font-size: 20px; padding: 16px 30px; border: none; border-radius: 999px; white-space: nowrap; cursor: pointer; animation: mgRing 2.4s ease-out infinite;" style-hover="background: #C42A21;">Emergency numbers</button>
+    </div>
+  </section>
+
+  <!-- ===== AERIAL LIGHTBOX ===== -->
+  <sc-if value="{{ aerialOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeAerial }}" style="position: fixed; inset: 0; z-index: 150; background: #04302A; overflow: hidden; animation: mgFade 0.3s ease; cursor: zoom-out;">
+      <img src="assets/contact-aerial.png" alt="The hospital campus at Mahabaleshwar, seen from above" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; animation: mgAerial 40s ease-in-out infinite;">
+      <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4,52,45,0.62) 0%, rgba(4,52,45,0.05) 34%, rgba(4,52,45,0.72) 100%); pointer-events: none;"></div>
+      <div style="position: absolute; left: 0; right: 0; top: 0; padding: 34px 40px; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;">
+        <div>
+          <div style="display: inline-flex; align-items: center; gap: 11px; font-size: 16px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #9FDFD6; margin-bottom: 14px;">
+            <span style="width: 42px; height: 3px; border-radius: 2px; background: #E1332A;"></span>
+            Mahabaleshwar · Satara District
+          </div>
+          <h3 style="font-weight: 500; font-size: 46px; line-height: 1.06; margin: 0; color: #ffffff; letter-spacing: -0.03em;">The campus, <span style="font-weight: 700;">from above.</span></h3>
+        </div>
+        <button type="button" onClick="{{ closeAerial }}" aria-label="Close" style="flex: none; width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.44); background: rgba(0,0,0,0.24); cursor: pointer; display: flex; align-items: center; justify-content: center;" style-hover="background: rgba(0,0,0,0.42);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+        </button>
+      </div>
+      <div style="position: absolute; left: 40px; right: 40px; bottom: 36px; display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; flex-wrap: wrap;">
+        <p style="margin: 0; font-size: 21px; line-height: 1.55; color: rgba(255,255,255,0.92); max-width: 700px;">Green roofs among the evergreen canopy on Medha Road — the hospital wards, theatres and OPD block sit at the centre of the frame.</p>
+        <span style="font-size: 16.5px; color: rgba(255,255,255,0.72);">Click anywhere to close</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== EMERGENCY POPUP ===== -->
+  <sc-if value="{{ emergencyOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeEmergency }}" style="position: fixed; inset: 0; z-index: 140; background: rgba(60,12,9,0.55); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 40px 26px; animation: mgFade 0.22s ease;">
+      <div onClick="{{ stop }}" style="width: 100%; max-width: 720px; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 46px 90px -34px rgba(90,16,12,0.6); animation: mgPopIn 0.32s cubic-bezier(0.2,0.85,0.3,1);">
+        <div style="background: #E1332A; padding: 26px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <span style="width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; animation: mgRing 2.2s ease-out infinite;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 7v6.4M12 16.6v.4"></path></svg>
+            </span>
+            <div>
+              <div style="font-weight: 700; font-size: 25px; color: #ffffff; line-height: 1.15;">Emergency</div>
+              <div style="font-size: 16.5px; color: rgba(255,255,255,0.88); margin-top: 3px;">Casualty ward open 24 hours</div>
+            </div>
+          </div>
+          <button type="button" onClick="{{ closeEmergency }}" aria-label="Close" style="flex: none; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center;" style-hover="background: rgba(255,255,255,0.16);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+          </button>
+        </div>
+        <div style="padding: 30px 32px 34px;">
+          <a href="tel:+912168260247" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; background: #FDF1F0; border: 1px solid #F6D8D5; border-radius: 14px; padding: 22px 26px; margin-bottom: 18px;" style-hover="border-color: #E1332A;">
+            <div>
+              <div style="font-size: 14.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #9E2018; margin-bottom: 6px;">Hospital helpline</div>
+              <div style="font-weight: 700; font-size: 30px; color: #C42A21; letter-spacing: -0.01em;">+91 21682 60247</div>
+            </div>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E1332A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1Z"></path></svg>
+          </a>
+          <p style="margin: 0 0 22px; font-size: 19px; line-height: 1.6; color: #45605A;">In a serious emergency, come straight to the casualty ward — no appointment, no queue, no payment. Intensive care and both operation theatres are on the same floor.</p>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <sc-for list="{{ emergencyPoints }}" as="p" hint-placeholder-count="3">
+              <div style="display: grid; grid-template-columns: 20px 1fr; gap: 12px; align-items: start;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A8E7B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="margin-top: 3px;"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"></path></svg>
+                <span style="font-size: 18.5px; line-height: 1.5; color: #45605A;">{{ p }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px;">
+            <a href="https://wa.me/912168260247" style="display: inline-flex; align-items: center; gap: 10px; background: #1FA855; color: #ffffff; font-weight: 700; font-size: 18px; padding: 14px 26px; border-radius: 999px;" style-hover="background: #17853F; color: #ffffff;">WhatsApp</a>
+            <span style="display: inline-flex; align-items: center; font-size: 17.5px; color: #6A7A76;">Mahabaleshwar - Medha Road, Satara – 412 806</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== FOOTER ===== -->
+  <footer style="position: relative; background: linear-gradient(122deg, #05917D 0%, #099099 55%, #2FA9BF 100%); color: #DCEDEA;">
+    <div style="position: relative; z-index: 2; max-width: 1800px; margin: 0 auto; padding: 76px 26px 0;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.26); border-radius: 16px; padding: 22px 28px; margin-bottom: 52px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="width: 12px; height: 12px; border-radius: 50%; background: #ffffff; box-shadow: 0 0 0 5px rgba(225,51,42,0.5); flex: none;"></span>
+          <div>
+            <div style="font-weight: 700; font-size: 23px; color: #ffffff;">In an emergency, come straight in.</div>
+            <div style="font-size: 18px; color: #DCEDEA; margin-top: 3px;">Casualty is open 24 hours, every day. No appointment needed.</div>
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <a href="tel:+912168260247" style="display: inline-flex; align-items: center; gap: 10px; background: #E1332A; color: #ffffff; font-weight: 700; font-size: 19px; padding: 13px 24px; border-radius: 999px;" style-hover="background: #C42A21; color: #ffffff;"><svg width="19" height="19" viewBox="0 0 24 24" fill="#ffffff" style="flex: none;"><path d="M6.6 2.2c.5-.1 1 .2 1.1.7l1.1 4.6c.1.4-.1.9-.5 1.1L6.4 9.8a13.5 13.5 0 0 0 7.8 7.8l1.2-1.9c.2-.4.7-.6 1.1-.5l4.6 1.1c.5.1.8.6.7 1.1-.5 2.6-2.8 4.4-5.4 4.3C9.1 21.3 2.7 14.9 2.3 7.6 2.2 5 4 2.7 6.6 2.2Z"></path></svg>+91 21682 60247</a>
+          <a href="Emergency page updated version.dc.html" style="display: inline-flex; align-items: center; gap: 10px; background: #ffffff; color: #0E7D6B; font-weight: 700; font-size: 19px; padding: 13px 24px; border-radius: 999px;">Emergency information</a>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 44px; padding-bottom: 44px;">
+        <div>
+          <div style="font-weight: 700; font-size: 26px; line-height: 1.25; color: #ffffff; margin-bottom: 12px;">Morarji Gokuldas Rural Hospital</div>
+          <p style="margin: 0 0 18px; font-size: 18.5px; line-height: 1.6; color: #EAF7F4; max-width: 420px;">A 30-bed government rural hospital in Mahabaleshwar, serving the town, nearby villages and visitors since 1914.</p>
+          <p style="margin: 0; font-size: 18.5px; line-height: 1.6; color: #EAF7F4;">All consultations, tests, medicines and stays are free of charge.</p>
+        </div>
+        <div>
+          <div style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: #C7EDE6; margin-bottom: 16px;">Find us</div>
+          <div style="font-size: 18.5px; line-height: 1.6; color: #EAF7F4; margin-bottom: 14px;">Mahabaleshwar – Medha Road<br>District Satara – 412 806<br>Maharashtra, India</div>
+          <a href="Contact us page updated version.dc.html" style="font-size: 18px; font-weight: 600; color: #ffffff; text-decoration: underline; text-underline-offset: 4px;">Get directions</a>
+        </div>
+        <div>
+          <div style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: #C7EDE6; margin-bottom: 16px;">Opening hours</div>
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 18.5px; line-height: 1.5; color: #EAF7F4;">
+            <div><span style="font-weight: 600; color: #ffffff;">OPD</span><br>09:00 am – 01:00 pm<br>04:00 pm – 06:00 pm</div>
+            <div><span style="font-weight: 600; color: #ffffff;">Casualty</span><br>Open 24 hours</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 600; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; color: #C7EDE6; margin-bottom: 16px;">Explore</div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <a href="Facilities (V1) update version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Facilities</a>
+            <a href="Doctors page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Doctors</a>
+            <a href="Programmes page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Programmes</a>
+            <a href="Event page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Camps &amp; Events</a>
+            <a href="Support us page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Support Us</a>
+            <a href="Contact us page updated version.dc.html" style="font-size: 18.5px; color: #EAF7F4;" style-hover="color: #ffffff;">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.3); padding: 20px 0 26px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 17px; color: #D3EDE8;">
+        <span>© 2026 Morarji Gokuldas Rural Hospital, Mahabaleshwar</span>
+        <a href="mailto:info@mgrh-mahabaleshwar.org" style="color: #D3EDE8;" style-hover="color: #ffffff;">info@mgrh-mahabaleshwar.org</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1800}}">
+class Component extends DCLogic {
+  state = { emergencyOpen: false, aerialOpen: false };
+
+  componentDidMount() {
+    this._onKey = e => { if (e.key === 'Escape') this.setState({ emergencyOpen: false, aerialOpen: false }); };
+    window.addEventListener('keydown', this._onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this._onKey); }
+
+  renderVals() {
+    const ce = React.createElement;
+    const icon = paths => ce('svg', { width: 25, height: 25, viewBox: '0 0 24 24', fill: 'none', stroke: '#0A5F52', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round' },
+      paths.map((d, i) => ce('path', { key: i, d })));
+
+    return {
+      emergencyOpen: this.state.emergencyOpen,
+      aerialOpen: this.state.aerialOpen,
+      openAerial: () => this.setState({ aerialOpen: true }),
+      closeAerial: () => this.setState({ aerialOpen: false }),
+      openEmergency: () => this.setState({ emergencyOpen: true }),
+      closeEmergency: () => this.setState({ emergencyOpen: false }),
+      stop: e => e.stopPropagation(),
+      details: [
+        { label: 'Address', value: 'Morarji Gokuldas Rural Hospital, Mahabaleshwar - Medha Road',
+          extra: 'District - Satara – 412 806, Maharashtra.', hasExtra: true,
+          icon: icon(['M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z', 'M12 12.6a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2Z']) },
+        { label: 'Telephone', value: '+91 21682 60247', extra: '', hasExtra: false,
+          icon: icon(['M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v3a1 1 0 0 1-1 1A16 16 0 0 1 3 5a1 1 0 0 1 1-1Z']) },
+        { label: 'Email', value: 'E: info@mgrh-mahabaleshwar.org', extra: 'msmshwar@gmail.com', hasExtra: true,
+          icon: icon(['M3 5.5h18v13H3z', 'M3.5 6.5 12 13l8.5-6.5']) },
+        { label: 'Website', value: 'www.mgrh-mahabaleshwar.org', extra: '', hasExtra: false,
+          icon: icon(['M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z', 'M3.2 12h17.6', 'M12 3a14 14 0 0 1 0 18A14 14 0 0 1 12 3Z']) },
+      ],
+      hours: [
+        { title: 'OPD', detail: '09:00 a.m. to 01:00 p.m. and 04:00 p.m. to 06:00 p.m.' },
+        { title: 'Casualty', detail: 'Open 24 hours, every day of the year' },
+        { title: 'Visiting', detail: '11:00 a.m. to 01:00 p.m. and 04:00 p.m. to 06:00 p.m.' },
+      ],
+      emergencyPoints: [
+        'Casualty and nursing cover staffed every hour of the year',
+        'Intensive care and both operation theatres on the same floor',
+        'Ambulance available for transfers and referrals',
+      ],
+      nav: [
+        { label: 'Home', color: '#35514B', href: 'Home page V2.dc.html' },
+        { label: 'About Us', color: '#35514B', href: 'About us page V2.dc.html' },
+        { label: 'Facilities', color: '#35514B', href: 'Facilities (V1).dc.html' },
+        { label: 'Doctors', color: '#35514B', href: 'Doctors page.dc.html' },
+        { label: 'Programmes', color: '#35514B', href: 'Programmes page.dc.html' },
+        { label: 'Events', color: '#35514B', href: 'Event page.dc.html' },
+        { label: 'Support Us', color: '#35514B', href: 'Support us page.dc.html' },
+        { label: 'Contact', color: '#0A8E7B', href: '#' },
+      ],
+      footCols: [
+        { head: 'Explore', items: ['About Us', 'Facilities', 'Doctors', 'Programmes', 'Camps & Events'] },
+        { head: 'Emergency', items: ['Casualty Ward', 'Intensive Care Unit', 'Ambulance service'] },
+        { head: 'Diagnostics', items: ['Pathology Lab', 'X-ray', 'Sonography', '2D Echo'] },
+        { head: 'Contact', items: ['+91 21682 60247', 'E: info@mgrh-mahabaleshwar.org', 'msmshwar@gmail.com', 'www.mgrh-mahabaleshwar.org'] },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

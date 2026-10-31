@@ -1,4 +1,4 @@
-import 'server-only';
+﻿import 'server-only';
 
 import { createServerSupabase } from './supabase/server';
 
@@ -77,14 +77,14 @@ export interface ContentResult<T> {
   error: string | null;
 }
 
-function mediaUrl(supabase: ReturnType<typeof createServerSupabase>, path?: string | null) {
+function mediaUrl(supabase: Awaited<ReturnType<typeof createServerSupabase>>, path?: string | null) {
   if (!path) return null;
   return supabase.storage.from('media').getPublicUrl(path).data.publicUrl;
 }
 
 export async function getStaffPreview(): Promise<boolean> {
   try {
-    const supabase = createServerSupabase();
+    const supabase = await createServerSupabase();
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -102,7 +102,7 @@ export async function getStaffPreview(): Promise<boolean> {
 
 export async function getCategories(kind: 'doctors' | 'facilities' | 'events') {
   try {
-    const supabase = createServerSupabase();
+    const supabase = await createServerSupabase();
     const { data } = await supabase
       .from('categories')
       .select('name, sort_order')
@@ -117,7 +117,7 @@ export async function getCategories(kind: 'doctors' | 'facilities' | 'events') {
 export async function getDoctors(preview = false): Promise<ContentResult<PublicDoctor>> {
   const showDrafts = preview && (await getStaffPreview());
   try {
-    const supabase = createServerSupabase();
+    const supabase = await createServerSupabase();
     let query = supabase.from('doctors').select('*').order('sort_order', { ascending: true });
     if (!showDrafts) query = query.eq('status', 'published');
     const { data, error } = await query;
@@ -166,7 +166,7 @@ export async function getDoctors(preview = false): Promise<ContentResult<PublicD
 export async function getFacilities(preview = false): Promise<ContentResult<PublicFacility>> {
   const showDrafts = preview && (await getStaffPreview());
   try {
-    const supabase = createServerSupabase();
+    const supabase = await createServerSupabase();
     let query = supabase.from('facilities').select('*').order('sort_order', { ascending: true });
     if (!showDrafts) query = query.eq('status', 'published');
     const { data, error } = await query;
@@ -235,7 +235,7 @@ export async function getFacilities(preview = false): Promise<ContentResult<Publ
 export async function getEvents(preview = false): Promise<ContentResult<PublicEvent>> {
   const showDrafts = preview && (await getStaffPreview());
   try {
-    const supabase = createServerSupabase();
+    const supabase = await createServerSupabase();
     let query = supabase.from('events').select('*').order('sort_order', { ascending: true });
     if (!showDrafts) query = query.eq('status', 'published');
     const { data, error } = await query;
