@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -48,6 +48,7 @@ function AdminGate({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const isLogin = pathname === '/admin/login';
+  const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
     if (!admin.ready) return;
@@ -57,6 +58,24 @@ function AdminGate({ children }: { children: ReactNode }) {
     }
     if (!admin.user) router.replace('/admin/login');
   }, [admin.ready, admin.user, isLogin, router]);
+
+  useEffect(() => {
+    setNavOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!navOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setNavOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = previous;
+    };
+  }, [navOpen]);
 
   if (!admin.ready) return <div className={styles.root} style={ROOT_STYLE} />;
 
@@ -115,8 +134,9 @@ function AdminGate({ children }: { children: ReactNode }) {
 
   return (
     <div className={styles.root} style={ROOT_STYLE}>
-      <div style={{ display: 'grid', gridTemplateColumns: '248px minmax(0, 1fr)', minHeight: '100vh' }}>
-        <aside style={{ position: 'sticky', top: 0, height: '100vh', background: '#ffffff', borderRight: '1px solid #E2ECE9', display: 'flex', flexDirection: 'column' }}>
+      <div className={styles.shell} style={{ display: 'grid', gridTemplateColumns: '248px minmax(0, 1fr)', minHeight: '100vh' }}>
+        {navOpen ? <div className={styles.drawerBackdrop} onClick={() => setNavOpen(false)} aria-hidden="true" /> : null}
+        <aside className={styles.sidebar + (navOpen ? ' ' + styles.sidebarOpen : '')} style={{ position: 'sticky', top: 0, height: '100vh', background: '#ffffff', borderRight: '1px solid #E2ECE9', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '20px 20px 18px', borderBottom: '1px solid #EEF3F1', display: 'flex', alignItems: 'center', gap: 12 }}>
             <img src="/admin-assets/mgrh-logo.png" alt="MGRH" style={{ height: 46, width: 'auto', display: 'block' }} />
             <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#5A6A66', lineHeight: 1.3 }}>
@@ -132,6 +152,7 @@ function AdminGate({ children }: { children: ReactNode }) {
                   href={n.path}
                   onClick={(event) => {
                     admin.setTopQ('');
+                    setNavOpen(false);
                     if (admin.dirty) {
                       event.preventDefault();
                       admin.guard(() => router.push(n.path));
@@ -179,11 +200,28 @@ function AdminGate({ children }: { children: ReactNode }) {
           </div>
         </aside>
 
-        <div style={{ minWidth: 0 }}>
-          <header style={{ position: 'sticky', top: 0, zIndex: 30, background: 'rgba(255,255,255,0.97)', borderBottom: '1px solid #E2ECE9' }}>
-            <div style={{ padding: '14px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#7A8C87', marginBottom: 3, minHeight: 18 }}>
+        <div className={styles.content} style={{ minWidth: 0 }}>
+          <div className={styles.topbar}>
+            <button
+              type="button"
+              className={styles.menuBtn}
+              aria-label={navOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={navOpen}
+              onClick={() => setNavOpen((open) => !open)}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B4F45" strokeWidth="2" strokeLinecap="round">
+                <path d="M4 6.5h16M4 12h16M4 17.5h16" />
+              </svg>
+            </button>
+            <div className={styles.topbarLogo}>
+              <img src="/admin-assets/mgrh-logo.png" alt="MGRH" />
+            </div>
+            <div className={styles.topbarUser} title={admin.user.name}>{initials(admin.user.name)}</div>
+          </div>
+          <header className={styles.pageHeader} style={{ position: 'sticky', top: 0, zIndex: 30, background: 'rgba(255,255,255,0.97)', borderBottom: '1px solid #E2ECE9' }}>
+            <div className={styles.headerInner} style={{ padding: '14px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
+              <div className={styles.headerTitle} style={{ flex: 1, minWidth: 0 }}>
+                <div className={styles.crumbs} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: '#7A8C87', marginBottom: 3, minHeight: 18 }}>
                   {crumbs.map((c, i) => (
                     <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                       <button type="button" onClick={c.onClick} className={styles.hoverColorTeal} style={{ border: 'none', background: 'none', padding: 0, color: '#5A6A66', fontSize: 14, cursor: 'pointer' }}>{c.label}</button>
@@ -193,7 +231,7 @@ function AdminGate({ children }: { children: ReactNode }) {
                 </div>
                 <h1 style={{ fontWeight: 600, fontSize: 25, margin: 0, color: '#0B3C49', letterSpacing: '-0.01em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{pageTitle}</h1>
               </div>
-              <div style={{ position: 'relative', width: 320, flex: 'none' }}>
+              <div className={styles.headerSearch} style={{ position: 'relative', width: 320, flex: 'none' }}>
                 <input type="search" value={admin.topQ} onChange={(e) => admin.setTopQ(e.target.value)} placeholder="Search doctors, facilities, events" style={{ width: '100%', height: 42, padding: '0 14px', border: '1px solid #D5E2DE', borderRadius: 8, fontSize: 15, color: '#16413A', background: '#F7FAF9' }} />
                 {topResults.length > 0 ? (
                   <div style={{ position: 'absolute', top: 48, left: 0, right: 0, background: '#ffffff', border: '1px solid #E2ECE9', borderRadius: 10, boxShadow: '0 22px 44px -24px rgba(10,50,44,0.4)', overflow: 'hidden' }}>
@@ -218,15 +256,24 @@ function AdminGate({ children }: { children: ReactNode }) {
               <button
                 type="button"
                 onClick={() => window.open(encodeURI(pubPage), '_blank')}
-                className={styles.hoverBorderTeal}
+                className={styles.hoverBorderTeal + ' ' + styles.viewSiteBtn}
+                aria-label="View website"
+                title="View website"
                 style={{ flex: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, height: 42, padding: '0 16px', border: '1px solid #9FD0C7', borderRadius: 8, background: '#ffffff', color: '#0B5F55', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}
               >
-                View website ↗
+                <span className={styles.viewSiteText}>View website ↗</span>
+                <span className={styles.viewSiteIcon} aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 4h6v6" />
+                    <path d="M20 4l-8.5 8.5" />
+                    <path d="M19 14.5V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4.5" />
+                  </svg>
+                </span>
               </button>
             </div>
           </header>
 
-          <main style={{ padding: '28px 32px 80px', maxWidth: 1480 }}>{children}</main>
+          <main className={styles.mainPad} style={{ padding: '28px 32px 80px', maxWidth: 1480 }}>{children}</main>
         </div>
       </div>
       <AdminModals />

@@ -375,9 +375,9 @@ export function RecordForm({ type }: { type: Collection }) {
 
   return (
     <>
-      <button type="button" onClick={() => admin.guard(() => router.push('/admin/' + type))} style={{ border: 'none', background: 'none', padding: 0, color: '#0A8E7B', fontSize: 15.5, fontWeight: 600, cursor: 'pointer', marginBottom: 14 }}>{'← All ' + type}</button>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginBottom: 20 }}>
-        <h2 style={{ fontWeight: 600, fontSize: 28, margin: 0, color: '#0B3C49' }}>{fmTitle}</h2>
+      <button type="button" onClick={() => admin.guard(() => router.push('/admin/' + type))} className={styles.backBtn} style={{ border: 'none', background: 'none', padding: 0, color: '#0A8E7B', fontSize: 15.5, fontWeight: 600, cursor: 'pointer', marginBottom: 14 }}>{'← All ' + type}</button>
+      <div className={styles.formHeader} style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginBottom: 20 }}>
+        <h2 className={styles.formTitle} style={{ fontWeight: 600, fontSize: 28, margin: 0, color: '#0B3C49' }}>{fmTitle}</h2>
         <span style={{ background: isNew ? '#EEF3F1' : p.bg, color: isNew ? '#5A6A66' : p.color, fontSize: 13.5, fontWeight: 600, padding: '5px 12px', borderRadius: 999 }}>{isNew ? 'Not saved yet' : p.label}</span>
         {dirty ? (
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 14.5, color: '#8A5A06' }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#E3A21A' }} />Unsaved changes</span>
@@ -387,12 +387,12 @@ export function RecordForm({ type }: { type: Collection }) {
         <div style={{ background: '#FFFBF2', border: '1px solid #F3E2B8', borderRadius: 10, padding: '14px 18px', fontSize: 15.5, lineHeight: 1.5, color: '#7A5205', marginBottom: 18 }}>The original website had no description for this facility. Add one confirmed by the hospital before publishing changes.</div>
       ) : null}
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 360px', gap: 22, alignItems: 'start' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, minWidth: 0 }}>
+      <div className={styles.formLayout} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 360px', gap: 22, alignItems: 'start' }}>
+        <div className={styles.formMain} style={{ display: 'flex', flexDirection: 'column', gap: 20, minWidth: 0 }}>
           {sections.map((sec) => (
             <section key={sec.title} style={{ background: '#ffffff', border: '1px solid #E2ECE9', borderRadius: 12, padding: '22px 24px 24px' }}>
               <h3 style={{ fontWeight: 600, fontSize: 18.5, margin: '0 0 18px', color: '#0B3C49' }}>{sec.title}</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '18px 20px' }}>
+              <div className={styles.fieldGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '18px 20px' }}>
                 {sec.fields.map(renderField)}
               </div>
             </section>
@@ -407,10 +407,10 @@ export function RecordForm({ type }: { type: Collection }) {
               <p style={{ margin: '0 0 16px', fontSize: 14.5, color: '#7A8C87' }}>For facilities with several services under one heading, such as Radiology (X-Ray, 2D Echo, Sonography).</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                 {(facility.subitems || []).map((sb, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '220px minmax(0, 1fr) auto', gap: 12, alignItems: 'start', padding: 14, background: '#F7FAF9', border: '1px solid #EEF3F1', borderRadius: 10 }}>
+                  <div key={i} className={styles.repRow} style={{ display: 'grid', gridTemplateColumns: '220px minmax(0, 1fr) auto', gap: 12, alignItems: 'start', padding: 14, background: '#F7FAF9', border: '1px solid #EEF3F1', borderRadius: 10 }}>
                     <input type="text" value={sb.name} onChange={(e) => setSub(i, { name: e.target.value })} placeholder="Name, e.g. X-Ray" style={{ height: 44, padding: '0 12px', border: '1px solid #D5E2DE', borderRadius: 8, fontSize: 15.5, color: '#16413A' }} />
                     <textarea value={sb.text} onChange={(e) => setSub(i, { text: e.target.value })} rows={2} placeholder="Description" style={{ padding: '10px 12px', border: '1px solid #D5E2DE', borderRadius: 8, fontSize: 15.5, lineHeight: 1.5, color: '#16413A', resize: 'vertical' }} />
-                    <button type="button" onClick={() => removeSub(i)} style={{ height: 44, padding: '0 12px', border: '1px solid #F0D2CF', borderRadius: 8, background: '#ffffff', color: '#B4251E', fontSize: 14, cursor: 'pointer' }}>Remove</button>
+                    <button type="button" onClick={() => removeSub(i)} className={styles.repRemove} style={{ height: 44, padding: '0 12px', border: '1px solid #F0D2CF', borderRadius: 8, background: '#ffffff', color: '#B4251E', fontSize: 14, cursor: 'pointer' }}>Remove</button>
                   </div>
                 ))}
               </div>
@@ -439,15 +439,15 @@ export function RecordForm({ type }: { type: Collection }) {
                   const isCover = type === 'facilities' ? (facility.coverIndex || 0) === i : event.coverId === g.mediaId;
                   const img = msrc(g.mediaId);
                   return (
-                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '160px minmax(0, 1fr) auto', gap: 16, alignItems: 'start', padding: 12, border: '1px solid #E2ECE9', borderRadius: 10, background: '#ffffff' }}>
-                      <div style={{ position: 'relative', aspectRatio: '4 / 3', borderRadius: 8, backgroundColor: '#EEF3F1', backgroundImage: bg(img), backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                    <div key={i} className={styles.galleryRow} style={{ display: 'grid', gridTemplateColumns: '160px minmax(0, 1fr) auto', gap: 16, alignItems: 'start', padding: 12, border: '1px solid #E2ECE9', borderRadius: 10, background: '#ffffff' }}>
+                      <div className={styles.galleryThumb} style={{ position: 'relative', aspectRatio: '4 / 3', borderRadius: 8, backgroundColor: '#EEF3F1', backgroundImage: bg(img), backgroundSize: 'cover', backgroundPosition: 'center' }}>
                         {isCover ? <span style={{ position: 'absolute', left: 6, top: 6, background: '#0A8E7B', color: '#ffffff', fontSize: 11.5, fontWeight: 700, padding: '3px 8px', borderRadius: 999 }}>Main photo</span> : null}
                         {!img ? <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12.5, color: '#B4251E', textAlign: 'center', padding: 6 }}>Image missing from library</span> : null}
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 0 }}>
                         <input type="text" value={g.caption || ''} onChange={(e) => galleryOp('caption', i, e.target.value)} placeholder="Caption, e.g. General view" style={{ height: 40, padding: '0 12px', border: '1px solid #D5E2DE', borderRadius: 8, fontSize: 15, color: '#16413A' }} />
                         <input type="text" value={g.alt || ''} onChange={(e) => galleryOp('alt', i, e.target.value)} placeholder="Alternative text for screen readers" style={{ height: 40, padding: '0 12px', border: '1px solid #D5E2DE', borderRadius: 8, fontSize: 15, color: '#16413A' }} />
-                        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                        <div className={styles.galleryButtons} style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                           {!isCover ? (
                             <button type="button" onClick={() => galleryOp('cover', i)} style={{ height: 32, padding: '0 10px', border: '1px solid #9FD0C7', borderRadius: 7, background: '#ffffff', color: '#0B5F55', fontSize: 13.5, fontWeight: 600, cursor: 'pointer' }}>{type === 'facilities' ? 'Set as main photo' : 'Use as cover'}</button>
                           ) : null}
@@ -455,7 +455,7 @@ export function RecordForm({ type }: { type: Collection }) {
                           <button type="button" onClick={() => admin.pickFile(galleryTarget(i), false)} style={{ height: 32, padding: '0 10px', border: '1px solid #D5E2DE', borderRadius: 7, background: '#ffffff', color: '#35514B', fontSize: 13.5, cursor: 'pointer' }}>Replace</button>
                         </div>
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'stretch' }}>
+                      <div className={styles.galleryCtl} style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'stretch' }}>
                         <button type="button" onClick={() => galleryOp('up', i)} aria-label="Move earlier" style={{ height: 32, width: 40, border: '1px solid #E2ECE9', borderRadius: 7, background: '#ffffff', color: '#35514B', cursor: 'pointer' }}>▲</button>
                         <button type="button" onClick={() => galleryOp('down', i)} aria-label="Move later" style={{ height: 32, width: 40, border: '1px solid #E2ECE9', borderRadius: 7, background: '#ffffff', color: '#35514B', cursor: 'pointer' }}>▼</button>
                         <button type="button" onClick={() => galleryOp('remove', i)} aria-label="Remove from gallery" style={{ height: 32, width: 40, border: '1px solid #F0D2CF', borderRadius: 7, background: '#ffffff', color: '#B4251E', cursor: 'pointer' }}>✕</button>
@@ -468,23 +468,25 @@ export function RecordForm({ type }: { type: Collection }) {
           ) : null}
         </div>
 
-        <div style={{ position: 'sticky', top: 96, display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <section style={{ background: '#ffffff', border: '1px solid #E2ECE9', borderRadius: 12, padding: '20px 22px 22px' }}>
+        <div className={styles.formSide} style={{ position: 'sticky', top: 96, display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <section className={styles.publishCard} style={{ background: '#ffffff', border: '1px solid #E2ECE9', borderRadius: 12, padding: '20px 22px 22px' }}>
             <h3 style={{ fontWeight: 600, fontSize: 18, margin: '0 0 6px', color: '#0B3C49' }}>Publishing</h3>
             <p style={{ margin: '0 0 16px', fontSize: 14.5, color: '#7A8C87' }}>{savedLine}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {isDraftState ? (
-                <>
-                  <button type="button" onClick={() => saveRecord('publish')} className={styles.hoverBgDark} style={{ height: 48, border: 'none', borderRadius: 8, background: '#0A8E7B', color: '#ffffff', fontSize: 16.5, fontWeight: 700, cursor: 'pointer', opacity: canPub ? 1 : 0.45 }}>{saving === 'publish' ? 'Publishing…' : 'Publish'}</button>
-                  <button type="button" onClick={() => saveRecord('draft')} style={{ height: 46, border: '1px solid #9FD0C7', borderRadius: 8, background: '#ffffff', color: '#0B5F55', fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>{saving === 'draft' ? 'Saving…' : 'Save draft'}</button>
-                </>
-              ) : null}
-              {isPublished ? (
-                <>
-                  <button type="button" onClick={() => saveRecord('keep')} className={styles.hoverBgDark} style={{ height: 48, border: 'none', borderRadius: 8, background: '#0A8E7B', color: '#ffffff', fontSize: 16.5, fontWeight: 700, cursor: 'pointer' }}>{saving === 'keep' ? 'Saving…' : 'Save changes'}</button>
-                  <button type="button" onClick={() => saveRecord('unpublish')} style={{ height: 46, border: '1px solid #D5E2DE', borderRadius: 8, background: '#ffffff', color: '#35514B', fontSize: 16, fontWeight: 600, cursor: 'pointer', opacity: canPub ? 1 : 0.45 }}>{saving === 'unpublish' ? 'Unpublishing…' : 'Unpublish'}</button>
-                </>
-              ) : null}
+              <div className={styles.publishButtons} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {isDraftState ? (
+                  <>
+                    <button type="button" onClick={() => saveRecord('publish')} className={styles.hoverBgDark} style={{ height: 48, border: 'none', borderRadius: 8, background: '#0A8E7B', color: '#ffffff', fontSize: 16.5, fontWeight: 700, cursor: 'pointer', opacity: canPub ? 1 : 0.45 }}>{saving === 'publish' ? 'Publishing…' : 'Publish'}</button>
+                    <button type="button" onClick={() => saveRecord('draft')} style={{ height: 46, border: '1px solid #9FD0C7', borderRadius: 8, background: '#ffffff', color: '#0B5F55', fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>{saving === 'draft' ? 'Saving…' : 'Save draft'}</button>
+                  </>
+                ) : null}
+                {isPublished ? (
+                  <>
+                    <button type="button" onClick={() => saveRecord('keep')} className={styles.hoverBgDark} style={{ height: 48, border: 'none', borderRadius: 8, background: '#0A8E7B', color: '#ffffff', fontSize: 16.5, fontWeight: 700, cursor: 'pointer' }}>{saving === 'keep' ? 'Saving…' : 'Save changes'}</button>
+                    <button type="button" onClick={() => saveRecord('unpublish')} style={{ height: 46, border: '1px solid #D5E2DE', borderRadius: 8, background: '#ffffff', color: '#35514B', fontSize: 16, fontWeight: 600, cursor: 'pointer', opacity: canPub ? 1 : 0.45 }}>{saving === 'unpublish' ? 'Unpublishing…' : 'Unpublish'}</button>
+                  </>
+                ) : null}
+              </div>
               <button type="button" onClick={() => admin.setPreview({ type, rec: draft })} style={{ height: 44, border: '1px solid #D5E2DE', borderRadius: 8, background: '#ffffff', color: '#35514B', fontSize: 15.5, cursor: 'pointer' }}>Preview</button>
             </div>
             {!canPub ? <p style={{ margin: '14px 0 0', fontSize: 14, lineHeight: 1.5, color: '#8A5A06' }}>Your role can save drafts. An administrator needs to publish.</p> : null}
@@ -523,6 +525,23 @@ export function RecordForm({ type }: { type: Collection }) {
               />
               <p style={{ margin: '12px 0 0', fontSize: 13.5, lineHeight: 1.5, color: '#7A8C87' }}>{'Recommended ' + singlePr.w + ' × ' + singlePr.h + ' px · ' + singlePr.ratio + ' · JPG, PNG or WebP · up to 5 MB'}</p>
             </section>
+          ) : null}
+        </div>
+      </div>
+
+      <div className={styles.saveBar}>
+        <div className={styles.saveBarInner}>
+          {isDraftState ? (
+            <>
+              <button type="button" onClick={() => saveRecord('draft')} className={styles.saveBarSecondary}>{saving === 'draft' ? 'Saving…' : 'Save draft'}</button>
+              <button type="button" onClick={() => saveRecord('publish')} className={styles.saveBarPrimary} style={{ opacity: canPub ? 1 : 0.45 }}>{saving === 'publish' ? 'Publishing…' : 'Publish'}</button>
+            </>
+          ) : null}
+          {isPublished ? (
+            <>
+              <button type="button" onClick={() => saveRecord('unpublish')} className={styles.saveBarSecondary} style={{ opacity: canPub ? 1 : 0.45 }}>{saving === 'unpublish' ? 'Unpublishing…' : 'Unpublish'}</button>
+              <button type="button" onClick={() => saveRecord('keep')} className={styles.saveBarPrimary}>{saving === 'keep' ? 'Saving…' : 'Save changes'}</button>
+            </>
           ) : null}
         </div>
       </div>

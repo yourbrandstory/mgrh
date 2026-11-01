@@ -45,16 +45,16 @@ export default function AdminDashboardPage() {
         <h2 style={{ fontWeight: 600, fontSize: 28, margin: 0, color: '#0B3C49' }}>{(h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + ', ' + user.name.split(' ')[0]}</h2>
         <span style={{ fontSize: 15.5, color: '#7A8C87' }}>{new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</span>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 16, marginBottom: 26 }}>
+      <div className={styles.statsGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 16, marginBottom: 26 }}>
         {stats.map((s) => (
           <button key={s.label} type="button" onClick={s.onClick} className={styles.hoverBorderSoft} style={{ textAlign: 'left', background: '#ffffff', border: '1px solid #E2ECE9', borderRadius: 12, padding: '20px 22px', cursor: 'pointer' }}>
             <div style={{ fontSize: 14.5, color: '#5A6A66', marginBottom: 8 }}>{s.label}</div>
-            <div style={{ fontWeight: 700, fontSize: 36, lineHeight: 1, color: '#0B3C49', marginBottom: 8 }}>{s.value}</div>
+            <div className={styles.statValue} style={{ fontWeight: 700, fontSize: 36, lineHeight: 1, color: '#0B3C49', marginBottom: 8 }}>{s.value}</div>
             <div style={{ fontSize: 13.5, color: '#7A8C87' }}>{s.note}</div>
           </button>
         ))}
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.6fr) minmax(300px, 1fr)', gap: 20, alignItems: 'start', marginBottom: 20 }}>
+      <div className={styles.dashCols} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.6fr) minmax(300px, 1fr)', gap: 20, alignItems: 'start', marginBottom: 20 }}>
         <section style={{ background: '#ffffff', border: '1px solid #E2ECE9', borderRadius: 12, overflow: 'hidden' }}>
           <div style={{ padding: '18px 22px', borderBottom: '1px solid #EEF3F1', fontWeight: 600, fontSize: 18, color: '#0B3C49' }}>Recently updated</div>
           {recent.map((r) => {
@@ -64,7 +64,7 @@ export default function AdminDashboardPage() {
                 key={r._t + r.id}
                 type="button"
                 onClick={() => open(r._t, r.id)}
-                className={styles.hoverBgRow}
+                className={styles.hoverBgRow + ' ' + styles.recentRow}
                 style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 110px 110px', gap: 16, alignItems: 'center', width: '100%', padding: '14px 22px', border: 'none', borderBottom: '1px solid #F1F5F3', background: '#ffffff', textAlign: 'left', cursor: 'pointer' }}
               >
                 <span style={{ minWidth: 0 }}>
@@ -72,7 +72,7 @@ export default function AdminDashboardPage() {
                   <span style={{ display: 'block', fontSize: 13.5, color: '#7A8C87', marginTop: 2 }}>{({ doctors: 'Doctor', facilities: 'Facility', events: 'Event' } as const)[r._t]} · {r.updatedBy || ''}</span>
                 </span>
                 <span style={{ justifySelf: 'start', background: p.bg, color: p.color, fontSize: 13, fontWeight: 600, padding: '4px 10px', borderRadius: 999 }}>{p.label}</span>
-                <span style={{ fontSize: 14, color: '#5A6A66', textAlign: 'right' }}>{rel(r.updatedAt)}</span>
+                <span className={styles.recentTime} style={{ fontSize: 14, color: '#5A6A66', textAlign: 'right' }}>{rel(r.updatedAt)}</span>
               </button>
             );
           })}
@@ -100,11 +100,11 @@ export default function AdminDashboardPage() {
       <section style={{ background: '#ffffff', border: '1px solid #E2ECE9', borderRadius: 12, overflow: 'hidden' }}>
         <div style={{ padding: '18px 22px', borderBottom: '1px solid #EEF3F1', fontWeight: 600, fontSize: 18, color: '#0B3C49' }}>Activity log</div>
         {activity.map((a, i) => (
-          <div key={a.id || i} style={{ display: 'grid', gridTemplateColumns: '130px 130px minmax(0, 1fr) 200px', gap: 16, alignItems: 'baseline', padding: '12px 22px', borderBottom: '1px solid #F1F5F3', fontSize: 15 }}>
-            <span style={{ color: '#7A8C87' }}>{rel(a.at)}</span>
-            <span style={{ fontWeight: 600, color: '#0B5F55' }}>{a.action}</span>
-            <span style={{ color: '#16413A', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.type}: {a.title}</span>
-            <span style={{ color: '#7A8C87', textAlign: 'right' }}>{a.who}</span>
+          <div key={a.id || i} className={styles.activityRow} style={{ display: 'grid', gridTemplateColumns: '130px 130px minmax(0, 1fr) 200px', gap: 16, alignItems: 'baseline', padding: '12px 22px', borderBottom: '1px solid #F1F5F3', fontSize: 15 }}>
+            <span className={styles.actTime} style={{ color: '#7A8C87' }}>{rel(a.at)}</span>
+            <span className={styles.actAction} style={{ fontWeight: 600, color: '#0B5F55' }}>{a.action}</span>
+            <span className={styles.actWhat} style={{ color: '#16413A', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.type}: {a.title}</span>
+            <span className={styles.actWho} style={{ color: '#7A8C87', textAlign: 'right' }}>{a.who}</span>
           </div>
         ))}
       </section>

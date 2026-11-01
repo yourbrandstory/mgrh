@@ -5,6 +5,7 @@ import type { ChangeEvent } from 'react';
 import { useAdmin } from '@/lib/admin/AdminContext';
 import { Sel } from '@/lib/admin/ui';
 import * as S from '@/lib/admin/store';
+import styles from '@/lib/admin/admin.module.css';
 import type { AdminDb, Collection } from '@/lib/admin/types';
 
 const ROLE_OPTIONS = [
@@ -195,14 +196,14 @@ export default function SettingsPage() {
   return (
     <>
       <h2 style={{ fontWeight: 600, fontSize: 28, margin: '0 0 20px', color: '#0B3C49' }}>Settings</h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 20, alignItems: 'start' }}>
+      <div className={styles.settingsGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: 20, alignItems: 'start' }}>
         <section style={{ background: '#ffffff', border: '1px solid #E2ECE9', borderRadius: 12, padding: '22px 24px 24px' }}>
           <h3 style={{ fontWeight: 600, fontSize: 18.5, margin: '0 0 16px', color: '#0B3C49' }}>Your account</h3>
           <label style={{ display: 'block', fontSize: 15, fontWeight: 600, color: '#23423B', marginBottom: 6 }}>Name</label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} style={{ width: '100%', height: 44, padding: '0 12px', border: '1px solid #D5E2DE', borderRadius: 8, fontSize: 15.5, color: '#16413A', marginBottom: 14 }} />
           <label style={{ display: 'block', fontSize: 15, fontWeight: 600, color: '#23423B', marginBottom: 6 }}>Email</label>
           <div style={{ height: 44, padding: '0 12px', border: '1px solid #EEF3F1', borderRadius: 8, fontSize: 15.5, color: '#7A8C87', background: '#F7FAF9', display: 'flex', alignItems: 'center', marginBottom: 14 }}>{user.email}</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+          <div className={styles.passGrid} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
             <div>
               <label style={{ display: 'block', fontSize: 15, fontWeight: 600, color: '#23423B', marginBottom: 6 }}>New password</label>
               <input type="password" value={pass} onChange={(e) => setPass(e.target.value)} placeholder="Leave blank to keep" style={{ width: '100%', height: 44, padding: '0 12px', border: '1px solid #D5E2DE', borderRadius: 8, fontSize: 15.5 }} />
@@ -240,20 +241,24 @@ export default function SettingsPage() {
             {db.settings.users.map((us) => {
               const canRemove = isAdmin && us.email !== user.email;
               return (
-                <div key={us.email} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: '1px solid #F1F5F3' }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 15.5, fontWeight: 600, color: '#16413A' }}>{us.name}</div>
-                    <div style={{ fontSize: 13.5, color: '#7A8C87' }}>{us.email + ' · ' + us.role}</div>
+                <div key={us.email} className={styles.teamRow} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: '1px solid #F1F5F3' }}>
+                  <div className={styles.teamInfo} style={{ flex: 1, minWidth: 0 }}>
+                    <div className={styles.teamName} style={{ fontSize: 15.5, fontWeight: 600, color: '#16413A' }}>{us.name}</div>
+                    <div className={styles.teamMeta} style={{ fontSize: 13.5, color: '#7A8C87' }}>
+                      <span className={styles.teamEmail}>{us.email}</span>
+                      <span className={styles.teamDot}>{' · '}</span>
+                      <span className={styles.teamRole}>{us.role}</span>
+                    </div>
                   </div>
                   {canRemove ? (
-                    <button type="button" onClick={() => removeUser(us.email)} style={{ height: 32, padding: '0 10px', border: '1px solid #F0D2CF', borderRadius: 7, background: '#ffffff', color: '#B4251E', fontSize: 13.5, cursor: 'pointer' }}>Remove</button>
+                    <button type="button" onClick={() => removeUser(us.email)} className={styles.teamRemove} style={{ height: 32, padding: '0 10px', border: '1px solid #F0D2CF', borderRadius: 7, background: '#ffffff', color: '#B4251E', fontSize: 13.5, cursor: 'pointer' }}>Remove</button>
                   ) : null}
                 </div>
               );
             })}
           </div>
           {isAdmin ? (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 16 }}>
+            <div className={styles.addUserGrid} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 16 }}>
               <input type="text" value={nu.name} onChange={(e) => setNu({ ...nu, name: e.target.value })} placeholder="Name" style={{ height: 44, padding: '0 12px', border: '1px solid #D5E2DE', borderRadius: 8, fontSize: 15 }} />
               <input type="email" value={nu.email} onChange={(e) => setNu({ ...nu, email: e.target.value })} placeholder="Email" style={{ height: 44, padding: '0 12px', border: '1px solid #D5E2DE', borderRadius: 8, fontSize: 15 }} />
               <Sel value={nu.role} options={ROLE_OPTIONS} onChange={(e) => setNu({ ...nu, role: e.target.value })} extra={{ minWidth: 150 }} />
@@ -291,11 +296,11 @@ export default function SettingsPage() {
         <section style={{ background: '#ffffff', border: '1px solid #E2ECE9', borderRadius: 12, padding: '22px 24px 24px', gridColumn: '1 / -1' }}>
           <h3 style={{ fontWeight: 600, fontSize: 18.5, margin: '0 0 6px', color: '#0B3C49' }}>Backup &amp; restore</h3>
           <p style={{ margin: '0 0 16px', fontSize: 14.5, color: '#7A8C87' }}>Download a copy of all content and images, or restore from an earlier backup.</p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <button type="button" onClick={exportData} style={{ height: 44, padding: '0 18px', border: 'none', borderRadius: 8, background: '#0A8E7B', color: '#ffffff', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>Download backup</button>
-            <button type="button" onClick={() => importRef.current && importRef.current.click()} style={{ height: 44, padding: '0 18px', border: '1px solid #9FD0C7', borderRadius: 8, background: '#ffffff', color: '#0B5F55', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>Restore from backup</button>
+          <div className={styles.backupRow} style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <button type="button" onClick={exportData} className={styles.backupBtn} style={{ height: 44, padding: '0 18px', border: 'none', borderRadius: 8, background: '#0A8E7B', color: '#ffffff', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>Download backup</button>
+            <button type="button" onClick={() => importRef.current && importRef.current.click()} className={styles.backupBtn} style={{ height: 44, padding: '0 18px', border: '1px solid #9FD0C7', borderRadius: 8, background: '#ffffff', color: '#0B5F55', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>Restore from backup</button>
             {isAdmin ? (
-              <button type="button" onClick={resetData} style={{ height: 44, padding: '0 18px', border: '1px solid #F0D2CF', borderRadius: 8, background: '#ffffff', color: '#B4251E', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>Reset to original website content</button>
+              <button type="button" onClick={resetData} className={styles.backupBtn} style={{ height: 44, padding: '0 18px', border: '1px solid #F0D2CF', borderRadius: 8, background: '#ffffff', color: '#B4251E', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>Reset to original website content</button>
             ) : null}
           </div>
           <input type="file" ref={importRef} accept="application/json" onChange={onImportFile} style={{ display: 'none' }} />

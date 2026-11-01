@@ -36,8 +36,8 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)' }}>
-      <div style={{ position: 'relative', overflow: 'hidden', background: '#0B4F45', color: '#ffffff', padding: '56px 60px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <div className={styles.loginGrid} style={{ minHeight: '100vh', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)' }}>
+      <div className={styles.loginArt} style={{ position: 'relative', overflow: 'hidden', background: '#0B4F45', color: '#ffffff', padding: '56px 60px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <img src="/admin-assets/home-mahabaleshwar.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.22 }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(8,70,62,0.4) 0%, rgba(6,58,52,0.92) 100%)' }} />
         <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -50,8 +50,8 @@ export default function AdminLoginPage() {
         </div>
         <div style={{ position: 'relative', fontSize: 14, color: 'rgba(255,255,255,0.7)' }}>Morarji Gokuldas Rural Hospital, Mahabaleshwar</div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 40 }}>
-        <form onSubmit={submit} style={{ width: '100%', maxWidth: 420 }}>
+      <div className={styles.loginRight} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 40 }}>
+        <form onSubmit={submit} className={styles.loginForm} style={{ width: '100%', maxWidth: 420 }}>
           <h2 style={{ fontWeight: 600, fontSize: 30, margin: '0 0 8px', color: '#0B3C49' }}>Sign in</h2>
           <p style={{ margin: '0 0 30px', fontSize: 16.5, color: '#5A6A66' }}>Use the account given to you by the hospital office.</p>
           <label style={{ display: 'block', fontSize: 15, fontWeight: 600, color: '#23423B', marginBottom: 7 }}>Email address</label>

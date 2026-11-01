@@ -25,12 +25,14 @@ export function AdminModals() {
       {picker ? (
         <div
           onClick={() => admin.setPicker(null)}
+          className={styles.modalOverlay}
           style={{ position: 'fixed', inset: 0, zIndex: 190, background: 'rgba(8,30,28,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 28 }}
         >
           <div
             onClick={stop}
             role="dialog"
             aria-modal="true"
+            className={styles.pickerCard}
             style={{ width: '100%', maxWidth: 920, maxHeight: 'calc(100vh - 56px)', overflow: 'auto', background: '#ffffff', borderRadius: 16, animation: 'cmsUp 0.24s ease' }}
           >
             <div style={{ padding: '20px 26px', borderBottom: '1px solid #EEF3F1', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -38,7 +40,7 @@ export function AdminModals() {
               <button type="button" onClick={() => admin.setPicker(null)} style={{ border: 'none', background: 'none', fontSize: 15.5, color: '#5A6A66', cursor: 'pointer' }}>Close</button>
             </div>
             <p style={{ margin: '16px 26px 0', fontSize: 14.5, color: '#7A8C87' }}>Pick an image, then adjust the crop for this use. The original stays unchanged.</p>
-            <div style={{ padding: '18px 26px 26px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 14 }}>
+            <div className={styles.pickerGrid} style={{ padding: '18px 26px 26px', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 14 }}>
               {db.media.map((m) => (
                 <button
                   key={m.id}
@@ -63,17 +65,19 @@ export function AdminModals() {
       {confirmState ? (
         <div
           onClick={admin.closeConfirm}
+          className={styles.modalOverlay + ' ' + styles.confirmOverlay}
           style={{ position: 'fixed', inset: 0, zIndex: 260, background: 'rgba(8,30,28,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 28 }}
         >
           <div
             onClick={stop}
             role="alertdialog"
             aria-modal="true"
+            className={styles.confirmCard}
             style={{ width: '100%', maxWidth: 500, background: '#ffffff', borderRadius: 14, padding: '26px 28px 24px', animation: 'cmsUp 0.22s ease' }}
           >
             <h3 style={{ fontWeight: 600, fontSize: 21, margin: '0 0 10px', color: '#0B3C49' }}>{confirmState.title}</h3>
             <p style={{ margin: '0 0 24px', fontSize: 16, lineHeight: 1.6, color: '#45605A' }}>{confirmState.body}</p>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
+            <div className={styles.confirmButtons} style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
               {!confirmState.infoOnly ? (
                 <button type="button" onClick={admin.closeConfirm} style={{ height: 44, padding: '0 18px', border: '1px solid #D5E2DE', borderRadius: 8, background: '#ffffff', color: '#35514B', fontSize: 15.5, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
               ) : null}
@@ -85,6 +89,7 @@ export function AdminModals() {
       {toastState ? (
         <div
           role="status"
+          className={styles.toast}
           style={{ position: 'fixed', left: '50%', bottom: 28, transform: 'translateX(-50%)', zIndex: 300, maxWidth: 640, background: toastState.kind === 'err' ? '#9E2018' : '#0B4F45', color: '#ffffff', borderRadius: 10, padding: '14px 18px', display: 'flex', alignItems: 'center', gap: 16, fontSize: 15.5, lineHeight: 1.45, boxShadow: '0 20px 44px -18px rgba(0,0,0,0.45)', animation: 'cmsUp 0.24s ease' }}
         >
           <span>{toastState.msg}</span>
@@ -116,8 +121,9 @@ function PreviewModal() {
   const media = pvIsMedia ? (r as MediaItem) : null;
 
   return (
-    <div onClick={() => admin.setPreview(null)} style={{ position: 'fixed', inset: 0, zIndex: 180, background: 'rgba(8,30,28,0.55)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '48px 28px', overflowY: 'auto' }}>
-      <div onClick={stop} role="dialog" aria-modal="true" style={{ width: '100%', maxWidth: 900, background: '#ffffff', borderRadius: 16, overflow: 'hidden', animation: 'cmsUp 0.24s ease' }}>
+    <div onClick={() => admin.setPreview(null)} className={styles.previewOverlay} style={{ position: 'fixed', inset: 0, zIndex: 180, background: 'rgba(8,30,28,0.55)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '48px 28px', overflowY: 'auto' }}>
+      <div onClick={stop} role="dialog" aria-modal="true" className={styles.previewCard + (pvIsMedia ? ' ' + styles.previewSheet : '')} style={{ width: '100%', maxWidth: 900, background: '#ffffff', borderRadius: 16, overflow: 'hidden', animation: 'cmsUp 0.24s ease' }}>
+        {pvIsMedia ? <div className={styles.sheetHandle} aria-hidden="true"><span /></div> : null}
         <div style={{ padding: '14px 22px', background: '#0B4F45', color: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
           <span style={{ fontSize: 14.5, fontWeight: 600 }}>Preview · how it looks on the website</span>
           <button type="button" onClick={() => admin.setPreview(null)} style={{ border: '1px solid rgba(255,255,255,0.4)', background: 'transparent', color: '#ffffff', borderRadius: 7, padding: '6px 12px', fontSize: 14, cursor: 'pointer' }}>Close</button>
@@ -125,9 +131,9 @@ function PreviewModal() {
         {pvDraft ? (
           <div style={{ background: '#FDF3E1', color: '#7A5205', padding: '10px 22px', fontSize: 14.5, fontWeight: 600 }}>Draft — this is not visible on the public website.</div>
         ) : null}
-        <div style={{ padding: '34px 36px 38px', fontFamily: "'DM Sans', sans-serif" }}>
+        <div className={styles.previewBody} style={{ padding: '34px 36px 38px', fontFamily: "'DM Sans', sans-serif" }}>
           {doc ? (
-            <div style={{ display: 'grid', gridTemplateColumns: '200px minmax(0, 1fr)', gap: 30, alignItems: 'start', border: '1px solid #E1EEEA', borderRadius: 14, padding: 28 }}>
+            <div className={styles.previewDocGrid} style={{ display: 'grid', gridTemplateColumns: '200px minmax(0, 1fr)', gap: 30, alignItems: 'start', border: '1px solid #E1EEEA', borderRadius: 14, padding: 28 }}>
               {msrc(doc.imageId) ? (
                 <div style={{ width: 200, aspectRatio: '1 / 1', borderRadius: '50%', backgroundImage: bg(msrc(doc.imageId)), backgroundSize: 'cover', backgroundPosition: 'center' }} />
               ) : (
@@ -170,7 +176,7 @@ function PreviewModal() {
           ) : null}
           {evt ? (
             <>
-              <div style={{ display: 'grid', gridTemplateColumns: '300px minmax(0, 1fr)', gap: 26, alignItems: 'start', border: '1px solid #E6ECEA', borderRadius: 16, padding: 22 }}>
+              <div className={styles.previewEventGrid} style={{ display: 'grid', gridTemplateColumns: '300px minmax(0, 1fr)', gap: 26, alignItems: 'start', border: '1px solid #E6ECEA', borderRadius: 16, padding: 22 }}>
                 <div style={{ position: 'relative', aspectRatio: '4 / 3', borderRadius: 10, backgroundColor: '#EEF3F1', backgroundImage: bg(msrc(evt.coverId || ((evt.gallery || [])[0] || {}).mediaId)), backgroundSize: 'cover', backgroundPosition: 'center' }}>
                   {!msrc(evt.coverId || ((evt.gallery || [])[0] || {}).mediaId) ? (
                     <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7A8C87', fontSize: 14.5 }}>No cover image</span>
@@ -215,6 +221,8 @@ function ImageEditor() {
   const { editor, edSaving, queueCount } = admin;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const dragRef = useRef<{ px: number; py: number; x: number; y: number; w: number; h: number } | null>(null);
+  const pointersRef = useRef<Map<number, { x: number; y: number }>>(new Map());
+  const pinchRef = useRef<{ dist: number; zoom: number } | null>(null);
 
   useEffect(() => {
     const ed = admin.editor;
@@ -237,14 +245,34 @@ function ImageEditor() {
     } catch {
       /* ignore */
     }
+    pointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (pointersRef.current.size >= 2) {
+      const pts = Array.from(pointersRef.current.values());
+      pinchRef.current = { dist: Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y), zoom: editor.zoom };
+      dragRef.current = null;
+      return;
+    }
     dragRef.current = { px: event.clientX, py: event.clientY, x: editor.x, y: editor.y, w: c.clientWidth, h: c.clientHeight };
   };
   const onMove = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+    if (!pointersRef.current.has(event.pointerId)) return;
+    pointersRef.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (pinchRef.current && pointersRef.current.size >= 2) {
+      const pts = Array.from(pointersRef.current.values());
+      const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      if (pinchRef.current.dist > 0 && dist > 0) {
+        const zoom = Math.min(4, Math.max(1, +(pinchRef.current.zoom * (dist / pinchRef.current.dist)).toFixed(3)));
+        admin.edSet({ zoom });
+      }
+      return;
+    }
     const d = dragRef.current;
     if (!d) return;
     admin.edSet({ x: d.x + (event.clientX - d.px) / d.w, y: d.y + (event.clientY - d.py) / d.h });
   };
-  const onUp = () => {
+  const onUp = (event: ReactPointerEvent<HTMLCanvasElement>) => {
+    pointersRef.current.delete(event.pointerId);
+    if (pointersRef.current.size < 2) pinchRef.current = null;
     dragRef.current = null;
   };
 
@@ -253,27 +281,28 @@ function ImageEditor() {
     height: P.vh,
     maxWidth: '100%',
     borderRadius: 10,
+    aspectRatio: P.vw + ' / ' + P.vh,
   };
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(8,30,28,0.62)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 28 }}>
-      <div role="dialog" aria-modal="true" style={{ width: '100%', maxWidth: 1000, maxHeight: 'calc(100vh - 56px)', overflow: 'auto', background: '#ffffff', borderRadius: 16, boxShadow: '0 40px 90px -30px rgba(0,0,0,0.5)', animation: 'cmsUp 0.26s ease' }}>
-        <div style={{ padding: '20px 26px', borderBottom: '1px solid #EEF3F1', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+    <div className={styles.editorOverlay} style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(8,30,28,0.62)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 28 }}>
+      <div role="dialog" aria-modal="true" className={styles.editorCard} style={{ width: '100%', maxWidth: 1000, maxHeight: 'calc(100vh - 56px)', overflow: 'auto', background: '#ffffff', borderRadius: 16, boxShadow: '0 40px 90px -30px rgba(0,0,0,0.5)', animation: 'cmsUp 0.26s ease' }}>
+        <div className={styles.editorHead} style={{ padding: '20px 26px', borderBottom: '1px solid #EEF3F1', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
           <h3 style={{ fontWeight: 600, fontSize: 21, margin: 0, color: '#0B3C49' }}>Adjust {P.label.toLowerCase()}</h3>
           {queueCount > 0 ? (
             <span style={{ fontSize: 14, color: '#7A8C87' }}>{queueCount + ' more ' + (queueCount === 1 ? 'image' : 'images') + ' waiting after this one'}</span>
           ) : null}
         </div>
-        <div style={{ padding: '24px 26px', display: 'grid', gridTemplateColumns: 'auto minmax(260px, 1fr)', gap: 28, alignItems: 'start' }}>
-          <div>
+        <div className={styles.editorBody} style={{ padding: '24px 26px', display: 'grid', gridTemplateColumns: 'auto minmax(260px, 1fr)', gap: 28, alignItems: 'start' }}>
+          <div className={styles.editorStage}>
             {editor.loading ? (
-              <div style={{ ...blockStyle, background: '#EEF3F1', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14, color: '#5A6A66', fontSize: 15.5 }}>
+              <div className={styles.editorBlock} style={{ ...blockStyle, background: '#EEF3F1', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14, color: '#5A6A66', fontSize: 15.5 }}>
                 <span className={styles.spin} style={{ width: 34, height: 34, borderRadius: '50%', border: '3px solid #CFE6E0', borderTopColor: '#0A8E7B' }} />
                 Uploading image…
               </div>
             ) : null}
             {editor.error ? (
-              <div style={{ ...blockStyle, background: '#FDF1F0', border: '1px solid #F6D8D5', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14, padding: 30, textAlign: 'center', color: '#9E2018', fontSize: 16, lineHeight: 1.5 }}>
+              <div className={styles.editorBlock} style={{ ...blockStyle, background: '#FDF1F0', border: '1px solid #F6D8D5', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14, padding: 30, textAlign: 'center', color: '#9E2018', fontSize: 16, lineHeight: 1.5 }}>
                 <strong style={{ fontSize: 18 }}>Upload failed</strong>
                 {editor.error}
                 <button type="button" onClick={admin.edRetry} style={{ height: 42, padding: '0 18px', border: 'none', borderRadius: 8, background: '#C42A21', color: '#ffffff', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>Choose another file</button>
@@ -289,13 +318,14 @@ function ImageEditor() {
                   onPointerMove={onMove}
                   onPointerUp={onUp}
                   onPointerCancel={onUp}
-                  style={{ display: 'block', width: P.vw, height: P.vh, maxWidth: '100%', borderRadius: 10, cursor: 'grab', touchAction: 'none' }}
+                  className={styles.editorCanvas}
+                  style={{ display: 'block', width: P.vw, height: P.vh, maxWidth: '100%', borderRadius: 10, cursor: 'grab', touchAction: 'none', aspectRatio: P.vw + ' / ' + P.vh }}
                 />
                 <div style={{ fontSize: 13.5, color: '#7A8C87', marginTop: 8, textAlign: 'center' }}>Drag the photo to reposition it.</div>
               </>
             ) : null}
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          <div className={styles.editorSide} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <div style={{ background: '#F7FAF9', border: '1px solid #EEF3F1', borderRadius: 10, padding: '14px 16px', display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '6px 14px', fontSize: 14.5 }}>
               <span style={{ color: '#7A8C87' }}>File</span><span style={{ color: '#16413A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{editor.src.name || '—'}</span>
               <span style={{ color: '#7A8C87' }}>Original</span><span style={{ color: '#16413A' }}>{editor.src.w ? editor.src.w + ' × ' + editor.src.h + ' px' : '—'} · {kb(editor.src.size)} · {(editor.src.type || '').replace('image/', '').toUpperCase() || '—'}</span>
@@ -313,12 +343,12 @@ function ImageEditor() {
                 <button type="button" onClick={() => admin.edSet({ zoom: Math.min(4, +(editor.zoom + 0.1).toFixed(2)) })} aria-label="Zoom in" style={{ flex: 'none', width: 38, height: 38, border: '1px solid #D5E2DE', borderRadius: 8, background: '#ffffff', fontSize: 20, color: '#35514B', cursor: 'pointer' }}>+</button>
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+            <div className={styles.rotateRow} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
               <button type="button" onClick={() => admin.edSet({ rot: editor.rot - 90, x: 0, y: 0 })} style={{ height: 40, border: '1px solid #D5E2DE', borderRadius: 8, background: '#ffffff', color: '#35514B', fontSize: 14.5, cursor: 'pointer' }}>↺ Rotate</button>
               <button type="button" onClick={() => admin.edSet({ rot: editor.rot + 90, x: 0, y: 0 })} style={{ height: 40, border: '1px solid #D5E2DE', borderRadius: 8, background: '#ffffff', color: '#35514B', fontSize: 14.5, cursor: 'pointer' }}>Rotate ↻</button>
               <button type="button" onClick={() => admin.edSet({ zoom: 1, x: 0, y: 0, rot: 0 })} style={{ height: 40, border: '1px solid #D5E2DE', borderRadius: 8, background: '#ffffff', color: '#35514B', fontSize: 14.5, cursor: 'pointer' }}>Reset</button>
             </div>
-            <div style={{ display: 'flex', gap: 10, marginTop: 6 }}>
+            <div className={styles.editorActions} style={{ display: 'flex', gap: 10, marginTop: 6 }}>
               <button type="button" onClick={admin.edCancel} style={{ flex: 1, height: 48, border: '1px solid #D5E2DE', borderRadius: 8, background: '#ffffff', color: '#35514B', fontSize: 16, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
               <button type="button" onClick={admin.edSave} style={{ flex: 1.4, height: 48, border: 'none', borderRadius: 8, background: '#0A8E7B', color: '#ffffff', fontSize: 16, fontWeight: 700, cursor: 'pointer' }}>{edSaving ? 'Saving…' : 'Save image'}</button>
             </div>
