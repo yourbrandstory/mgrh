@@ -1,16 +1,19 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { doctorFilters, supportRows, type DoctorItem } from './data';
+import { useState } from 'react';
+import type { DoctorItem, SupportRow } from './data';
 import styles from './doctors.module.css';
 
-export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
+export default function DoctorsView({
+  doctors,
+  filters,
+  support,
+}: {
+  doctors: DoctorItem[];
+  filters: string[];
+  support: SupportRow[];
+}) {
   const [filter, setFilter] = useState('All doctors');
-
-  const filters = useMemo(() => {
-    const extra = doctors.map((d) => d.speciality).filter((s) => !doctorFilters.includes(s));
-    return [...doctorFilters, ...Array.from(new Set(extra))];
-  }, [doctors]);
 
   const shown = filter === 'All doctors' ? doctors : doctors.filter((d) => d.speciality === filter);
 
@@ -291,9 +294,9 @@ export default function DoctorsView({ doctors }: { doctors: DoctorItem[] }) {
             </h2>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 1100 }}>
-            {supportRows.map((s) => (
+            {support.map((s, i) => (
               <div
-                key={s.title}
+                key={`${s.title}-${i}`}
                 className={styles.supportRow}
                 style={{
                   display: 'grid',

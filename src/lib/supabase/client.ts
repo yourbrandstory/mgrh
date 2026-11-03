@@ -6,8 +6,8 @@ import { SUPABASE_ANON_KEY, SUPABASE_URL } from './env';
 let browserClient: ReturnType<typeof createBrowserClient> | null = null;
 
 export function createClient() {
-  if (!browserClient) {
-    browserClient = createBrowserClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  }
-  return browserClient;
+  if (browserClient) return browserClient;
+  const client = createBrowserClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  browserClient = client;
+  return client;
 }

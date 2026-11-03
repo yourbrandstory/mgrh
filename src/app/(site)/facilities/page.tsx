@@ -1,4 +1,4 @@
-import { getFacilities, type PublicFacility } from '@/lib/content';
+import { getCategoryRecords, getFacilities, type PublicCategory, type PublicFacility } from '@/lib/content';
 import FacilitiesView from './FacilitiesView';
 import {
   buildParas,
@@ -25,19 +25,44 @@ function itemsFor(group: FacilityGroup, rows: PublicFacility[]): FacilityItem[] 
   });
 }
 
-function buildGroups(rows: PublicFacility[]): FacilityGroup[] {
+function slug(value: string) {
+  return `sec-${value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'facilities'}`;
+}
+
+function buildGroups(rows: PublicFacility[], categories: PublicCategory[]): FacilityGroup[] {
   if (!rows.length) return fallbackGroups;
 
-  return fallbackGroups.map((group) => {
-    const groupRows = rows.filter((row) => row.category === group.title);
-    if (!groupRows.length) return group;
-    return { ...group, items: itemsFor(group, groupRows) };
+  const names: string[] = [];
+  const add = (value: string) => {
+    const name = value.trim();
+    if (name && !names.some((existing) => normalizeName(existing) === normalizeName(name))) names.push(name);
+  };
+  categories.forEach((category) => add(category.name));
+  rows.forEach((row) => add(row.category));
+  if (!names.length) return fallbackGroups;
+
+  return names.flatMap((name, i) => {
+    const groupRows = rows.filter((row) => normalizeName(row.category) === normalizeName(name));
+    if (!groupRows.length) return [];
+
+    const fallback = fallbackGroups.find((g) => normalizeName(g.title) === normalizeName(name));
+    const category = categories.find((c) => normalizeName(c.name) === normalizeName(name));
+    const group: FacilityGroup = {
+      id: fallback?.id || slug(name),
+      title: name,
+      blurb: category?.tagline || fallback?.blurb || '',
+      bg: i % 2 === 0 ? '#ffffff' : '#F7FBFA',
+      bandBg: i % 2 === 0 ? '#F1F8F6' : '#E9F4F1',
+      items: [],
+    };
+
+    return [{ ...group, items: itemsFor(fallback || group, groupRows) }];
   });
 }
 
 export default async function FacilitiesPage() {
-  const { rows } = await getFacilities();
-  const groups = buildGroups(rows);
+  const [{ rows }, categories] = await Promise.all([getFacilities(), getCategoryRecords('facilities')]);
+  const groups = buildGroups(rows, categories);
 
   return <FacilitiesView groupsTop={groups.slice(0, 3)} groupsBottom={groups.slice(3)} />;
 }

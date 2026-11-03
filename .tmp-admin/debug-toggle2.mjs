@@ -1,0 +1,37 @@
+import { chromium } from 'playwright';
+const URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const NAME = 'DBG Toggle ' + Date.now().toString().slice(-5);
+const id = crypto.randomUUID();
+const rest = async (p, init={}) => {
+  const r = await fetch(URL + '/rest/v1/' + p, { ...init, headers: { apikey: KEY, authorization: 'Bearer ' + KEY, 'content-type': 'application/json', ...(init.headers||{}) } });
+  return { status: r.status, text: await r.text() };
+};
+console.log('insert', await rest('doctors', { method: 'POST', body: JSON.stringify({ id, name: NAME, designation: 'Debug', speciality: '', status: 'published', sort_order: 999 }) }));
+const b = await chromium.launch();
+const ctx = await b.newContext({ viewport: { width: 1440, height: 1000 } });
+const p = await ctx.newPage();
+p.on('console', m => { if (m.type() === 'error') console.log('CONSOLE ERR', m.text()); });
+p.on('pageerror', e => console.log('PAGEERROR', e.message));
+p.on('response', async r => { if (r.url().includes('/api/admin')) console.log('API', r.status(), r.request().method(), r.url(), (await r.text()).slice(0,200)); });
+await p.goto('http://localhost:3000/admin/login');
+await p.locator('#loginF').waitFor();
+await p.locator('#ln').fill('Hospital staff');
+await p.locator('#lr').selectOption('Admin');
+await p.locator('#loginF button[type=submit]').click();
+await p.waitForURL(/\/admin\/doctors/);
+await p.locator('.rows .row').first().waitFor();
+const find = () => p.locator('.rows .row').filter({ hasText: NAME });
+console.log('rows', await find().count(), 'switch', await find().getByRole('switch').count(), 'checked', await find().getByRole('switch').getAttribute('aria-checked'));
+await find().getByRole('switch').click();
+await p.locator('#toasts .toast').filter({ hasText: 'Hidden from the website.' }).last().waitFor();
+console.log('after hide rows', await find().count(), 'switch', await find().getByRole('switch').count(), 'checked', await find().getByRole('switch').getAttribute('aria-checked'));
+console.log('all rows text:', (await p.locator('.rows').innerText()).replace(/\n/g, ' | ').slice(0, 300));
+// try clicking again
+const sw = find().getByRole('switch');
+console.log('click2 visible?', await sw.isVisible().catch(e => 'ERR ' + e.message), 'count', await sw.count());
+await sw.click();
+await p.locator('#toasts .toast').filter({ hasText: 'Now shown on the website.' }).last().waitFor();
+console.log('after show checked', await find().getByRole('switch').getAttribute('aria-checked'));
+console.log('cleanup', await rest('doctors?id=eq.' + id, { method: 'DELETE' }));
+await b.close();

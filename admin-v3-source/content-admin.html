@@ -1,0 +1,663 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>MGRH Content Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: calm left-nav admin, list-first with a right-hand editing drawer; the site preview reuses the real MGRH teal look. */
+:root{--bg:#F2F7F6;--panel:#FFFFFF;--ink:#1F3A34;--mut:#5B6F6A;--line:#D9E8E4;--soft:#E8F5F2;--brand:#06A88C;--brand-ink:#0E7D6B;--on-brand:#FFFFFF;--red:#D92D20;--red-bg:#FDECEA;--amber:#8A5A00;--amber-bg:#FFF3D6;--ok:#12805C;--ok-bg:#DDF4EA;--shadow:0 18px 40px -22px rgba(8,70,62,.45);--font:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'DM Mono',ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1614;--panel:#13221F;--ink:#E4F2EF;--mut:#9DB5B0;--line:#254139;--soft:#183029;--brand:#1CC4A5;--brand-ink:#5FD9C0;--on-brand:#03211B;--red:#FF8A80;--red-bg:#3A1C1A;--amber:#F5C65C;--amber-bg:#3A2E10;--ok:#6FE0B0;--ok-bg:#12332A;--shadow:0 18px 40px -22px rgba(0,0,0,.8);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0C1614;--panel:#13221F;--ink:#E4F2EF;--mut:#9DB5B0;--line:#254139;--soft:#183029;--brand:#1CC4A5;--brand-ink:#5FD9C0;--on-brand:#03211B;--red:#FF8A80;--red-bg:#3A1C1A;--amber:#F5C65C;--amber-bg:#3A2E10;--ok:#6FE0B0;--ok-bg:#12332A;--shadow:0 18px 40px -22px rgba(0,0,0,.8);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+h1,h2,h3{margin:0;line-height:1.2;text-wrap:balance}
+p{margin:0}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* login */
+.login{min-height:100%;display:grid;place-items:center;padding:24px 16px}
+.lcard{width:min(440px,100%);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:32px;box-shadow:var(--shadow);display:grid;gap:18px}
+.lcard h1{font-size:28px}
+.brandrow{display:flex;gap:12px;align-items:center}
+.mark{width:46px;height:46px;border-radius:12px;background:var(--soft);display:grid;place-items:center;color:var(--brand-ink);flex:none}
+.brandrow small{display:block;color:var(--mut);font-size:14px}
+/* shell */
+.shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100%}
+.side{background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:20px;position:sticky;top:0;height:100vh;height:100dvh}
+.nav{display:grid;gap:4px}
+.nav button{display:flex;gap:12px;align-items:center;border:0;background:none;padding:12px 14px;border-radius:12px;font-weight:500;font-size:16px;color:var(--mut);text-align:left;min-height:48px}
+.nav button:hover{background:var(--soft);color:var(--ink)}
+.nav button[aria-current="page"]{background:var(--brand);color:var(--on-brand);font-weight:700}
+.side .who{margin-top:auto;border-top:1px solid var(--line);padding-top:14px;display:grid;gap:8px;font-size:14px;color:var(--mut)}
+.main{padding:22px clamp(16px,3vw,36px) 48px;min-width:0}
+.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:22px}
+.top .ind{font-size:14px;color:var(--mut);display:flex;gap:8px;align-items:center}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--brand);display:inline-block}
+.pagehead{display:flex;gap:14px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;margin-bottom:18px}
+.pagehead h1{font-size:30px}
+.pagehead p{color:var(--mut);margin-top:4px;max-width:60ch}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:18px}
+.tabs button{border:0;background:none;padding:12px 16px;font-weight:600;color:var(--mut);border-bottom:3px solid transparent;margin-bottom:-1px;min-height:48px}
+.tabs button[aria-selected="true"]{color:var(--brand-ink);border-color:var(--brand)}
+/* buttons */
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;border-radius:999px;border:1.5px solid var(--brand);background:none;color:var(--brand-ink);font-weight:700;padding:10px 20px;min-height:46px;white-space:nowrap}
+.btn:hover{background:var(--soft)}
+.btn.pri{background:var(--brand);color:var(--on-brand)}
+.btn.pri:hover{filter:brightness(.94)}
+.btn.dng{border-color:var(--red);color:var(--red)}
+.btn.dng.pri{background:var(--red);color:var(--panel)}
+.btn.sm{min-height:38px;padding:6px 14px;font-size:14.5px}
+.ibtn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);display:grid;place-items:center;color:var(--mut)}
+.ibtn:hover{background:var(--soft);color:var(--ink)}
+.ibtn:disabled{opacity:.35;cursor:not-allowed}
+/* cards & stats */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.stat b{display:block;font:500 36px/1.1 var(--mono);letter-spacing:-.02em}
+.stat span{color:var(--mut);font-size:14.5px}
+.stat small{display:block;margin-top:6px;font-size:14px;color:var(--mut)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.two h2,.card h2{font-size:18px;margin-bottom:12px}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+.todo{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.todo li{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;background:var(--soft)}
+.feed{display:grid;gap:2px;margin:0;padding:0;list-style:none}
+.feed li{padding:10px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.feed li:last-child{border:0}
+.feed small{color:var(--mut)}
+/* toolbar + rows */
+.tb{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.tb .grow{flex:1 1 220px;min-width:0}
+input[type=text],input[type=date],input[type=search],select,textarea{width:100%;background:var(--panel);border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;min-height:46px}
+textarea{resize:vertical;min-height:96px;line-height:1.5}
+input:focus,select:focus,textarea:focus{border-color:var(--brand);outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 28%,transparent)}
+.tb select{width:auto;min-width:170px}
+.rows{display:grid;gap:10px}
+.row{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.row.off{opacity:.62}
+.row.over{outline:2px dashed var(--brand)}
+.grip{color:var(--mut);cursor:grab;display:grid;place-items:center;width:24px;flex:none}
+.rmain{display:grid;gap:3px;min-width:0;flex:1}
+.rmain b{font-size:17px;overflow-wrap:anywhere}
+.rmain span{color:var(--mut);font-size:14.5px;overflow-wrap:anywhere}
+.rctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.th{width:58px;height:58px;flex:none;object-fit:cover;background:var(--soft);color:var(--brand-ink);display:grid;place-items:center;font-weight:700;border-radius:14px}
+.th.round{border-radius:50%}
+.th.wide{width:84px;height:58px}
+.th.ph{border:1.5px dashed var(--line)}
+.chip{display:inline-flex;width:fit-content;align-items:center;gap:6px;border-radius:999px;padding:3px 11px;font-size:13.5px;font-weight:600;background:var(--soft);color:var(--brand-ink)}
+.chip.warn{background:var(--amber-bg);color:var(--amber)}
+.chip.ok{background:var(--ok-bg);color:var(--ok)}
+.chip.red{background:var(--red-bg);color:var(--red)}
+.sw{display:inline-flex;gap:8px;align-items:center;border:0;background:none;font-weight:600;font-size:14.5px;color:var(--mut);padding:6px 4px;min-height:44px}
+.sw i{width:42px;height:24px;border-radius:999px;background:var(--line);position:relative;transition:background .15s}
+.sw i::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:var(--panel);box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s}
+.sw[aria-checked="true"] i{background:var(--brand)}
+.sw[aria-checked="true"] i::after{transform:translateX(18px)}
+.empty{padding:36px 16px;text-align:center;color:var(--mut);border:1.5px dashed var(--line);border-radius:16px}
+.count{font:500 14px var(--mono);color:var(--mut)}
+/* list managers */
+.lrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.lfields{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));min-width:0}
+.lfields .wide{grid-column:1/-1}
+.lfields label,.fld label{font-size:13.5px;font-weight:600;color:var(--mut);display:block;margin-bottom:4px}
+.note{background:var(--amber-bg);color:var(--amber);border-radius:14px;padding:12px 16px;font-size:15px}
+.note.info{background:var(--soft);color:var(--ink)}
+/* forms */
+.fld{display:grid;gap:4px;margin-bottom:16px}
+.hint{font-size:13.5px;color:var(--mut)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.chk{display:flex;gap:10px;align-items:center;min-height:44px;font-weight:600}
+.chk input{width:22px;height:22px;accent-color:var(--brand)}
+.err{background:var(--red-bg);color:var(--red);padding:10px 14px;border-radius:12px;margin-bottom:14px;font-weight:600}
+/* layers */
+.back{position:fixed;inset:0;background:rgba(6,25,21,.5);z-index:50;display:flex;justify-content:flex-end}
+.drawer{width:min(600px,100%);height:100%;background:var(--panel);display:flex;flex-direction:column;box-shadow:var(--shadow);animation:slide .2s ease-out}
+@keyframes slide{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+.dh,.df{padding:16px 22px;display:flex;gap:10px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);flex:none}
+.df{border-bottom:0;border-top:1px solid var(--line);padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));flex-wrap:wrap;justify-content:flex-end}
+.dh h2{font-size:20px}
+.db{padding:20px 22px;overflow-y:auto;flex:1;min-height:0}
+.db h3{font-size:16px;margin:6px 0 10px}
+.cback{z-index:70;align-items:center;justify-content:center;padding:16px}
+.cbox{width:min(440px,100%);background:var(--panel);border-radius:20px;padding:26px;display:grid;gap:14px;box-shadow:var(--shadow)}
+.cbox .acts{justify-content:flex-end}
+#toasts{position:fixed;left:0;right:0;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:90;display:grid;gap:8px;justify-items:center;pointer-events:none;padding:0 16px}
+.toast{pointer-events:auto;background:var(--ink);color:var(--panel);border-radius:14px;padding:12px 16px;display:flex;gap:14px;align-items:center;box-shadow:var(--shadow);max-width:min(560px,100%)}
+.toast.err{background:var(--red);color:var(--panel)}
+.toast button{border:0;background:none;color:inherit;font-weight:700;text-decoration:underline;min-height:36px}
+/* image field */
+.imgf{display:grid;gap:10px;margin-bottom:16px}
+.imgbox{border:1.5px dashed var(--line);border-radius:16px;background:var(--soft);display:grid;place-items:center;color:var(--mut);overflow:hidden;font-size:14.5px;text-align:center;padding:8px}
+.imgbox img{width:100%;height:100%;object-fit:cover;display:block}
+.imgbox.round{width:132px;height:132px;border-radius:50%}
+.imgbox.r32{aspect-ratio:3/2;max-width:300px}
+.imgbox.r43{aspect-ratio:4/3;max-width:300px}
+.imgbox.filled{border-style:solid;padding:0}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.gi{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+.gi img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.gi div{display:flex;gap:2px;padding:4px;justify-content:space-between}
+.gi .ibtn{width:34px;height:34px;border-radius:9px}
+/* image editor */
+.ed{width:min(900px,100%);max-height:96dvh;background:var(--panel);border-radius:22px;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.ed .dh{border-radius:22px 22px 0 0}
+.edbody{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;padding:20px 22px;overflow-y:auto}
+.frame{background:#10201D;border-radius:16px;padding:12px;display:grid;place-items:center}
+.frame canvas{max-width:100%;touch-action:none;cursor:grab;border-radius:6px;background:#dfe9e7}
+.frame canvas:active{cursor:grabbing}
+.zrow{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.zrow input[type=range]{flex:1 1 140px;accent-color:var(--brand);min-height:32px}
+.pvlab{font-weight:700;font-size:14.5px;margin:14px 0 8px}
+.pv{background:var(--soft);border-radius:14px;padding:14px;display:flex;gap:14px;align-items:center}
+.pv canvas{display:block;background:#dfe9e7}
+.pv.round canvas{border-radius:50%}
+.pv .pt{display:grid;gap:2px;font-size:14.5px;min-width:0}
+.pv .pt b{overflow-wrap:anywhere}
+.pv .pt span{color:var(--mut)}
+.rec{background:var(--soft);border-radius:14px;padding:12px 14px;font-size:14.5px}
+.rec b{font-family:var(--mono);font-weight:500}
+.prevov{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;flex-direction:column}
+.prevbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 18px;background:var(--amber-bg);color:var(--amber);font-weight:600;flex:none}
+.prevbody{overflow:auto;flex:1;min-height:0}
+.livebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.livewrap{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+.livewrap.phone{max-width:400px;margin:0 auto}
+@media (max-width:900px){.edbody,.two,.fgrid{grid-template-columns:1fr}}
+@media (max-width:820px){
+ .shell{grid-template-columns:minmax(0,1fr)}
+ .side{position:fixed;left:0;right:0;bottom:0;top:auto;height:auto;z-index:40;flex-direction:row;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));border-right:0;border-top:1px solid var(--line);gap:0}
+ .side>.brandrow,.side .who{display:none}
+ .nav{display:flex;width:100%;gap:2px;overflow-x:auto}
+ .nav button{flex:1 0 64px;flex-direction:column;gap:2px;padding:6px 4px;font-size:12px;min-height:54px;justify-content:center;align-items:center;text-align:center}
+ .main{padding-bottom:110px}
+ .row{flex-wrap:wrap}
+ .rctl{width:100%;justify-content:flex-start}
+ .back{justify-content:stretch}
+ .lrow{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ---- front-end preview: fixed light MGRH look ---- */
+.site{--bg:#fff;--panel:#fff;--ink:#1F3A34;--mut:#5B6F6A;--line:#D9E8E4;--soft:#F1F8F6;--brand:#06A88C;--brand-ink:#0E7D6B;--on-brand:#fff;--red:#E1332A;color:var(--ink);background:#fff;container-type:inline-size;font-size:16px;color-scheme:light}
+.site *{box-sizing:border-box}
+.site a{color:inherit;text-decoration:none}
+.s-top{background:#2AA2B3;color:#fff;display:flex;gap:6px 22px;flex-wrap:wrap;justify-content:space-between;padding:9px 28px;font-size:14px}
+.s-top span{overflow-wrap:anywhere}
+.s-head{display:flex;gap:18px;align-items:center;justify-content:space-between;padding:14px 28px;flex-wrap:wrap}
+.s-logo{display:flex;gap:10px;align-items:center}
+.s-logo b{display:block;font-size:15px;letter-spacing:.02em;line-height:1.1}
+.s-logo small{font-size:12px;letter-spacing:.06em}
+.s-logo .mk{width:44px;height:44px;border-radius:8px;background:#F4EEE4;display:grid;place-items:center;color:#06A085}
+.site nav{display:flex;gap:6px 20px;flex-wrap:wrap}
+.site nav a{font-size:17px;cursor:default;padding:4px 0}
+.site nav a[data-a]{cursor:pointer}
+.site nav a.on{color:#06A88C;font-weight:600}
+.s-em{background:#E1332A;color:#fff;font-weight:700;border-radius:8px;padding:10px 16px}
+.s-hero{background:linear-gradient(110deg,#0B7F72,#128E88 55%,#3DA5B2);color:#fff;padding:36px 28px 40px}
+.s-hero small{letter-spacing:.12em;font-size:13px;opacity:.85;text-transform:uppercase}
+.s-pill{display:inline-block;margin:12px 0;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:4px 14px;font-size:13px;letter-spacing:.1em;font-weight:700;text-transform:uppercase}
+.s-hero h1{font-size:clamp(30px,6cqw,48px);margin:2px 0 10px;font-weight:600}
+.s-hero p{max-width:62ch;font-size:18px;line-height:1.55;opacity:.95}
+.s-body{padding:28px;display:grid;gap:22px}
+.s-body p.lead{max-width:76ch;font-size:18px;line-height:1.65}
+.s-h{display:flex;gap:14px;align-items:center;font-size:30px;font-weight:600}
+.s-h::before{content:"";width:30px;height:4px;border-radius:3px;background:#22B3C4;flex:none}
+.s-h b{font-weight:700}
+.s-ct{margin-left:auto;font-size:15px;font-weight:600;color:var(--mut)}
+.s-line{border-bottom:1px solid var(--line);margin:-8px 0 0}
+.s-chips{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.s-chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 18px;font-size:16px;color:var(--ink)}
+.s-chip.on{background:#06A88C;color:#fff;border-color:#06A88C;font-weight:600}
+.s-chip[data-a]{cursor:pointer}
+.s-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.dcard{border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:8px;align-content:start;background:#fff}
+.dtop{display:flex;gap:14px;align-items:center}
+.dcard img{width:76px;height:76px;border-radius:50%;object-fit:cover;flex:none}
+.dcard h3{font-size:20px;color:#0E5F52;line-height:1.25;margin:0;font-weight:600}
+.dcard .role{color:#0E7D6B;font-weight:600;font-size:17px}
+.dcard .qual{color:var(--mut);font-size:15px}
+.dcard hr{border:0;border-top:1px solid var(--line);margin:6px 0;width:100%}
+.dcard .sch{color:#4A5E59;font-size:16px;line-height:1.5}
+.s-soft{background:#F6FAF9;padding:30px 28px;display:grid;gap:14px}
+.srow{display:grid;grid-template-columns:70px minmax(0,220px) minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid var(--line);max-width:1100px}
+.srow b.n{font-size:22px;color:#0E7D6B}
+.srow b.r{font-size:18px;color:#0E5F52;font-weight:600}
+.srow span{color:#4A5E59;line-height:1.55}
+.s-cta{border:1px solid var(--line);background:#F1F8F6;border-radius:18px;padding:26px 28px;display:flex;gap:18px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.s-cta h3{font-size:24px;margin-bottom:6px}
+.s-cta p{color:var(--mut);max-width:60ch;line-height:1.6}
+.s-btn{background:#06A88C;color:#fff;font-weight:700;border-radius:999px;padding:13px 24px;white-space:nowrap}
+.s-jump{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:14px 28px;background:#F6FAF9;border-bottom:1px solid var(--line)}
+.s-jump i{font-style:normal;letter-spacing:.14em;font-size:12.5px;font-weight:700;color:var(--mut);text-transform:uppercase;margin-right:6px}
+.s-emg{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;background:#FDECEA;color:#B42318;padding:10px 28px;font-size:15px}
+.s-sec{background:#EAF5F2;border-left:5px solid #06A88C;border-radius:14px;padding:18px 24px;display:flex;gap:10px 20px;justify-content:space-between;align-items:center;flex-wrap:wrap;scroll-margin-top:12px}
+.s-sec h2{font-size:26px;color:#0E5F52;margin:0;font-weight:600}
+.s-sec span{color:#4A5E59}
+.frow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:28px;padding:10px 0 18px}
+.frow h3{font-size:22px;margin:0 0 8px;font-weight:600}
+.frow p{color:#4A5E59;line-height:1.65;margin-bottom:10px}
+.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-content:start}
+.slot figure{margin:0;display:grid;gap:6px}
+.slot .im{aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:#E5E9E8;border:1.5px dashed #BAC6C3;display:grid;place-items:center;color:#6C7B77;font-size:13px;font-weight:600;text-align:center;padding:6px}
+.slot .im.has{border:0}
+.slot .im img{width:100%;height:100%;object-fit:cover;display:block}
+.slot figcaption{font-size:14px;color:var(--mut)}
+.s-teal{background:linear-gradient(110deg,#0B8A80,#2FA9BF);color:#fff;padding:32px 28px;display:flex;gap:18px;justify-content:space-between;align-items:center;flex-wrap:wrap;border-radius:0}
+.s-teal h3{font-size:26px;margin-bottom:8px}
+.s-teal p{max-width:62ch;line-height:1.6}
+.s-teal .s-btn{background:#fff;color:#0E7D6B}
+.ecard{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;display:grid;align-content:start}
+.ecard .im{aspect-ratio:4/3;background:#E5E9E8;border-bottom:1.5px dashed #BAC6C3;display:grid;place-items:center;color:#6C7B77;font-size:12.5px;text-align:center;padding:8px;position:relative}
+.ecard .im.has{border-bottom:0}
+.ecard .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dbadge{position:absolute;left:10px;top:10px;background:#fff;border-radius:10px;padding:4px 10px;text-align:center;line-height:1.1;z-index:1;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.dbadge b{display:block;font-size:20px;color:#1F3A34}
+.dbadge span{font-size:11.5px;font-weight:700;color:#E1332A;letter-spacing:.06em}
+.pcount{position:absolute;right:10px;bottom:10px;background:rgba(31,58,52,.85);color:#fff;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:600;z-index:1}
+.ecard .tx{padding:14px;display:grid;gap:4px}
+.ecard .cat{font-size:12.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#0E7D6B}
+.ecard .cat.blood{color:#E1332A}
+.ecard h3{font-size:18px;margin:0;color:#0E5F52;line-height:1.3}
+.ecard .lo{font-size:14.5px;color:var(--mut)}
+@container (max-width:760px){
+ .s-top,.s-head,.s-hero,.s-body,.s-soft,.s-jump,.s-emg,.s-teal{padding-left:16px;padding-right:16px}
+ .frow{grid-template-columns:1fr}
+ .srow{grid-template-columns:54px 1fr}
+ .srow span{grid-column:1/-1}
+ .slots{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+ .s-h{font-size:24px}
+}
+</style>
+<div id="app"></div>
+<div id="dL"></div><div id="eL"></div><div id="cL"></div><div id="pL"></div>
+<div id="toasts" aria-live="polite"></div>
+<input type="file" id="fileIn" class="sr" tabindex="-1" aria-hidden="true" accept="image/jpeg,image/png,image/webp">
+<script>
+'use strict';
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+const clone=o=>JSON.parse(JSON.stringify(o));
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const initials=n=>n.replace(/^Dr\.?\s*/i,'').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+const MON=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const NUMW=['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen','Twenty'];
+const numWord=n=>NUMW[n]||String(n);
+const paras=t=>String(t||'').split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean);
+
+/* ---------- icons ---------- */
+const IC={
+dash:'<path d="M3 3h8v8H3zM13 3h8v5h-8zM13 11h8v10h-8zM3 14h8v7H3z"/>',
+doc:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/>',
+fac:'<path d="M4 21V8l8-5 8 5v13M9 21v-6h6v6M12 8v3M10.5 9.5h3"/>',
+ev:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+hosp:'<path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+log:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+site:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+up:'<path d="M12 19V5M5 12l7-7 7 7"/>',down:'<path d="M12 5v14M5 12l7 7 7-7"/>',
+drag:'<circle cx="9" cy="6" r="1.4"/><circle cx="15" cy="6" r="1.4"/><circle cx="9" cy="12" r="1.4"/><circle cx="15" cy="12" r="1.4"/><circle cx="9" cy="18" r="1.4"/><circle cx="15" cy="18" r="1.4"/>',
+eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+img:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',
+rot:'<path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/>',
+zi:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5M11 8v6M8 11h6"/>',
+zo:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5M8 11h6"/>',
+x:'<path d="M6 6l12 12M18 6L6 18"/>',
+out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+pin:'<path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+cross:'<path d="M12 4v16M4 12h16"/>'
+};
+const ico=(n,s=20)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]}</svg>`;
+const MARK='<svg width="30" height="30" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" aria-hidden="true"><path d="M62 148V86l38-20 38 20v62M56 148h88M100 96v26M87 109h26"/></svg>';
+
+/* ---------- seed: real content from the MGRH pages ---------- */
+function seed(){
+ const sp=['Medicine','Surgery','Pediatrics','Orthopedics','Anaesthesia','Dental Surgeon','General'].map(name=>({id:uid(),name}));
+ const D=(name,role,qual,exp,spec,schedule,location)=>({id:uid(),name,role,qual,exp,spec,schedule,location,visible:true,photo:null});
+ const doctors=[
+  D('Dr. Pandit Kishanrao Deshmukh','Medical Superintendent','M.B.B.S., D.P.H., M.D. (Medicine)','49 years','Medicine','OPD, Monday to Saturday, 9:00 – 13:00','OPD block, first floor'),
+  D('Dr. Jeetendrasingh Jalimsingh Rajput','Gynecologist','M.D. Obstetrics & Gynaecology','32 years','Surgery','ANC clinic, Tuesday and Friday, 10:00 – 14:00','Maternity block'),
+  D('Dr. Nikita Viraj Yerramalla','Pediatrician','M.B.B.S. DCH','7 years','Pediatrics','Paediatric clinic, Monday and Thursday, 10:00 – 13:00','Paediatric ward'),
+  D('Dr. Sunil Tukaram Pise','Orthopedist','M.B.B.S. DNB','28 years','Orthopedics','Orthopaedic clinic, Wednesday and Saturday','OPD block and operation theatre'),
+  D('Dr. Aruna Prashant Rasal','Dr. Consultant (Anaesthetist)','M.B.B.S. DA','26 years','Anaesthesia','On call for operating lists','Operation theatre and ICU'),
+  D('Dr. Dhimant Harischandra Kambley','M. O. Dentist','B.D.S.','32 years','Dental Surgeon','Dental clinic, Monday to Friday, 10:00 – 15:00','Dental clinic, ground floor'),
+  D('Dr. Chandrashekhar Vaman Lele','Dr. Consultant (Intensivist)','M.B.B.S.','48 years','Medicine','ICU, daily rounds and on call','Intensive Care Unit'),
+  D('Dr. Mohammed Kashid Mohammed Hashim Khokar','Medical Officer','M.B.B.S.','4 years','General','Casualty, rotating shifts, 24 hours','Casualty ward, ground floor'),
+  D('Dr. Ashish Ashok Rai','Medical Officer','M.B.B.S.','2 years','General','OPD and casualty, rotating shifts','OPD block and casualty'),
+  D('Dr. Suyash Nanasaheb Deshmukh','Medical Officer','M.B.B.S.','6 months','General','OPD and casualty, rotating shifts','OPD block and casualty')];
+ const support=[
+  {id:uid(),count:'15',role:'Nursing staff',desc:'Ward, casualty and theatre nursing cover in rotating shifts, day and night.'},
+  {id:uid(),count:'10',role:'Paramedical staff',desc:'Laboratory technicians, radiographers and pharmacy staff supporting diagnostics and dispensing.'},
+  {id:uid(),count:'9',role:'Health workers',desc:'ANMs and community health workers running village clinics, immunisation booths and home visits.'},
+  {id:uid(),count:'16',role:'Administration & housekeeping',desc:'The hospital is supported by administrative staff, registration and records staff, ambulance drivers, and housekeeping staff who help keep the hospital running smoothly.'}];
+ const secs=[['Emergency & Critical Care','Immediate treatment and close monitoring.'],['Consultation & Clinics','Where most visits begin with examinations and everyday care.'],['Diagnostics','Tests and imaging that let treatment begin without delay.'],['Surgery','Newly renovated theatres for major and minor procedures.'],['Maternity & Child Care','Support through pregnancy, delivery and childhood.'],['Wards & Support Services','Inpatient beds, medicines and everyday patient amenities.']].map(([name,tagline])=>({id:uid(),name,tagline}));
+ const sid=n=>secs.find(s=>s.name===n).id;
+ const std=['General view','Detail','In use'];
+ const F=(name,sec,desc,caps,extra)=>({id:uid(),name,section:sid(sec),desc,visible:true,extra:!!extra,slots:[0,1,2].map(i=>({caption:(caps||std)[i]||'',img:null}))});
+ const facilities=[
+  F('Emergency / Casualty Ward','Emergency & Critical Care','First treatment for accidents, injuries and sudden illness. Go directly here no appointment needed.',['General view','','']),
+  F('Intensive Care Unit (ICU)','Emergency & Critical Care','ICU is designed for patients with life threatening conditions that require constant monitoring and advanced medical care.',['Patient under care','Monitoring equipment','ICU bay']),
+  F('Outpatient Department (OPD)','Consultation & Clinics','At the counter, patients can receive information about various government health care schemes.\n\nIt combines professionalism with a personal touch, ensuring that patients feel both respected and comfortable during their visit.'),
+  F('Dental Clinic','Consultation & Clinics','Dental clinic provides basic dental services, such as checkups, fillings and root canals.'),
+  F('Minor Operation Theatre','Surgery','Minor OT provides the highest standards of safety and hygiene and is staffed by experienced and qualified medical professionals.'),
+  F('Pathology Lab','Diagnostics','The latest diagnostic methods are available and results are generated quickly and accurately with state-of-the-art instruments and equipment.'),
+  F('Radiology','Diagnostics','X-Ray: The digital X-ray facility is equipped with advanced technology to capture x-ray images digitally.\n\n2D Echo: A High Quality 2D Echocardiogram for accurate diagnosis and effective treatment planning for various heart conditions.\n\nSonography Machine: The department has a modern sonography machine for ultrasound imaging, commonly used during pregnancy to monitor fetal development.'),
+  F('Maternity Ward','Maternity & Child Care','A dedicated area in the hospital where pregnant women receive care, before, during and after childbirth. The environment is designed to be warm, welcoming and comfortable providing support for mothers and newborns.'),
+  F('Male & Female Wards','Wards & Support Services','A healthcare facility equipped for the treatment and care of male and female patients.'),
+  F('Paediatric Ward','Wards & Support Services','A specialized section within the hospital that provides medical care specifically for infants, children, and adolescents.'),
+  F('Pharmacy','Wards & Support Services','Dispenses medicines at no cost to patients, often based on prescriptions from doctors within the hospital.'),
+  F('Additional Facilities','Wards & Support Services','The hospital campus has doctors and other staff quarters to ensure that medical personnel are available during medical emergencies.\n\nMeals provided for staff and patients typically include breakfast, lunch, and dinner, as well as snacks and beverages throughout the day.\n\nAmbulance services are available round the clock, every day of the week for emergency medical situations.\n\nAutoclave Room dedicated to sterilizing medical equipment, instruments, and supplies. A special device that uses high pressure steam to eliminate bacteria, viruses, fungi, and spores, ensuring that all items are sterile and safe for patient use.',null,true)];
+ const cats=['Blood donation','Screening camp','School clinic','Immunization','Awareness'].map(name=>({id:uid(),name}));
+ const E=(date,cat,title,loc)=>({id:uid(),title,date,cat,loc,desc:'',status:'published',featured:false,cover:null,gallery:[]});
+ const events=[
+  E('2026-07-12','Blood donation','Voluntary Blood Donation Camp','Hospital campus, Mahabaleshwar'),
+  E('2026-06-21','Screening camp','Free Eye Screening & Cataract Camp','OPD block, Mahabaleshwar'),
+  E('2026-05-08','School clinic','School Health Check-up Drive','Zilla Parishad School, Metgutad'),
+  E('2026-04-05','Immunization','Pulse Immunization Day','Hospital and village booths'),
+  E('2026-03-15','Screening camp','Diabetes & Hypertension Screening','Community hall, Mahabaleshwar'),
+  E('2026-02-28','Awareness','TB Awareness & Sputum Collection Drive','Village outreach, Satara District'),
+  E('2026-01-18','Screening camp','Cancer Screening Camp for Women','Maternity block, Mahabaleshwar'),
+  E('2025-12-09','Awareness','Anti-Tobacco Awareness Rally','Mahabaleshwar town'),
+  E('2025-11-22','Blood donation','Blood Donation Camp with Local College','College campus, Mahabaleshwar')];
+ return {v:1,updatedAt:Date.now(),
+  hospital:{phone:'+91 21682 60247',email:'info@mgrh-mahabaleshwar.org',address:'Mahabaleshwar – Medha Road, District – Satara – 412 806, Maharashtra',opd:'OPD 9:00 – 17:00',casualty:'Casualty open 24 hours',strip:'Go directly to the Casualty Ward — no appointment or queue.'},
+  doctors,specialties:sp,support,
+  docText:{pill:'Run by professionals',title:'Our Medical Team',sub:"Meet our resident medical officers and visiting specialists providing clinical care across the hospital's departments.",intro1:'The hospital is staffed by Resident Medical Officers (RMOs) and specialists, including MD Medicine, Gynaecology. Visiting specialists also conduct clinics on designated days of the week. Nursing and paramedical staff provide round-the-clock care and support in the wards, casualty, and operating theatres.',intro2:'You do not need to request a specific doctor. Simply register at the OPD counter, and our staff will guide you to the doctor on duty based on your medical needs. If required, you will be referred to the appropriate specialist clinic. Consultation with all doctors listed here is provided free of charge. Diagnostic tests, medicines, and hospitalisation, when required, are also provided free of charge.',listTitle:'Our Medical Team',supportTitle:'Nursing & Support Staff',ctaTitle:'Which doctor should you see?',ctaText:'Register at the OPD counter and staff will direct you to the doctor on duty, or tell you which day the specialist clinic you need is held.',ctaBtn:'Call the hospital'},
+  sections:secs,facilities,
+  facText:{title:'Our Facilities and Services',sub:'covering emergency care, surgery, diagnostics, maternity and inpatient wards all under one roof, and all provided free of charge.',bannerTitle:'Not sure which department you need?',bannerText:'Visit the OPD counter when you arrive. Our staff will direct you to the right department, explain any tests the doctor orders, and share details of government health care schemes you may be eligible for.',bannerBtn:'Call the hospital'},
+  categories:cats,events,evText:{title:'Recent Events'},
+  log:[]};
+}
+const KEY='mgrh-cms-proto-v1';
+function load(){try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);if(o&&o.v===1&&o.doctors)return o}}catch(e){}return seed()}
+let S=load();S.log=[];
+let saveT;
+function persist(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){if(!U.warned){U.warned=1;toast('This browser could not save your changes (storage is full or blocked). They will be lost when you reload.','err')}}},250)}
+function touch(){S.updatedAt=Date.now();persist()}
+const U={user:null,view:'doctors',tab:{doctors:'list',facilities:'list',events:'list'},q:{},f:{},sf:{doc:'all',ev:'all'},sitePage:'doctors',phone:false,warned:0};
+try{const u=sessionStorage.getItem('mgrh-user');if(u)U.user=JSON.parse(u)}catch(e){}
+const COL={doctors:()=>S.doctors,facilities:()=>S.facilities,events:()=>S.events,support:()=>S.support,specialties:()=>S.specialties,categories:()=>S.categories,sections:()=>S.sections};
+const TNAME={doctors:'doctor',facilities:'facility',events:'event'};
+const lbl=it=>it.name||it.title||it.role||'item';
+
+/* ---------- log + record helpers ---------- */
+function logAct(){}
+function moveIn(t,id,dir){const a=COL[t]();const i=a.findIndex(x=>x.id===id),j=i+dir;if(i<0||j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];touch();render()}
+function reorder(t,fromId,toId){const a=COL[t]();const i=a.findIndex(x=>x.id===fromId),j=a.findIndex(x=>x.id===toId);if(i<0||j<0||i===j)return;const [m]=a.splice(i,1);a.splice(j,0,m);touch();render()}
+function restoreRec(t,before,idx){const a=COL[t]();const k=a.findIndex(x=>x.id===before.id);if(k>=0)a[k]=clone(before);else a.splice(clamp(idx<0?a.length:idx,0,a.length),0,clone(before))}
+function saveRec(t,rec,isNew){const a=COL[t]();if(isNew){a.push(rec);logAct('added',t,rec)}else{const i=a.findIndex(x=>x.id===rec.id);const b=a[i];a[i]=rec;logAct('edited',t,rec,b)}touch()}
+async function delRec(t,id){const a=COL[t]();const i=a.findIndex(x=>x.id===id);if(i<0)return;const it=a[i];
+ const ok=await confirmBox({title:`Delete “${lbl(it)}”?`,text:'It will disappear from the website. You can undo for 10 seconds. To keep it saved but not shown, use Hide instead.',ok:'Delete',danger:true});if(!ok)return;
+ a.splice(i,1);logAct('deleted',t,it,it,i);touch();render();
+ toast(`Deleted “${lbl(it)}”.`,'',{undo:()=>{restoreRec(t,it,i);const e=S.log.find(l=>l.act==='deleted'&&l.before&&l.before.id===it.id&&!l.done);if(e)e.done=true;touch();render();toast('Restored.')}})}
+/* ---------- toast + confirm ---------- */
+function toast(msg,kind,o){o=o||{};const el=document.createElement('div');el.className='toast '+(kind||'');el.innerHTML=`<span>${esc(msg)}</span>`;
+ if(o.undo){const b=document.createElement('button');b.textContent='Undo';b.onclick=()=>{o.undo();el.remove()};el.appendChild(b)}
+ $('#toasts').appendChild(el);setTimeout(()=>el.remove(),o.undo?10000:4500)}
+function confirmBox({title,text,ok,danger}){return new Promise(res=>{const L=$('#cL');
+ L.innerHTML=`<div class="back cback" role="presentation"><div class="cbox" role="alertdialog" aria-modal="true" aria-label="${esc(title)}"><h2 style="font-size:20px">${esc(title)}</h2><p style="color:var(--mut)">${esc(text)}</p><div class="acts"><button class="btn" id="cNo">Cancel</button><button class="btn pri ${danger?'dng':''}" id="cYes">${esc(ok||'OK')}</button></div></div></div>`;
+ const done=v=>{L.innerHTML='';res(v)};$('#cNo').onclick=()=>done(false);$('#cYes').onclick=()=>done(true);$('#cNo').focus()})}
+
+/* ---------- image editor ---------- */
+const TYPES={
+ doctor:{asp:1,w:600,h:600,label:'Square (1:1)',min:'600 × 600 px',round:true},
+ facility:{asp:3/2,w:1200,h:800,label:'Landscape (3:2)',min:'1200 × 800 px'},
+ cover:{asp:4/3,w:1200,h:900,label:'Landscape (4:3)',min:'1200 × 900 px'},
+ gallery:{asp:4/3,w:1200,h:900,label:'Pick a shape below',min:'1200 px wide',free:true}};
+const MAX_KB=500;
+const loadImg=src=>new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=src});
+function readFile(file){return new Promise((ok,no)=>{
+ if(!/^image\/(jpeg|png|webp)$/.test(file.type)){no(new Error('Please choose a JPG, PNG or WebP photo.'));return}
+ if(file.size>MAX_KB*1024){no(new Error(`That photo is ${Math.round(file.size/1024)} KB. Please choose one up to ${MAX_KB} KB.`));return}
+ const fr=new FileReader();fr.onerror=()=>no(new Error('We could not read that file. Try a different photo.'));
+ fr.onload=async()=>{try{const im=await loadImg(fr.result);const nat={w:im.naturalWidth,h:im.naturalHeight};const k=Math.min(1,1400/Math.max(nat.w,nat.h));
+  const c=document.createElement('canvas');c.width=Math.round(nat.w*k);c.height=Math.round(nat.h*k);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
+  ok({src:c.toDataURL('image/jpeg',.82),nat})}catch(e){no(new Error('That file does not look like a photo. Try a different one.'))}};
+ fr.readAsDataURL(file)})}
+function pickFiles(multi,cb){const f=$('#fileIn');f.multiple=!!multi;f.value='';f.onchange=()=>{const a=[...f.files];f.value='';if(a.length)cb(a)};f.click()}
+
+function editImage({file,img,type,title,subtitle}){return new Promise(async res=>{
+ const T=TYPES[type];let E={s:1,xf:0,yf:0,r:0,asp:T.asp},src,nat,alt='';
+ try{if(file){const r=await readFile(file);src=r.src;nat=r.nat}else{src=img.src;nat=img.nat;E=Object.assign({},img.crop);alt=img.alt||''}}catch(e){toast(e.message,'err');return res(null)}
+ const el=await loadImg(src);const ew=el.naturalWidth,eh=el.naturalHeight;
+ const L=$('#eL');
+ const small=()=>{const lo=Math.min(nat.w,nat.h),hi=Math.max(nat.w,nat.h),need=T.free?[900,600]:[Math.max(T.w,T.h),Math.min(T.w,T.h)];return hi<need[0]||lo<need[1]};
+ L.innerHTML=`<div class="back cback" role="presentation"><div class="ed" role="dialog" aria-modal="true" aria-label="Adjust photo"><div class="dh"><h2>Adjust photo</h2><button class="ibtn" id="edX" aria-label="Close">${ico('x')}</button></div>
+ <div class="edbody"><div><div class="frame"><canvas id="edcv" tabindex="0" aria-label="Photo crop area. Drag to move, plus and minus to zoom."></canvas></div>
+ <div class="zrow"><button class="ibtn" id="zo" aria-label="Zoom out">${ico('zo')}</button><input type="range" id="edz" min="1" max="4" step="0.01" aria-label="Zoom"><button class="ibtn" id="zi" aria-label="Zoom in">${ico('zi')}</button><button class="btn sm" id="rot">${ico('rot',16)} Rotate</button><button class="btn sm" id="rst">Reset</button></div>
+ <p class="hint" style="margin-top:8px">Drag the photo to move it. Zoom with the slider, mouse wheel or two fingers.</p></div>
+ <div><div class="rec">Photo size: up to <b>${MAX_KB} KB</b>. Drag to move it, or use the zoom to crop it.</div>
+ <div id="edwarn"></div>
+ ${T.free?`<div class="fld" style="margin-top:12px"><label for="edasp">Shape</label><select id="edasp"><option value="1.3333">Landscape 4:3</option><option value="1.5">Landscape 3:2</option><option value="1.7778">Wide 16:9</option><option value="1">Square 1:1</option></select></div>`:''}
+ <div class="pvlab">How it will look on the website</div><div class="pv ${T.round?'round':''}" id="edpv"><canvas id="pvcv"></canvas><div class="pt"><b>${esc(title||'')}</b><span>${esc(subtitle||'')}</span></div></div>
+ <div class="fld" style="margin-top:16px"><label for="edalt">Photo description</label><input type="text" id="edalt" value="${esc(alt)}" maxlength="140" placeholder="Example: Dr. Rasal in the operation theatre"><span class="hint">Describe the photo for people who cannot see it.</span></div></div></div>
+ <div class="df"><button class="btn" id="edC">Cancel</button><button class="btn pri" id="edS">Save photo</button></div></div></div>`;
+ const cv=$('#edcv'),pv=$('#pvcv'),z=$('#edz');
+ function paint(c,W,H){const x=c.getContext('2d');x.fillStyle='#dfe9e7';x.fillRect(0,0,W,H);const rot=E.r%2,iw=rot?eh:ew,ih=rot?ew:eh;const sc=Math.max(W/iw,H/ih)*E.s;
+  const mx=Math.max(0,(iw*sc-W)/2)/W,my=Math.max(0,(ih*sc-H)/2)/H;E.xf=clamp(E.xf,-mx,mx);E.yf=clamp(E.yf,-my,my);
+  x.save();x.translate(W/2+E.xf*W,H/2+E.yf*H);x.rotate(E.r*Math.PI/2);x.scale(sc,sc);x.drawImage(el,-ew/2,-eh/2);x.restore()}
+ function redraw(){z.value=E.s;paint(cv,cv.width,cv.height);const p=pv.getContext('2d');p.drawImage(cv,0,0,pv.width,pv.height)}
+ function layout(){const maxW=Math.min(440,Math.max(220,innerWidth-80)),maxH=Math.min(360,innerHeight*.45);let W=maxW,H=W/E.asp;if(H>maxH){H=maxH;W=H*E.asp}
+  cv.width=Math.round(W);cv.height=Math.round(H);const pw=T.round?96:(E.asp>=1.3?190:110);pv.width=pw;pv.height=Math.round(pw/E.asp);pv.style.width=pw+'px';pv.style.height=pv.height+'px';
+  const w=$('#edwarn');w.innerHTML=small()?`<div class="note" style="margin-top:10px">This photo is small. It may look blurry on the website. Try a larger one.</div>`:`<div class="note info" style="margin-top:10px">This photo looks good.</div>`;redraw()}
+ const setZ=v=>{E.s=clamp(v,1,4);redraw()};
+ layout();if(T.free){const s=$('#edasp');s.value=[...s.options].reduce((b,o)=>Math.abs(o.value-E.asp)<Math.abs(b.value-E.asp)?o:b).value;s.onchange=()=>{E.asp=parseFloat(s.value);E.xf=0;E.yf=0;layout()}}
+ const pts=new Map();let lastD=0;
+ cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});lastD=0};
+ cv.onpointermove=e=>{const p=pts.get(e.pointerId);if(!p)return;const r=cv.getBoundingClientRect();
+  if(pts.size===1){E.xf+=(e.clientX-p.x)/r.width;E.yf+=(e.clientY-p.y)/r.height;pts.set(e.pointerId,{x:e.clientX,y:e.clientY});redraw()}
+  else{pts.set(e.pointerId,{x:e.clientX,y:e.clientY});const [a,b]=[...pts.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);if(lastD)E.s=clamp(E.s*d/lastD,1,4);lastD=d;redraw()}};
+ cv.onpointerup=cv.onpointercancel=e=>{pts.delete(e.pointerId);lastD=0};
+ cv.addEventListener('wheel',e=>{e.preventDefault();setZ(E.s*Math.exp(-e.deltaY*.0018))},{passive:false});
+ cv.onkeydown=e=>{const k=e.key,st=.03;if(k==='ArrowLeft')E.xf-=st;else if(k==='ArrowRight')E.xf+=st;else if(k==='ArrowUp')E.yf-=st;else if(k==='ArrowDown')E.yf+=st;else if(k==='+'||k==='=')E.s=clamp(E.s+.1,1,4);else if(k==='-')E.s=clamp(E.s-.1,1,4);else return;e.preventDefault();redraw()};
+ z.oninput=()=>setZ(parseFloat(z.value));$('#zi').onclick=()=>setZ(E.s+.2);$('#zo').onclick=()=>setZ(E.s-.2);
+ $('#rot').onclick=()=>{E.r=(E.r+1)%4;E.xf=0;E.yf=0;redraw()};$('#rst').onclick=()=>{E.s=1;E.xf=0;E.yf=0;E.r=0;redraw()};
+ const close=v=>{L.innerHTML='';res(v)};$('#edX').onclick=$('#edC').onclick=()=>close(null);
+ $('#edS').onclick=()=>{const oc=document.createElement('canvas');oc.width=T.w;oc.height=Math.round(T.w/E.asp);paint(oc,oc.width,oc.height);
+  close({src,nat,crop:{s:E.s,xf:E.xf,yf:E.yf,r:E.r,asp:E.asp},out:oc.toDataURL('image/jpeg',.86),alt:$('#edalt').value.trim()})};
+ cv.focus()})}
+/* ---------- drawer + forms ---------- */
+let DR=null;
+const newDR=()=>{DR={imgs:{},types:{},gallery:[],getDraft:null,validate:null,init:'',page:'',pv:()=>['','']}};
+const PH='Up to 500 KB. You can move or crop the photo after adding it.';
+const CLS={doctor:'round',facility:'r32',cover:'r43'};
+function imgInner(k){const im=DR.imgs[k],T=DR.types[k];
+ return `<div class="imgbox ${CLS[T]||''} ${im?'filled':''}">${im?`<img src="${im.out}" alt="${esc(im.alt)}">`:'<span>No photo yet</span>'}</div><div class="acts"><button type="button" class="btn sm" data-a="imgadd" data-k="${k}">${ico('img',16)} ${im?'Replace':'Add photo'}</button>${im?`<button type="button" class="btn sm" data-a="imgadj" data-k="${k}">Adjust</button><button type="button" class="btn sm dng" data-a="imgrm" data-k="${k}">Remove</button>`:''}</div>`}
+function imgField(k,type,img,label,hint){DR.imgs[k]=img||null;DR.types[k]=type;return `<div class="imgf"><label class="lb" style="font-weight:600;font-size:14.5px">${label}</label><div id="if-${k}" style="display:grid;gap:10px">${imgInner(k)}</div>${hint?`<span class="hint">${hint}</span>`:''}</div>`}
+const refreshImg=k=>{const e=$('#if-'+k);if(e)e.innerHTML=imgInner(k)};
+function galHTML(){return DR.gallery.length?`<div class="gal">${DR.gallery.map((g,i)=>`<div class="gi"><img src="${g.out}" alt="${esc(g.alt)}"><div><button type="button" class="ibtn" data-a="gup" data-i="${i}" aria-label="Move earlier" ${i?'':'disabled'}>${ico('up',15)}</button><button type="button" class="ibtn" data-a="gdn" data-i="${i}" aria-label="Move later" ${i<DR.gallery.length-1?'':'disabled'}>${ico('down',15)}</button><button type="button" class="ibtn" data-a="gadj" data-i="${i}" aria-label="Adjust photo">${ico('edit',15)}</button><button type="button" class="ibtn" data-a="grm" data-i="${i}" aria-label="Remove photo">${ico('trash',15)}</button></div></div>`).join('')}</div>`:(DR.page==='facilities'?'':'<div class="empty">No gallery photos yet.</div>')}
+const refreshGal=()=>{const e=$('#gal');if(e)e.innerHTML=galHTML()};
+async function imgAction(a,k,i){
+ const pv=DR.pv();
+ if(a==='imgadd')pickFiles(false,async f=>{const r=await editImage({file:f[0],type:DR.types[k],title:pv[0],subtitle:pv[1]});if(r){DR.imgs[k]=r;refreshImg(k)}});
+ else if(a==='imgadj'){const r=await editImage({img:DR.imgs[k],type:DR.types[k],title:pv[0],subtitle:pv[1]});if(r){DR.imgs[k]=r;refreshImg(k)}}
+ else if(a==='imgrm'){DR.imgs[k]=null;refreshImg(k)}
+ else if(a==='gadd')pickFiles(true,async fs=>{for(const f of fs){const r=await editImage({file:f,type:'gallery',title:pv[0],subtitle:pv[1]});if(!r)break;DR.gallery.push(r);refreshGal()}});
+ else if(a==='gadj'){const r=await editImage({img:DR.gallery[i],type:'gallery',title:pv[0],subtitle:pv[1]});if(r){DR.gallery[i]=r;refreshGal()}}
+ else if(a==='grm'){DR.gallery.splice(i,1);refreshGal()}
+ else if(a==='gup'&&i>0){[DR.gallery[i-1],DR.gallery[i]]=[DR.gallery[i],DR.gallery[i-1]];refreshGal()}
+ else if(a==='gdn'&&i<DR.gallery.length-1){[DR.gallery[i+1],DR.gallery[i]]=[DR.gallery[i],DR.gallery[i+1]];refreshGal()}}
+const v=id=>($('#'+id)||{value:''}).value.trim();
+function openDrawer({title,body,buttons,onSave,isNew,noPreview}){
+ DR.onSave=onSave;DR.isNew=isNew;
+ $('#dL').innerHTML=`<div class="back" id="dback"><div class="drawer" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="dh"><h2>${esc(title)}</h2><button class="ibtn" data-a="dclose" aria-label="Close">${ico('x')}</button></div><div class="db"><div id="derr"></div>${body}</div><div class="df"><button class="btn" data-a="dclose">Cancel</button>${buttons.map((b,i)=>`<button class="btn pri" data-a="dsave" data-i="${i}">${esc(b.label)}</button>`).join('')}</div></div></div>`;
+ DR.buttons=buttons;DR.init=JSON.stringify(DR.getDraft());const f=$('#dL input[type=text]');if(f)f.focus()}
+async function closeDrawer(force){if(!DR){$('#dL').innerHTML='';return}
+ if(!force&&JSON.stringify(DR.getDraft())!==DR.init){const ok=await confirmBox({title:'Discard your changes?',text:'You have changes that are not saved yet.',ok:'Discard',danger:true});if(!ok)return}
+ $('#dL').innerHTML='';DR=null}
+function drawerSave(i){const b=DR.buttons[i];const rec=DR.getDraft();if(b.status)rec.status=b.status;const e=DR.validate(rec);
+ if(e){$('#derr').innerHTML=`<div class="err" role="alert">${esc(e)}</div>`;$('#derr').scrollIntoView({block:'nearest'});return}
+ const isNew=DR.isNew;DR.onSave(rec,isNew);$('#dL').innerHTML='';DR=null;render();toast(b.status==='draft'?'Saved as draft. It is not on the website yet.':'Saved. The website now shows your changes.')}
+const opt=(arr,sel,val)=>arr.map(a=>{const [value,text]=Array.isArray(a)?a:[a,a];return `<option value="${esc(value)}" ${value===sel?'selected':''}>${esc(text)}</option>`}).join('');
+
+function doctorForm(id){const isNew=!id;
+ const d=isNew?{id:uid(),name:'',role:'',qual:'',exp:'',spec:(S.specialties[0]||{}).name||'',schedule:'',location:'',visible:true,photo:null}:clone(S.doctors.find(x=>x.id===id));
+ newDR();DR.page='doctors';DR.pv=()=>[v('f-name')||'Doctor name',v('f-role')];
+ const body=`<div class="fld"><label for="f-name">Full name</label><input type="text" id="f-name" value="${esc(d.name)}" placeholder="Dr. First Middle Last"></div>
+ <div class="fld"><label for="f-role">Designation</label><input type="text" id="f-role" value="${esc(d.role)}" placeholder="Example: Pediatrician, Medical Officer"></div>
+ <div class="fld"><label for="f-spec">Speciality group</label><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><select id="f-spec" style="flex:1 1 200px;width:auto">${opt(S.specialties.map(s=>s.name),d.spec)}</select><button type="button" class="btn sm" data-a="specnew">${ico('plus',16)} Add speciality</button></div>
+  <div id="specbox" hidden style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px"><input type="text" id="specNewIn" placeholder="New speciality, for example Cardiology" style="flex:1 1 200px;width:auto" aria-label="New speciality name"><button type="button" class="btn sm pri" data-a="specadd">Add</button><button type="button" class="btn sm" data-a="speccancel">Cancel</button></div>
+  <span class="hint">Decides which filter button on the website shows this doctor.</span></div>
+ <div class="fld"><label for="f-sch">Tagline</label><input type="text" id="f-sch" value="${esc(d.schedule)}" placeholder="Example: Caring for every child"><span class="hint">One short line shown on the doctor’s card.</span></div>
+ ${imgField('photo','doctor',d.photo,'Photo',PH)}
+ <label class="chk"><input type="checkbox" id="f-vis" ${d.visible?'checked':''}> Show on the website</label>`;
+ DR.getDraft=()=>({...d,name:v('f-name'),role:v('f-role'),spec:v('f-spec'),schedule:v('f-sch'),visible:$('#f-vis')?$('#f-vis').checked:d.visible,photo:DR.imgs.photo});
+ DR.validate=r=>!r.name?'Please enter the doctor’s name.':!r.role?'Please enter the designation, for example Medical Officer.':null;
+ openDrawer({title:isNew?'Add a doctor':'Edit doctor',body,buttons:[{label:'Save'}],isNew,onSave:(r,n)=>saveRec('doctors',r,n)})}
+
+function facilityForm(id){const isNew=!id;
+ const f=isNew?{id:uid(),name:'',section:(S.sections[0]||{}).id,desc:'',visible:true,extra:false,slots:[{caption:'General view',img:null},{caption:'Detail',img:null},{caption:'In use',img:null}]}:clone(S.facilities.find(x=>x.id===id));
+ newDR();DR.page='facilities';DR.gallery=(f.more||[]).slice();DR.pv=()=>[v('f-name')||'Facility name',''];
+ const body=`<div class="fld"><label for="f-name">Facility name</label><input type="text" id="f-name" value="${esc(f.name)}" placeholder="Example: Pathology Lab"></div>
+ <div class="fld"><label for="f-sec">Section</label><select id="f-sec">${opt(S.sections.map(s=>[s.id,s.name]),f.section)}</select></div>
+ <div class="fld"><label for="f-desc">Description</label><textarea id="f-desc" rows="6">${esc(f.desc)}</textarea><span class="hint">Leave a blank line between paragraphs to start a new one.</span></div>
+ <h3>Photos</h3>
+ ${f.slots.map((s,i)=>`<div class="card" style="margin-bottom:12px;padding:14px"><div class="fld"><label for="f-cap${i}">Caption for photo ${i+1}</label><input type="text" id="f-cap${i}" value="${esc(s.caption)}" placeholder="Example: General view"><span class="hint">Leave the caption and photo empty to hide this spot on the website.</span></div>${imgField('s'+i,'facility',s.img,'Photo '+(i+1),PH)}</div>`).join('')}
+ <div id="gal">${galHTML()}</div><div class="acts" style="margin:4px 0 16px"><button type="button" class="btn sm" data-a="gadd">${ico('plus',16)} Add more photos</button></div>
+ <label class="chk"><input type="checkbox" id="f-vis" ${f.visible?'checked':''}> Show on the website</label>`;
+ DR.getDraft=()=>({...f,name:v('f-name'),section:v('f-sec'),desc:($('#f-desc')?$('#f-desc').value:f.desc).trim(),visible:$('#f-vis')?$('#f-vis').checked:f.visible,slots:[0,1,2].map(i=>({caption:v('f-cap'+i),img:DR.imgs['s'+i]||null})),more:DR.gallery.slice()});
+ DR.validate=r=>!r.name?'Please enter the facility name.':!r.section?'Please add a section first (Facilities > Sections).':null;
+ openDrawer({title:isNew?'Add a facility':'Edit facility',body,buttons:[{label:'Save'}],isNew,onSave:(r,n)=>saveRec('facilities',r,n)})}
+
+function eventForm(id){const isNew=!id;
+ const e=isNew?{id:uid(),title:'',date:new Date().toISOString().slice(0,10),cat:(S.categories[0]||{}).name||'',loc:'',desc:'',status:'draft',featured:false,cover:null,gallery:[]}:clone(S.events.find(x=>x.id===id));
+ newDR();DR.page='events';DR.gallery=e.gallery.slice();DR.pv=()=>[v('f-title')||'Event title',v('f-loc')];
+ const body=`<div class="fld"><label for="f-title">Event title</label><input type="text" id="f-title" value="${esc(e.title)}" placeholder="Example: Voluntary Blood Donation Camp"></div>
+ <div class="fgrid"><div class="fld"><label for="f-date">Date</label><input type="date" id="f-date" value="${esc(e.date)}"></div><div class="fld"><label for="f-cat">Category</label><select id="f-cat">${opt(S.categories.map(c=>c.name),e.cat)}</select></div></div>
+ <div class="fld"><label for="f-loc">Place</label><input type="text" id="f-loc" value="${esc(e.loc)}" placeholder="Example: Community hall, Mahabaleshwar"></div>
+ <div class="fld"><label for="f-desc">Short description (optional)</label><textarea id="f-desc" rows="3">${esc(e.desc)}</textarea></div>
+ ${imgField('cover','cover',e.cover,'Cover photo',PH)}
+ <h3>Photo gallery</h3><div id="gal">${galHTML()}</div><div class="acts" style="margin:10px 0 16px"><button type="button" class="btn sm" data-a="gadd">${ico('plus',16)} Add photos</button></div><span class="hint">You can choose several photos at once. Each one is up to 500 KB and can be moved or cropped.</span>`;
+ DR.getDraft=()=>({...e,title:v('f-title'),date:v('f-date'),cat:v('f-cat'),loc:v('f-loc'),desc:($('#f-desc')?$('#f-desc').value:e.desc).trim(),cover:DR.imgs.cover||null,gallery:DR.gallery.slice()});
+ DR.validate=r=>!r.title?'Please enter the event title.':!r.date?'Please choose the date.':null;
+ openDrawer({title:isNew?'Add an event':'Edit event',body,buttons:[{label:'Save',status:isNew?'published':undefined}],isNew,onSave:(r,n)=>saveRec('events',r,n)})}
+/* ---------- views ---------- */
+function loginHTML(){return `<div class="login"><form class="lcard" id="loginF"><div class="brandrow"><div class="mark">${MARK}</div><div><b style="font-size:18px">Morarji Gokuldas Rural Hospital</b><small>Website content admin</small></div></div><h1>Sign in</h1>
+ <div class="fld" style="margin:0"><label for="ln">Your name</label><input type="text" id="ln" value="Hospital staff"></div>
+ <div class="fld" style="margin:0"><label for="lr">Role</label><select id="lr"><option value="Admin">Admin</option><option value="Editor">Editor</option></select></div>
+ <button class="btn pri" type="submit">Sign in</button><p class="hint">Prototype sign-in. No password needed. Changes you make are saved in this browser only.</p></form></div>`}
+const NAV=[['doctors','doc','Doctors'],['facilities','fac','Facilities'],['events','ev','Events']];
+function sideHTML(){return `<aside class="side"><div class="brandrow"><div class="mark">${MARK}</div><div><b>MGRH</b><small>Content admin</small></div></div><nav class="nav" aria-label="Main">${NAV.map(([k,i,t])=>`<button data-a="nav" data-v="${k}" ${U.view===k?'aria-current="page"':''}>${ico(i)}<span>${t}</span></button>`).join('')}</nav><div class="who"><span>${esc(U.user.name)} · ${esc(U.user.role)}</span><button class="btn sm" data-a="logout">${ico('out',16)} Sign out</button></div></aside>`}
+function render(){const r=$('#app');if(!U.user){r.innerHTML=loginHTML();return}
+ r.innerHTML=`<div class="shell">${sideHTML()}<main class="main"><div id="view">${viewHTML()}</div></main></div>`}
+function viewHTML(){switch(U.view){case 'doctors':return modHTML('doctors');case 'facilities':return modHTML('facilities');case 'events':return modHTML('events')}return ''}
+const head=(t,p,btn)=>`<div class="pagehead"><div><h1>${t}</h1><p>${p}</p></div>${btn||''}</div>`;
+
+const TABS={doctors:[['list','Doctors'],['support','Support staff']],facilities:[['list','Facilities'],['sections','Sections']],events:[['list','Events'],['categories','Categories']]};
+function modHTML(m){const tab=U.tab[m];
+ const meta={doctors:['Doctors','Doctors and support staff shown on the Doctors page.','Add doctor'],facilities:['Facilities','Departments and services shown on the Facilities page.','Add facility'],events:['Events','Camps, drives and rallies shown on the Events page.','Add event']}[m];
+ return head(meta[0],meta[1],tab==='list'?`<button class="btn pri" data-a="add" data-t="${m}">${ico('plus',16)} ${meta[2]}</button>`:'')+
+ `<div class="tabs" role="tablist">${TABS[m].map(([k,t])=>`<button role="tab" data-a="tab" data-m="${m}" data-k="${k}" aria-selected="${tab===k}">${t}</button>`).join('')}</div>`+tabBody(m,tab)}
+function tabBody(m,tab){if(tab==='list')return listTop(m)+`<div class="rows" id="rows">${rowsHTML(m)}</div>`;
+ return listMgr(tab)}
+
+function listTop(m){const f=U.f[m]||'';const q=U.q[m]||'';
+ const opts=m==='doctors'?['All specialities',...S.specialties.map(s=>s.name)]:m==='facilities'?[['','All sections'],...S.sections.map(s=>[s.id,s.name])]:[['','All categories'],...S.categories.map(c=>[c.name,c.name])];
+ const fo=m==='doctors'?opts.map((o,i)=>[i?o:'',o]):opts;
+ return `<div class="tb"><div class="grow"><label class="sr" for="q">Search</label><input type="search" id="q" placeholder="Search by name" value="${esc(q)}" data-a="search" data-m="${m}"></div><select id="fsel" data-a="filter" data-m="${m}" aria-label="Filter">${opt(fo,f)}</select>${m==='events'?`<select id="tsel" data-a="when" aria-label="Time">${opt([['all','Past and upcoming'],['up','Upcoming'],['past','Past']],U.f.when||'all')}</select>`:''}</div>`}
+function filtered(m){const q=(U.q[m]||'').toLowerCase(),f=U.f[m]||'';let a=COL[m]();
+ a=a.filter(x=>(!q||lbl(x).toLowerCase().includes(q)||(x.role||'').toLowerCase().includes(q))&&(!f||(m==='doctors'?x.spec===f:m==='facilities'?x.section===f:x.cat===f)));
+ if(m==='events'){const t=new Date().toISOString().slice(0,10),w=U.f.when||'all';a=a.filter(e=>w==='all'||(w==='up'?e.date>=t:e.date<t)).slice().sort((x,y)=>y.date.localeCompare(x.date))}return a}
+const swHTML=(m,x,on,on1,off1)=>`<button class="sw" role="switch" aria-checked="${on}" data-a="vis" data-t="${m}" data-id="${x.id}"><i></i>${on?on1:off1}</button>`;
+function ctl(m,x,canMove,vis){return `<div class="rctl">${vis}${canMove?`<button class="ibtn" data-a="up" data-t="${m}" data-id="${x.id}" aria-label="Move up">${ico('up',17)}</button><button class="ibtn" data-a="down" data-t="${m}" data-id="${x.id}" aria-label="Move down">${ico('down',17)}</button>`:''}<button class="btn sm" data-a="edit" data-t="${m}" data-id="${x.id}">${ico('edit',15)} Edit</button><button class="ibtn" data-a="del" data-t="${m}" data-id="${x.id}" aria-label="Delete">${ico('trash',17)}</button></div>`}
+function rowsHTML(m){const a=filtered(m);if(!a.length)return `<div class="empty">${COL[m]().length?'Nothing matches your search.':'Nothing here yet. Use the Add button to create the first one.'}</div>`;
+ const mv=m!=='events'&&!U.q[m]&&!U.f[m];
+ return a.map(x=>{let th,main,vis;
+  if(m==='doctors'){th=x.photo?`<img class="th round" src="${x.photo.out}" alt="">`:`<div class="th round ph">${esc(initials(x.name))}</div>`;main=`<b>${esc(x.name)}</b><span>${esc(x.role)} · ${esc(x.spec)}</span>${x.photo?'':'<span class="chip warn">No photo yet</span>'}`;vis=swHTML(m,x,x.visible,'Visible','Hidden')}
+  else if(m==='facilities'){const sec=S.sections.find(s=>s.id===x.section),im=x.slots.find(s=>s.img),have=x.slots.filter(s=>s.img).length;th=im?`<img class="th wide" src="${im.img.out}" alt="">`:`<div class="th wide ph" style="font-size:12px">No photo</div>`;main=`<b>${esc(x.name)}</b><span>${esc(sec?sec.name:'No section')}${x.extra?' · Not counted as a department':''}</span><span class="chip ${have?'ok':'warn'}">${have} of ${x.slots.filter(s=>s.caption||s.img).length} photos added</span>`;vis=swHTML(m,x,x.visible,'Visible','Hidden')}
+  else{const d=x.date.split('-');th=x.cover?`<img class="th wide" src="${x.cover.out}" alt="">`:`<div class="th wide ph" style="flex-direction:column;line-height:1.1"><b style="font-size:19px">${d[2]}</b><span style="font-size:11.5px">${MON[+d[1]-1]} ${d[0]}</span></div>`;main=`<b>${esc(x.title)}</b><span>${esc(x.cat)} · ${esc(x.loc)}</span><span><span class="chip ${x.status==='published'?'ok':'warn'}">${x.status==='published'?'Published':'Draft'}</span> <span class="count">${x.gallery.length} photos</span></span>`;vis=swHTML(m,x,x.status==='published','Published','Draft')}
+  return `<div class="row ${(m==='events'?x.status!=='published':!x.visible)?'off':''}" ${mv?'draggable="true"':''} data-id="${x.id}" data-t="${m}">${mv?`<span class="grip" title="Drag to reorder" aria-hidden="true">${ico('drag',18)}</span>`:''}${th}<div class="rmain">${main}</div>${ctl(m,x,mv,vis)}</div>`}).join('')}
+
+/* list managers: specialties, categories, sections, support rows */
+const LM={specialties:{h:'Speciality groups',p:'These make the filter buttons on the Doctors page.',f:[['name','Name']],used:x=>S.doctors.filter(d=>d.spec===x.name).length,u:'doctors',blank:()=>({id:uid(),name:'New specialty'})},
+ categories:{h:'Event categories',p:'These make the filter buttons on the Events page.',f:[['name','Name']],used:x=>S.events.filter(e=>e.cat===x.name).length,u:'events',blank:()=>({id:uid(),name:'New category'})},
+ sections:{h:'Facility sections',p:'Each section becomes a group and a “Jump to a section” button on the Facilities page.',f:[['name','Section name'],['tagline','One-line tagline']],used:x=>S.facilities.filter(f=>f.section===x.id).length,u:'facilities',blank:()=>({id:uid(),name:'New section',tagline:''})},
+ support:{h:'Nursing & support staff',p:'The table at the bottom of the Doctors page.',f:[['count','Number'],['role','Role'],['desc','Description']],used:()=>0,u:'',blank:()=>({id:uid(),count:'',role:'New role',desc:''})}};
+function listMgr(k){const c=LM[k];const a=COL[k]();
+ return `<div class="note info" style="margin-bottom:14px">${c.p}</div><div class="rows">${a.map((x,i)=>`<div class="lrow" data-id="${x.id}"><div class="lfields">${c.f.map(([f,l])=>`<div class="${f==='desc'?'wide':''}"><label for="${k}-${x.id}-${f}">${l}</label>${f==='desc'?`<textarea id="${k}-${x.id}-${f}" rows="2" data-a="lf" data-l="${k}" data-id="${x.id}" data-f="${f}">${esc(x[f])}</textarea>`:`<input type="text" id="${k}-${x.id}-${f}" value="${esc(x[f])}" data-a="lf" data-l="${k}" data-id="${x.id}" data-f="${f}">`}</div>`).join('')}</div><div class="rctl"><button class="ibtn" data-a="up" data-t="${k}" data-id="${x.id}" aria-label="Move up" ${i?'':'disabled'}>${ico('up',17)}</button><button class="ibtn" data-a="down" data-t="${k}" data-id="${x.id}" aria-label="Move down" ${i<a.length-1?'':'disabled'}>${ico('down',17)}</button><button class="ibtn" data-a="ldel" data-l="${k}" data-id="${x.id}" aria-label="Delete">${ico('trash',17)}</button></div></div>`).join('')}</div><div style="margin-top:14px"><button class="btn pri" data-a="ladd" data-l="${k}">${ico('plus',16)} ${k==='specialties'?'Add speciality':'Add'}</button></div>`}
+/* ---------- live site rendering (reads the same data as the admin) ---------- */
+const NAVS=[['Home',''],['About Us',''],['Facilities','facilities'],['Doctors','doctors'],['Programmes',''],['Events','events'],['Support Us',''],['Contact','']];
+function sChrome(d,page){const h=d.hospital;
+ return `<div class="s-top"><span>${ico('pin',14)} ${esc(h.address)}</span><span>${esc(h.opd)} · ${esc(h.casualty)}</span><span><b>${esc(h.phone)}</b> &nbsp; ${esc(h.email)}</span></div>
+ <div class="s-head"><div class="s-logo"><div class="mk">${MARK}</div><div><b>MORARJI GOKULDAS</b><small>RURAL HOSPITAL</small></div></div><nav>${NAVS.map(([n,p])=>`<a class="${p===page?'on':''}" ${p?`data-a="sitepage" data-p="${p}"`:''}>${n}</a>`).join('')}</nav><span class="s-em">Emergency</span></div>`}
+function sDoctors(d){const t=d.docText,list=d.doctors.filter(x=>x.visible),f=U.sf.doc,shown=list.filter(x=>f==='all'||x.spec===f);
+ return sChrome(d,'doctors')+`<div class="s-hero"><small>Home / Doctors</small><br><span class="s-pill">${esc(t.pill)}</span><h1>${esc(t.title)}</h1><p>${esc(t.sub)}</p></div>
+ <div class="s-body"><p class="lead">${esc(t.intro1)}</p><p class="lead">${esc(t.intro2)}</p>
+ <div class="s-h">${esc(t.listTitle)}<span class="s-ct">${shown.length} doctors</span></div><div class="s-line"></div>
+ <div class="s-chips"><a class="s-chip ${f==='all'?'on':''}" data-a="sitechip" data-k="doc" data-v="all">All doctors</a>${d.specialties.map(s=>`<a class="s-chip ${f===s.name?'on':''}" data-a="sitechip" data-k="doc" data-v="${esc(s.name)}">${esc(s.name)}</a>`).join('')}</div>
+ ${shown.length?`<div class="s-grid">${shown.map(x=>`<article class="dcard"><div class="dtop">${x.photo?`<img src="${x.photo.out}" alt="${esc(x.photo.alt||x.name)}">`:''}<h3>${esc(x.name)}</h3></div><div class="role">${esc(x.role)}</div>${x.schedule?`<hr><div class="sch">${esc(x.schedule)}</div>`:''}</article>`).join('')}</div>`:'<p class="lead" style="color:var(--mut)">No doctors to show here yet.</p>'}</div>
+ <div class="s-soft"><div class="s-h">${esc(t.supportTitle)}</div><div class="s-line" style="margin:0"></div>${d.support.map(r=>`<div class="srow"><b class="n">${esc(r.count)}</b><b class="r">${esc(r.role)}</b><span>${esc(r.desc)}</span></div>`).join('')}</div>
+ <div class="s-body"><div class="s-cta"><div><h3>${esc(t.ctaTitle)}</h3><p>${esc(t.ctaText)}</p></div><span class="s-btn">${esc(t.ctaBtn)}</span></div></div>`}
+function sFacilities(d){const t=d.facText,h=d.hospital,vis=d.facilities.filter(f=>f.visible),n=vis.filter(f=>!f.extra).length;
+ const secs=d.sections.filter(s=>vis.some(f=>f.section===s.id));
+ const banner=`<div class="s-teal"><div><h3>${esc(t.bannerTitle)}</h3><p>${esc(t.bannerText)}</p></div><span class="s-btn">${esc(t.bannerBtn)}</span></div>`;
+ return sChrome(d,'facilities')+`<div class="s-hero"><small>Home / Our facilities and services</small><br><span class="s-pill">${numWord(n)} departments under one roof</span><h1>${esc(t.title)}</h1><p>${numWord(n)} departments ${esc(t.sub)}</p></div>
+ <div class="s-jump"><i>Jump to a section</i>${secs.map(s=>`<a class="s-chip" data-a="jump" data-id="${s.id}" style="cursor:pointer">${esc(s.name)}</a>`).join('')}</div>
+ <div class="s-emg"><span><b>In an emergency</b> &nbsp;${esc(h.strip)}</span><b>${esc(h.phone)}</b></div>
+ <div class="s-body">${secs.map((s,si)=>`<div class="s-sec" id="sec-${s.id}"><h2>${esc(s.name)}</h2><span>${esc(s.tagline)}</span></div>${vis.filter(f=>f.section===s.id).map(f=>`<div class="frow"><div><h3>${esc(f.name)}</h3>${paras(f.desc).map(p=>`<p>${esc(p)}</p>`).join('')}</div><div class="slots">${f.slots.concat((f.more||[]).map(m=>({img:m,caption:''}))).filter(x=>x.img||x.caption).map(x=>`<div class="slot"><figure><div class="im ${x.img?'has':''}">${x.img?`<img src="${x.img.out}" alt="${esc(x.img.alt||x.caption)}">`:esc(x.caption||'Photo')}</div><figcaption>${esc(x.caption)}</figcaption></figure></div>`).join('')}</div></div>`).join('')}${si===1?`</div>${banner}<div class="s-body">`:''}`).join('')}${secs.length<2?`</div>${banner}<div class="s-body">`:''}</div>`}
+function sEvents(d){const f=U.sf.ev,list=d.events.filter(e=>e.status==='published').sort((a,b)=>b.date.localeCompare(a.date)),shown=list.filter(e=>f==='all'||e.cat===f);
+ return sChrome(d,'events')+`<div class="s-body" style="padding-top:34px"><div class="s-h">${esc(d.evText.title)}<span class="s-ct">${shown.length} events</span></div><div class="s-line"></div>
+ <div class="s-chips"><a class="s-chip ${f==='all'?'on':''}" data-a="sitechip" data-k="ev" data-v="all">All events</a>${d.categories.map(c=>`<a class="s-chip ${f===c.name?'on':''}" data-a="sitechip" data-k="ev" data-v="${esc(c.name)}">${esc(c.name)}</a>`).join('')}</div>
+ ${shown.length?`<div class="s-grid">${shown.map(e=>{const p=e.date.split('-');return `<article class="ecard"><div class="im ${e.cover?'has':''}"><div class="dbadge"><b>${p[2]}</b><span>${MON[+p[1]-1]}</span></div>${e.cover?`<img src="${e.cover.out}" alt="${esc(e.cover.alt||e.title)}">`:esc(e.title)}${e.gallery.length?`<span class="pcount">${e.gallery.length} photos</span>`:''}</div><div class="tx"><span class="cat ${/blood/i.test(e.cat)?'blood':''}">${esc(e.cat)}</span><h3>${esc(e.title)}</h3><span class="lo">${esc(e.loc)}</span></div></article>`}).join('')}</div>`:'<p style="color:var(--mut)">No events to show yet. Check back soon.</p>'}</div>`}
+const siteHTML=(page,d)=>page==='doctors'?sDoctors(d):page==='facilities'?sFacilities(d):sEvents(d);
+let OV=null;
+function renderSite(){const e=$('#siteLive');if(e)e.innerHTML=siteHTML(U.sitePage,S);const o=$('#siteOv');if(o&&OV)o.innerHTML=siteHTML(OV.page,OV.d)}
+function openPreview(page,rec){const d={...S};
+ if(page==='doctors')d.doctors=S.doctors.some(x=>x.id===rec.id)?S.doctors.map(x=>x.id===rec.id?rec:x):[...S.doctors,rec];
+ else if(page==='facilities')d.facilities=S.facilities.some(x=>x.id===rec.id)?S.facilities.map(x=>x.id===rec.id?rec:x):[...S.facilities,rec];
+ else d.events=S.events.some(x=>x.id===rec.id)?S.events.map(x=>x.id===rec.id?rec:x):[...S.events,rec];
+ OV={page,d};$('#pL').innerHTML=`<div class="prevov"><div class="prevbar"><span>Preview only. Your changes are not saved or live yet.</span><button class="btn sm" data-a="pclose">Back to editing</button></div><div class="prevbody"><div class="site" id="siteOv"></div></div></div>`;renderSite()}
+
+/* ---------- events ---------- */
+const FORMS={doctors:doctorForm,facilities:facilityForm,events:eventForm};
+document.addEventListener('click',async e=>{
+ if(e.target.id==='dback'){closeDrawer();return}
+ const el=e.target.closest('[data-a]');if(!el)return;const a=el.dataset.a,t=el.dataset.t,id=el.dataset.id;
+ if(['search','filter','when','lf'].includes(a))return;
+ switch(a){
+ case 'nav':U.view=el.dataset.v;render();scrollTo(0,0);break;
+ case 'logout':U.user=null;try{sessionStorage.removeItem('mgrh-user')}catch(x){}render();break;
+ case 'tab':U.tab[el.dataset.m]=el.dataset.k;render();break;
+ case 'add':U.view=t;U.tab[t]='list';render();FORMS[t]();break;
+ case 'edit':FORMS[t](id);break;
+ case 'del':delRec(t,id);break;
+ case 'vis':{const x=COL[t]().find(y=>y.id===id),b=clone(x);if(t==='events')x.status=x.status==='published'?'draft':'published';else x.visible=!x.visible;logAct('edited',t,x,b);touch();render();toast(t==='events'?(x.status==='published'?'Published.':'Moved to draft.'):(x.visible?'Now shown on the website.':'Hidden from the website.'));break}
+ case 'up':moveIn(t,id,-1);break;
+ case 'down':moveIn(t,id,1);break;
+ case 'ladd':{const l=el.dataset.l;COL[l]().push(LM[l].blank());touch();render();const r=$$('.lrow input,.lrow textarea').pop();if(r){r.focus();r.select()}break}
+ case 'ldel':{const l=el.dataset.l,x=COL[l]().find(y=>y.id===id),n=LM[l].used(x);if(n){toast(`${n} ${LM[l].u} still use this. Move them to another one first.`,'err');break}delRec(l,id);break}
+  case 'dclose':closeDrawer();break;
+ case 'dsave':drawerSave(+el.dataset.i);break;
+ case 'imgadd':case 'imgadj':case 'imgrm':case 'gadd':case 'gadj':case 'grm':case 'gup':case 'gdn':imgAction(a,el.dataset.k,+el.dataset.i);break;
+ case 'specnew':{const b=$('#specbox');b.hidden=false;$('#specNewIn').focus();break}
+ case 'speccancel':{$('#specbox').hidden=true;$('#specNewIn').value='';break}
+ case 'specadd':{const inp=$('#specNewIn'),nm=inp.value.trim();if(!nm){toast('Type the speciality name first.','err');inp.focus();break}
+  let sp=S.specialties.find(x=>x.name.toLowerCase()===nm.toLowerCase());if(!sp){sp={id:uid(),name:nm};S.specialties.push(sp);touch()}
+  $('#f-spec').innerHTML=opt(S.specialties.map(x=>x.name),sp.name);inp.value='';$('#specbox').hidden=true;toast(`“${sp.name}” added. It now shows as a filter button on the Doctors page.`);break}
+ case 'sitechip':U.sf[el.dataset.k]=el.dataset.v;renderSite();break;
+ case 'jump':{const s=el.closest('.site').querySelector('#sec-'+el.dataset.id);if(s)s.scrollIntoView({behavior:'smooth',block:'start'});break}
+ case 'pclose':$('#pL').innerHTML='';OV=null;break;
+ }});
+document.addEventListener('input',e=>{const el=e.target;if(el.dataset&&el.dataset.a==='search'){U.q[el.dataset.m]=el.value;$('#rows').innerHTML=rowsHTML(el.dataset.m)}});
+document.addEventListener('change',e=>{const el=e.target,a=el.dataset&&el.dataset.a;if(!a)return;
+ if(a==='filter'){U.f[el.dataset.m]=el.value;$('#rows').innerHTML=rowsHTML(el.dataset.m)}
+ else if(a==='when'){U.f.when=el.value;$('#rows').innerHTML=rowsHTML('events')}
+ else if(a==='lf'){const l=el.dataset.l,x=COL[l]().find(y=>y.id===el.dataset.id);if(!x)return;const f=el.dataset.f,nv=el.value.trim();if(f==='name'&&!nv){el.value=x.name;toast('A name cannot be empty.','err');return}
+  if(f==='name'&&l==='specialties')S.doctors.forEach(d=>{if(d.spec===x.name)d.spec=nv});if(f==='name'&&l==='categories')S.events.forEach(v2=>{if(v2.cat===x.name)v2.cat=nv});x[f]=nv;touch()}
+ });
+document.addEventListener('submit',e=>{if(e.target.id==='loginF'){e.preventDefault();U.user={name:$('#ln').value.trim()||'Hospital staff',role:$('#lr').value};try{sessionStorage.setItem('mgrh-user',JSON.stringify(U.user))}catch(x){}U.view='doctors';render()}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='specNewIn'){e.preventDefault();$('[data-a=specadd]').click();return}if(e.key!=='Escape')return;if($('#cL').innerHTML)$('#cL .btn').click();else if($('#eL').innerHTML)$('#edX').click();else if($('#pL').innerHTML){$('#pL').innerHTML='';OV=null}else if($('#dL').innerHTML)closeDrawer()});
+let dragId=null;
+document.addEventListener('dragstart',e=>{const r=e.target.closest&&e.target.closest('.row[draggable]');if(r){dragId=r.dataset.id;e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',dragId)}catch(x){}}});
+document.addEventListener('dragover',e=>{const r=e.target.closest&&e.target.closest('.row[draggable]');if(r&&dragId){e.preventDefault();$$('.row.over').forEach(x=>x.classList.remove('over'));r.classList.add('over')}});
+document.addEventListener('drop',e=>{const r=e.target.closest&&e.target.closest('.row[draggable]');if(r&&dragId){e.preventDefault();const f=dragId;dragId=null;reorder(r.dataset.t,f,r.dataset.id)}});
+document.addEventListener('dragend',()=>{dragId=null;$$('.row.over').forEach(x=>x.classList.remove('over'))});
+render();
+</script>
+
+</body></html>

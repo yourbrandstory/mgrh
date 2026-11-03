@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { baseFilters, tagStyle, type EventItem } from './data';
+import { useEffect, useState } from 'react';
+import { tagStyle, type EventItem } from './data';
 import styles from './events.module.css';
 
 function PlaceholderTile({ label }: { label: string }) {
@@ -56,7 +56,7 @@ function SlotRing() {
   );
 }
 
-export default function EventsView({ items }: { items: EventItem[] }) {
+export default function EventsView({ items, filters }: { items: EventItem[]; filters: string[] }) {
   const [filter, setFilter] = useState('All events');
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -67,13 +67,6 @@ export default function EventsView({ items }: { items: EventItem[] }) {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
-
-  const filters = useMemo(() => {
-    const extra = items
-      .map((e) => e.category)
-      .filter((c) => !baseFilters.includes(c));
-    return [...baseFilters, ...Array.from(new Set(extra))];
-  }, [items]);
 
   const shown = filter === 'All events' ? items : items.filter((e) => e.category === filter);
   const activeEvent = items.find((e) => e.id === activeId) || null;

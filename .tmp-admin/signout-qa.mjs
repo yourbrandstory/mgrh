@@ -1,0 +1,18 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+await p.goto('http://localhost:3000/admin/login');
+await p.locator('#loginF').waitFor();
+await p.locator('#ln').fill('Hospital staff');
+await p.locator('#lr').selectOption('Admin');
+await p.locator('#loginF button[type=submit]').click();
+await p.waitForURL(/\/admin\/doctors/);
+await p.locator('.rows .row').first().waitFor();
+const before = await p.evaluate(() => sessionStorage.getItem('mgrh-admin-user'));
+await p.getByRole('button', { name: 'Sign out' }).click();
+await p.waitForURL(/\/admin\/login/);
+const after = await p.evaluate(() => sessionStorage.getItem('mgrh-admin-user'));
+await p.goto('http://localhost:3000/admin/doctors');
+await p.waitForURL(/\/admin\/login/);
+console.log('before', before, 'after', after, 'redirect ok');
+await b.close();

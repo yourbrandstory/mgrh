@@ -71,6 +71,21 @@ export interface PublicEvent {
   status: ContentStatus;
 }
 
+export interface PublicSupportRow {
+  id: string;
+  title: string;
+  count: string;
+  description: string;
+  sortOrder: number;
+}
+
+export interface PublicCategory {
+  id: string;
+  name: string;
+  tagline: string;
+  sortOrder: number;
+}
+
 export interface ContentResult<T> {
   rows: T[];
   preview: boolean;
@@ -111,6 +126,47 @@ export async function getCategories(kind: 'doctors' | 'facilities' | 'events') {
     return (data || []).map((c) => c.name as string);
   } catch {
     return [] as string[];
+  }
+}
+
+export async function getCategoryRecords(
+  kind: 'doctors' | 'facilities' | 'events',
+): Promise<PublicCategory[]> {
+  try {
+    const supabase = await createServerSupabase();
+    const { data } = await supabase
+      .from('categories')
+      .select('*')
+      .eq('kind', kind)
+      .order('sort_order', { ascending: true });
+    return (data || []).map((c) => ({
+      id: c.id as string,
+      name: (c.name as string) || '',
+      tagline: (c.tagline as string) || '',
+      sortOrder: (c.sort_order as number) || 0,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export async function getSupportStaff(): Promise<PublicSupportRow[] | null> {
+  try {
+    const supabase = await createServerSupabase();
+    const { data, error } = await supabase
+      .from('support_staff')
+      .select('*')
+      .order('sort_order', { ascending: true });
+    if (error) throw error;
+    return (data || []).map((r) => ({
+      id: r.id as string,
+      title: (r.title as string) || '',
+      count: (r.count as string) || '',
+      description: (r.description as string) || '',
+      sortOrder: (r.sort_order as number) || 0,
+    }));
+  } catch {
+    return null;
   }
 }
 

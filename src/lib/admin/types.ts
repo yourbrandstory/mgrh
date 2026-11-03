@@ -1,217 +1,147 @@
 export type Status = 'published' | 'draft';
+export type AdminRole = 'Admin' | 'Editor';
+export type Collection = 'doctors' | 'facilities' | 'events';
+export type ManageKey = 'specialties' | 'categories' | 'sections' | 'support';
+export type EditorType = 'doctor' | 'facility' | 'cover' | 'gallery';
 
 export interface Crop {
-  zoom: number;
-  x: number;
-  y: number;
-  rot: number;
+  s: number;
+  xf: number;
+  yf: number;
+  r: number;
+  asp: number;
 }
 
-export interface Doctor {
+export interface Photo {
+  id?: string;
+  src: string;
+  out: string;
+  alt: string;
+  nat: { w: number; h: number };
+  crop?: Crop | null;
+  outW?: number;
+  outH?: number;
+  dirty?: boolean;
+}
+
+export interface DoctorRecord {
   id: string;
-  order: number;
-  status: Status;
-  createdAt: string;
-  updatedAt: string;
-  updatedBy: string;
   name: string;
-  designation: string;
-  speciality: string;
-  qualifications: string;
-  experience: string;
-  bio: string;
+  role: string;
+  qual: string;
+  exp: string;
+  spec: string;
   schedule: string;
+  location: string;
+  bio: string;
   days: string[];
   start: string;
   end: string;
-  location: string;
   contact: string;
   showContact: boolean;
-  imageId: string | null;
-  imageAlt: string;
-}
-
-export interface GalleryItem {
-  mediaId: string;
-  caption: string;
-  alt: string;
-}
-
-export interface SubItem {
-  name: string;
-  text: string;
-}
-
-export interface Facility {
-  id: string;
+  visible: boolean;
+  photo: Photo | null;
   order: number;
   status: Status;
-  createdAt: string;
-  updatedAt: string;
-  updatedBy: string;
+  updatedByName?: string;
+  updatedByRole?: string;
+  updatedAt?: string;
+}
+
+export interface FacilitySlot {
+  caption: string;
+  photo: Photo | null;
+}
+
+export interface FacilityRecord {
+  id: string;
   name: string;
-  category: string;
-  short: string;
-  full: string;
-  subcategory: string;
-  subitems: SubItem[];
-  images: GalleryItem[];
-  coverIndex: number;
+  section: string;
+  desc: string;
+  visible: boolean;
+  extra: boolean;
+  slots: [FacilitySlot, FacilitySlot, FacilitySlot];
+  more: Photo[];
   review: boolean;
+  coverIndex: number;
+  order: number;
+  status: Status;
+  updatedByName?: string;
+  updatedByRole?: string;
+  updatedAt?: string;
 }
 
 export interface EventRecord {
   id: string;
-  order: number;
-  status: Status;
-  createdAt: string;
-  updatedAt: string;
-  updatedBy: string;
   title: string;
-  category: string;
   date: string;
   endDate: string;
   start: string;
   end: string;
-  venue: string;
-  summary: string;
+  cat: string;
+  loc: string;
+  desc: string;
   description: string;
   organiser: string;
   highlights: string;
-  coverId: string | null;
-  coverAlt: string;
+  status: Status;
+  featured: boolean;
+  cover: Photo | null;
+  gallery: Photo[];
   shotLabels: number;
-  gallery: GalleryItem[];
+  order: number;
+  updatedByName?: string;
+  updatedByRole?: string;
+  updatedAt?: string;
 }
 
-export type RecordItem = Doctor | Facility | EventRecord;
-export type Collection = 'doctors' | 'facilities' | 'events';
-
-export interface MediaItem {
+export interface SupportRecord {
   id: string;
-  name: string;
-  src: string;
-  width: number;
-  height: number;
-  size: number;
-  type: string;
-  uploadedAt: string;
-  preset: string;
-  crop?: Crop | null;
-  storagePath?: string;
-  originalPath?: string;
-  originalSrc?: string | null;
-  dataUrl?: string | null;
-  originalDataUrl?: string | null;
-  source?: Record<string, unknown>;
-  parentId?: string | null;
-}
-
-export interface ActivityItem {
-  id?: string;
-  at: string;
-  who: string;
-  action: string;
-  type: string;
+  count: string;
   title: string;
+  description: string;
+  order: number;
 }
 
-export interface AdminUser {
-  id?: string;
-  email: string;
+export interface CategoryRecord {
+  id: string;
+  kind: Collection;
   name: string;
-  role: string;
-  password?: string;
-}
-
-export interface SettingsState {
-  editorsCanPublish: boolean;
-  users: AdminUser[];
+  tagline: string;
+  order: number;
 }
 
 export interface CategoriesState {
-  doctors: string[];
-  facilities: string[];
-  events: string[];
+  doctors: CategoryRecord[];
+  facilities: CategoryRecord[];
+  events: CategoryRecord[];
 }
 
 export interface AdminDb {
-  version: 1;
-  doctors: Doctor[];
-  facilities: Facility[];
+  doctors: DoctorRecord[];
+  facilities: FacilityRecord[];
   events: EventRecord[];
+  support: SupportRecord[];
   categories: CategoriesState;
-  media: MediaItem[];
-  activity: ActivityItem[];
-  settings: SettingsState;
 }
 
 export interface SessionUser {
-  email: string;
   name: string;
-  role: string;
+  role: AdminRole;
 }
 
-export type PresetKey = 'doctor' | 'facility' | 'event';
-
-export interface Preset {
-  label: string;
-  w: number;
-  h: number;
-  ratio: string;
-  round: boolean;
-  vw: number;
-  vh: number;
+export interface DeleteSnapshot {
+  collection: Collection | ManageKey;
+  record: unknown;
 }
 
-export interface MediaTarget {
-  kind: 'doctor' | 'cover' | 'gallery' | 'media' | 'library';
-  index?: number;
-  preset?: string;
-  mediaId?: string;
-  assign?: (mediaId: string) => void;
-}
-
-export interface EditorSrc {
-  name: string;
-  size: number;
-  type: string;
-  w: number;
-  h: number;
-}
-
-export interface EditorState {
-  target: MediaTarget;
-  preset: PresetKey;
-  loading: boolean;
-  error: string;
-  src: EditorSrc;
-  zoom: number;
-  x: number;
-  y: number;
-  rot: number;
-  img: HTMLImageElement | null;
-  fileUrl: string | null;
-  origUrl?: string | null;
-  origSrc?: string | null;
-  parentId?: string | null;
-}
-
-export interface PreviewState {
-  type: 'doctors' | 'facilities' | 'events' | 'media';
-  rec: RecordItem | MediaItem;
-}
-
-export interface ConfirmState {
-  title: string;
-  body: string;
-  confirmLabel: string;
-  danger?: boolean;
-  infoOnly?: boolean;
-  onConfirm: () => void;
-}
-
-export interface ToastState {
-  msg: string;
-  kind: 'ok' | 'err';
+export interface ImageResult {
+  src: string;
+  out: string;
+  alt: string;
+  nat: { w: number; h: number };
+  crop: Crop;
+  outW: number;
+  outH: number;
+  dirty: true;
 }

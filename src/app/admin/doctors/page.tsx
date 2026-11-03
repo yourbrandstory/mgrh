@@ -1,7 +1,11 @@
-'use client';
+import AdminModule from '@/components/admin/AdminModule';
 
-import { RecordList } from '@/lib/admin/RecordList';
-
-export default function DoctorsPage() {
-  return <RecordList type="doctors" />;
+export default async function DoctorsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const tab = typeof params.tab === 'string' ? params.tab : 'list';
+  return <AdminModule kind="doctors" tab={tab} />;
 }

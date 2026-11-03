@@ -106,11 +106,6 @@ export const events: EventItem[] = [
 
 export const baseFilters = ['All events', 'Blood donation', 'Screening camp', 'School clinic', 'Immunization', 'Awareness'];
 
-export function canonicalCategory(category: string) {
-  const match = baseFilters.find((f) => f.toLowerCase() === category.trim().toLowerCase());
-  return match || category.trim();
-}
-
 export function tagStyle(category: string) {
   if (category === 'Blood donation') return { tagBg: '#FDE7E5', tagColor: '#B4251E' };
   if (category === 'Awareness') return { tagBg: '#E4F4F6', tagColor: '#0B6A76' };

@@ -1,528 +1,444 @@
 ﻿'use client';
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
-
-export type Row = Record<string, any>;
-export type ContentTable = 'doctors' | 'facilities' | 'events';
-export type Preset = 'doctor' | 'facility' | 'event';
-
-export interface Profile {
-  id: string;
-  full_name: string;
-  role: 'administrator' | 'editor';
-}
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
+import {
+  addCategory,
+  addSupport,
+  deleteRow,
+  loadAll,
+  restoreCategory,
+  restoreSupport,
+  saveDoctor as saveDoctorRow,
+  saveEvent as saveEventRow,
+  saveFacility as saveFacilityRow,
+  setStatus,
+  updateCategoryFields,
+  updateOrder,
+  updateSupportFields,
+} from '@/lib/admin/store';
+import { clearAdminSession, readAdminSession, writeAdminSession } from '@/lib/admin/session';
+import type {
+  AdminDb,
+  AdminRole,
+  CategoryRecord,
+  Collection,
+  DoctorRecord,
+  EventRecord,
+  FacilityRecord,
+  ManageKey,
+  SessionUser,
+  SupportRecord,
+} from '@/lib/admin/types';
+import ConfirmBox, { type ConfirmOptions } from './ConfirmBox';
+import Toasts, { type ToastItem } from './Toasts';
 
 interface AdminContextValue {
-  loading: boolean;
-  profile: Profile | null;
-  email: string;
-  settings: Row | null;
-  categories: Row[];
-  doctors: Row[];
-  facilities: Row[];
-  events: Row[];
-  media: Row[];
-  mediaUsage: Record<string, string[]>;
-  team: Profile[];
-  activity: Row[];
-  canPublish: boolean;
-  isAdmin: boolean;
-  mediaUrl: (id?: string | null) => string | null;
-  mediaById: (id?: string | null) => Row | undefined;
+  ready: boolean;
+  user: SessionUser | null;
+  db: AdminDb;
   refresh: () => Promise<void>;
-  saveEntity: (table: ContentTable, values: Row, id?: string | null) => Promise<Row>;
-  deleteEntity: (table: ContentTable, id: string, title: string) => Promise<void>;
-  setStatus: (table: ContentTable, row: Row, status: 'draft' | 'published') => Promise<void>;
-  reorder: (table: ContentTable, ids: string[]) => Promise<void>;
-  uploadImage: (file: File, preset: Preset, crop: Row) => Promise<Row>;
-  removeMedia: (id: string) => Promise<void>;
-  addGalleryImage: (kind: 'facility' | 'event', ownerId: string, mediaId: string, caption?: string, alt?: string) => Promise<void>;
-  removeGalleryImage: (kind: 'facility' | 'event', id: string) => Promise<void>;
-  loadGallery: (kind: 'facility' | 'event', ownerId: string) => Promise<Row[]>;
-  saveSettings: (values: Row) => Promise<void>;
-  addCategory: (kind: string, name: string) => Promise<void>;
-  removeCategory: (id: string) => Promise<void>;
-  inviteUser: (email: string, fullName: string, role: string) => Promise<string>;
-  removeUser: (id: string) => Promise<void>;
-  updateRole: (id: string, role: string) => Promise<void>;
-  updateAccount: (fullName: string, password?: string) => Promise<void>;
+  login: (name: string, role: AdminRole) => Promise<SessionUser>;
+  logout: () => Promise<void>;
+  toast: (message: string, kind?: 'err' | '', options?: { undo?: () => void | Promise<void> }) => void;
+  confirm: (options: ConfirmOptions) => Promise<boolean>;
+  saveDoctor: (record: DoctorRecord) => Promise<void>;
+  saveFacility: (record: FacilityRecord) => Promise<void>;
+  saveEvent: (record: EventRecord) => Promise<void>;
+  toggleVisibility: (collection: Collection, record: DoctorRecord | FacilityRecord | EventRecord) => Promise<void>;
+  removeRecord: (collection: Collection, record: DoctorRecord | FacilityRecord | EventRecord) => Promise<void>;
+  restoreRecord: (
+    collection: Collection,
+    record: DoctorRecord | FacilityRecord | EventRecord,
+  ) => Promise<void>;
+  moveRecord: (collection: Collection, id: string, direction: -1 | 1) => Promise<void>;
+  reorderRecord: (collection: Collection, fromId: string, toId: string) => Promise<void>;
+  listFor: (key: ManageKey) => (CategoryRecord | SupportRecord)[];
+  addManage: (key: ManageKey, name?: string) => Promise<string>;
+  updateManage: (
+    key: ManageKey,
+    record: CategoryRecord | SupportRecord,
+    field: string,
+    value: string,
+  ) => Promise<void>;
+  removeManage: (key: ManageKey, record: CategoryRecord | SupportRecord) => Promise<void>;
+  restoreManage: (key: ManageKey, record: CategoryRecord | SupportRecord) => Promise<void>;
+  moveManage: (key: ManageKey, id: string, direction: -1 | 1) => Promise<void>;
 }
+
+const EMPTY_DB: AdminDb = {
+  doctors: [],
+  facilities: [],
+  events: [],
+  support: [],
+  categories: { doctors: [], facilities: [], events: [] },
+};
 
 const AdminContext = createContext<AdminContextValue | null>(null);
 
-const PRESETS: Record<Preset, [number, number]> = {
-  doctor: [800, 800],
-  facility: [1200, 900],
-  event: [1200, 900],
-};
-
-function loadImage(file: File): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      resolve(img);
-    };
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error('That file could not be read as an image.'));
-    };
-    img.src = url;
-  });
-}
-
-export function drawCrop(
-  ctx: CanvasRenderingContext2D,
-  img: HTMLImageElement,
-  preset: Preset,
-  crop: Row,
-) {
-  const [tw, th] = PRESETS[preset];
-  const zoom = Math.max(1, Math.min(3, Number(crop.zoom) || 1));
-  const x = Math.max(-1, Math.min(1, Number(crop.x) || 0));
-  const y = Math.max(-1, Math.min(1, Number(crop.y) || 0));
-  const scale = Math.max(tw / img.width, th / img.height) * zoom;
-  const dw = img.width * scale;
-  const dh = img.height * scale;
-  const dx = (tw - dw) / 2 + x * Math.max(0, (dw - tw) / 2);
-  const dy = (th - dh) / 2 + y * Math.max(0, (dh - th) / 2);
-  ctx.clearRect(0, 0, tw, th);
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, tw, th);
-  ctx.drawImage(img, dx, dy, dw, dh);
-}
-
-export function AdminProvider({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const supabase = useMemo(() => createClient(), []);
-  const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [email, setEmail] = useState('');
-  const [settings, setSettings] = useState<Row | null>(null);
-  const [categories, setCategories] = useState<Row[]>([]);
-  const [doctors, setDoctors] = useState<Row[]>([]);
-  const [facilities, setFacilities] = useState<Row[]>([]);
-  const [events, setEvents] = useState<Row[]>([]);
-  const [media, setMedia] = useState<Row[]>([]);
-  const [mediaUsage, setMediaUsage] = useState<Record<string, string[]>>({});
-  const [team, setTeam] = useState<Profile[]>([]);
-  const [activity, setActivity] = useState<Row[]>([]);
-
-  const isAdmin = profile?.role === 'administrator';
-  const canPublish = Boolean(isAdmin || (profile && settings?.editors_can_publish));
-
-  const refresh = useCallback(async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) {
-      router.replace('/admin/login');
-      return;
-    }
-    const { data: prof } = await supabase.from('profiles').select('*').eq('id', user.id).maybeSingle();
-    if (!prof) {
-      await supabase.auth.signOut();
-      router.replace('/admin/login?error=no-profile');
-      return;
-    }
-    setProfile(prof as Profile);
-    setEmail(user.email || '');
-
-    const [settingsRes, catRes, docRes, facRes, evtRes, mediaRes, teamRes, actRes, facImgRes, evtImgRes] = await Promise.all([
-      supabase.from('settings').select('*').eq('id', 1).maybeSingle(),
-      supabase.from('categories').select('*').order('sort_order', { ascending: true }),
-      supabase.from('doctors').select('*').order('sort_order', { ascending: true }),
-      supabase.from('facilities').select('*').order('sort_order', { ascending: true }),
-      supabase.from('events').select('*').order('sort_order', { ascending: true }),
-      supabase.from('media').select('*').order('uploaded_at', { ascending: false }),
-      supabase.from('profiles').select('*').order('created_at', { ascending: true }),
-      supabase.from('activity_log').select('*').order('at', { ascending: false }).limit(150),
-      supabase.from('facility_images').select('*').order('sort_order', { ascending: true }),
-      supabase.from('event_images').select('*').order('sort_order', { ascending: true }),
-    ]);
-    const facImages = new Map<string, Row[]>();
-    (facImgRes.data || []).forEach((img: Row) => {
-      const list = facImages.get(img.facility_id) || [];
-      list.push(img);
-      facImages.set(img.facility_id, list);
-    });
-    const evtCover = new Map<string, string>();
-    (evtImgRes.data || []).forEach((img: Row) => {
-      if (!evtCover.has(img.event_id)) evtCover.set(img.event_id, img.media_id);
-    });
-    const usage: Record<string, string[]> = {};
-    const addUse = (mediaId: string | null | undefined, label: string) => {
-      if (!mediaId) return;
-      (usage[mediaId] = usage[mediaId] || []).push(label);
-    };
-    const facNames = new Map<string, string>((facRes.data || []).map((f: Row) => [f.id, f.name]));
-    const evtNames = new Map<string, string>((evtRes.data || []).map((e: Row) => [e.id, e.title]));
-    (docRes.data || []).forEach((d: Row) => addUse(d.image_id, `Doctor: ${d.name}`));
-    (evtRes.data || []).forEach((e: Row) => addUse(e.cover_id, `Event: ${evtNames.get(e.id) || e.title}`));
-    (facImgRes.data || []).forEach((img: Row) => addUse(img.media_id, `Facility: ${facNames.get(img.facility_id) || ''}`));
-    (evtImgRes.data || []).forEach((img: Row) => addUse(img.media_id, `Event: ${evtNames.get(img.event_id) || ''}`));
-    setMediaUsage(usage);
-    setSettings(settingsRes.data || null);
-    setCategories(catRes.data || []);
-    setDoctors(docRes.data || []);
-    setFacilities(
-      (facRes.data || []).map((f: Row) => {
-        const images = facImages.get(f.id) || [];
-        const cover = images[f.cover_index || 0] || images[0];
-        return { ...f, cover_media_id: cover?.media_id || null };
-      }),
-    );
-    setEvents((evtRes.data || []).map((e: Row) => ({ ...e, cover_media_id: e.cover_id || evtCover.get(e.id) || null })));
-    setMedia(mediaRes.data || []);
-    setTeam((teamRes.data || []) as Profile[]);
-    setActivity(actRes.data || []);
-    setLoading(false);
-  }, [router, supabase]);
-
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
-
-  const mediaById = useCallback((id?: string | null) => media.find((m) => m.id === id), [media]);
-  const mediaUrl = useCallback(
-    (id?: string | null) => {
-      const row = media.find((m) => m.id === id);
-      if (!row?.storage_path) return null;
-      return supabase.storage.from('media').getPublicUrl(row.storage_path).data.publicUrl;
-    },
-    [media, supabase],
-  );
-
-  const log = useCallback(
-    async (action: string, entityType: string, entityTitle: string) => {
-      await supabase.from('activity_log').insert({
-        actor: profile?.id || null,
-        actor_name: profile?.full_name || '',
-        action,
-        entity_type: entityType,
-        entity_title: entityTitle,
-      });
-    },
-    [profile, supabase],
-  );
-
-  const revalidate = useCallback(async () => {
-    try {
-      await fetch('/api/revalidate', { method: 'POST' });
-    } catch {
-      // The save already succeeded; a stale page will refresh on the next revalidation.
-    }
-  }, []);
-
-  const saveEntity = useCallback(
-    async (table: ContentTable, values: Row, id?: string | null) => {
-      const payload = { ...values };
-      if (id) payload.id = id;
-      const query = id
-        ? supabase.from(table).update(payload).eq('id', id).select().single()
-        : supabase.from(table).insert(payload).select().single();
-      const { data, error } = await query;
-      if (error) throw new Error(error.message);
-      await log(id ? 'Updated' : 'Added', table, payload.name || payload.title || '');
-      await refresh();
-      await revalidate();
-      return data as Row;
-    },
-    [log, refresh, revalidate, supabase],
-  );
-
-  const setStatus = useCallback(
-    async (table: ContentTable, row: Row, status: 'draft' | 'published') => {
-      const { error } = await supabase.from(table).update({ status }).eq('id', row.id);
-      if (error) throw new Error(error.message);
-      await log(status === 'published' ? 'Published' : 'Unpublished', table, row.name || row.title || '');
-      await refresh();
-      await revalidate();
-    },
-    [log, refresh, revalidate, supabase],
-  );
-
-  const deleteEntity = useCallback(
-    async (table: ContentTable, id: string, title: string) => {
-      const { error } = await supabase.from(table).delete().eq('id', id);
-      if (error) throw new Error(error.message);
-      await log('Deleted', table, title);
-      await refresh();
-      await revalidate();
-    },
-    [log, refresh, revalidate, supabase],
-  );
-
-  const reorder = useCallback(
-    async (table: ContentTable, ids: string[]) => {
-      await Promise.all(ids.map((id, index) => supabase.from(table).update({ sort_order: index + 1 }).eq('id', id)));
-      await log('Reordered', table, `${ids.length} items`);
-      await refresh();
-      await revalidate();
-    },
-    [log, refresh, revalidate, supabase],
-  );
-
-  const uploadImage = useCallback(
-    async (file: File, preset: Preset, crop: Row) => {
-      if (!file.type.match(/^image\/(jpeg|png|webp)$/)) throw new Error('Choose a JPG, PNG or WebP image.');
-      if (file.size > 5 * 1024 * 1024) throw new Error('That image is larger than 5 MB. Please choose a smaller file.');
-      const img = await loadImage(file);
-      const [tw, th] = PRESETS[preset];
-      const canvas = document.createElement('canvas');
-      canvas.width = tw;
-      canvas.height = th;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) throw new Error('Your browser could not prepare the image.');
-      drawCrop(ctx, img, preset, crop);
-      const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.86));
-      if (!blob) throw new Error('The image could not be processed.');
-
-      const id = crypto.randomUUID();
-      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
-      const croppedPath = `${preset}/${id}.jpg`;
-      const originalPath = `${preset}/originals/${id}.${ext}`;
-
-      const originalUpload = await supabase.storage.from('media').upload(originalPath, file, {
-        contentType: file.type,
-        upsert: false,
-      });
-      if (originalUpload.error) throw new Error(originalUpload.error.message);
-
-      const croppedUpload = await supabase.storage.from('media').upload(croppedPath, blob, {
-        contentType: 'image/jpeg',
-        upsert: false,
-      });
-      if (croppedUpload.error) throw new Error(croppedUpload.error.message);
-
-      const { data, error } = await supabase
-        .from('media')
-        .insert({
-          file_name: file.name,
-          storage_path: croppedPath,
-          original_path: originalPath,
-          width: tw,
-          height: th,
-          size_bytes: blob.size,
-          mime_type: 'image/jpeg',
-          preset,
-          crop,
-          uploaded_by: profile?.id || null,
-        })
-        .select()
-        .single();
-      if (error) throw new Error(error.message);
-      await log('Uploaded image', 'Media', file.name);
-      await refresh();
-      return data as Row;
-    },
-    [log, profile, refresh, supabase],
-  );
-
-  const removeMedia = useCallback(
-    async (id: string) => {
-      const row = media.find((m) => m.id === id);
-      if (!row) return;
-      const paths = [row.storage_path, row.original_path].filter(Boolean) as string[];
-      if (paths.length) await supabase.storage.from('media').remove(paths);
-      const { error } = await supabase.from('media').delete().eq('id', id);
-      if (error) throw new Error(error.message);
-      await log('Deleted image', 'Media', row.file_name);
-      await refresh();
-      await revalidate();
-    },
-    [log, media, refresh, revalidate, supabase],
-  );
-
-  const addGalleryImage = useCallback(
-    async (kind: 'facility' | 'event', ownerId: string, mediaId: string, caption = '', alt = '') => {
-      const table = kind === 'facility' ? 'facility_images' : 'event_images';
-      const column = kind === 'facility' ? 'facility_id' : 'event_id';
-      const existing = await supabase.from(table).select('sort_order').eq(column, ownerId).order('sort_order', { ascending: false }).limit(1);
-      const next = (existing.data?.[0]?.sort_order || 0) + 1;
-      const { error } = await supabase.from(table).insert({
-        [column]: ownerId,
-        media_id: mediaId,
-        caption,
-        alt,
-        sort_order: next,
-      });
-      if (error) throw new Error(error.message);
-      await log('Uploaded image', kind === 'facility' ? 'Facilities' : 'Events', caption || '');
-      await refresh();
-      await revalidate();
-    },
-    [log, refresh, revalidate, supabase],
-  );
-
-  const removeGalleryImage = useCallback(
-    async (kind: 'facility' | 'event', id: string) => {
-      const table = kind === 'facility' ? 'facility_images' : 'event_images';
-      const { error } = await supabase.from(table).delete().eq('id', id);
-      if (error) throw new Error(error.message);
-      await log('Removed image', kind === 'facility' ? 'Facilities' : 'Events', '');
-      await refresh();
-      await revalidate();
-    },
-    [log, refresh, revalidate, supabase],
-  );
-
-  const loadGallery = useCallback(
-    async (kind: 'facility' | 'event', ownerId: string) => {
-      const table = kind === 'facility' ? 'facility_images' : 'event_images';
-      const column = kind === 'facility' ? 'facility_id' : 'event_id';
-      const { data, error } = await supabase
-        .from(table)
-        .select('*')
-        .eq(column, ownerId)
-        .order('sort_order', { ascending: true });
-      if (error) throw new Error(error.message);
-      return (data || []) as Row[];
-    },
-    [supabase],
-  );
-
-  const saveSettings = useCallback(
-    async (values: Row) => {
-      const { error } = await supabase.from('settings').update(values).eq('id', 1);
-      if (error) throw new Error(error.message);
-      await log('Updated settings', 'Settings', 'Publishing permissions');
-      await refresh();
-    },
-    [log, refresh, supabase],
-  );
-
-  const addCategory = useCallback(
-    async (kind: string, name: string) => {
-      const existing = categories.filter((c) => c.kind === kind);
-      const { error } = await supabase.from('categories').insert({
-        kind,
-        name: name.trim(),
-        sort_order: existing.length + 1,
-      });
-      if (error) throw new Error(error.message);
-      await log('Added category', 'Settings', name);
-      await refresh();
-    },
-    [categories, log, refresh, supabase],
-  );
-
-  const removeCategory = useCallback(
-    async (id: string) => {
-      const row = categories.find((c) => c.id === id);
-      const { error } = await supabase.from('categories').delete().eq('id', id);
-      if (error) throw new Error(error.message);
-      await log('Removed category', 'Settings', row?.name || '');
-      await refresh();
-    },
-    [categories, log, refresh, supabase],
-  );
-
-  const inviteUser = useCallback(
-    async (email: string, fullName: string, role: string) => {
-      const res = await fetch('/api/admin/invite', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ email, fullName, role }),
-      });
-      const body = await res.json();
-      if (!res.ok) throw new Error(body.error || 'The invitation could not be sent.');
-      await refresh();
-      return body.message as string;
-    },
-    [refresh],
-  );
-
-  const removeUser = useCallback(
-    async (id: string) => {
-      const res = await fetch('/api/admin/team', {
-        method: 'DELETE',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ id }),
-      });
-      const body = await res.json();
-      if (!res.ok) throw new Error(body.error || 'The account could not be removed.');
-      await refresh();
-    },
-    [refresh],
-  );
-
-  const updateRole = useCallback(
-    async (id: string, role: string) => {
-      const row = team.find((t) => t.id === id);
-      const { error } = await supabase.from('profiles').update({ role }).eq('id', id);
-      if (error) throw new Error(error.message);
-      await log('Updated user', 'Team', row?.full_name || '');
-      await refresh();
-    },
-    [log, refresh, supabase, team],
-  );
-
-  const updateAccount = useCallback(
-    async (fullName: string, password?: string) => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not signed in.');
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({ full_name: fullName })
-        .eq('id', user.id);
-      if (profileError) throw new Error(profileError.message);
-      if (password) {
-        const { error: authError } = await supabase.auth.updateUser({ password });
-        if (authError) throw new Error(authError.message);
-      }
-      await log('Updated account', 'Settings', user.email || fullName);
-      await refresh();
-    },
-    [log, refresh, supabase],
-  );
-
-  const value: AdminContextValue = {
-    loading,
-    profile,
-    email,
-    settings,
-    categories,
-    doctors,
-    facilities,
-    events,
-    media,
-    mediaUsage,
-    team,
-    activity,
-    canPublish,
-    isAdmin,
-    mediaUrl,
-    mediaById,
-    refresh,
-    saveEntity,
-    deleteEntity,
-    setStatus,
-    reorder,
-    uploadImage,
-    removeMedia,
-    addGalleryImage,
-    removeGalleryImage,
-    loadGallery,
-    saveSettings,
-    addCategory,
-    removeCategory,
-    inviteUser,
-    removeUser,
-    updateRole,
-    updateAccount,
-  };
-
-  return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;
+function messageOf(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  if (error && typeof error === 'object' && 'message' in error) return String((error as { message: unknown }).message);
+  return 'Something went wrong. Please try again.';
 }
 
 export function useAdmin() {
-  const ctx = useContext(AdminContext);
-  if (!ctx) throw new Error('useAdmin must be used inside AdminProvider');
-  return ctx;
+  const value = useContext(AdminContext);
+  if (!value) throw new Error('useAdmin must be used inside AdminProvider');
+  return value;
+}
+
+export default function AdminProvider({ children }: { children: ReactNode }) {
+  const [ready, setReady] = useState(false);
+  const [user, setUser] = useState<SessionUser | null>(null);
+  const [db, setDb] = useState<AdminDb>(EMPTY_DB);
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const [confirmState, setConfirmState] = useState<
+    (ConfirmOptions & { resolve: (value: boolean) => void }) | null
+  >(null);
+  const timers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+
+  const dismissToast = useCallback((id: string) => {
+    setToasts((current) => current.filter((item) => item.id !== id));
+    const timer = timers.current.get(id);
+    if (timer) clearTimeout(timer);
+    timers.current.delete(id);
+  }, []);
+
+  const toast = useCallback(
+    (message: string, kind: 'err' | '' = '', options?: { undo?: () => void | Promise<void> }) => {
+      const id = Math.random().toString(36).slice(2);
+      const item: ToastItem = { id, message, kind, undo: options?.undo };
+      setToasts((current) => [...current, item]);
+      const timer = setTimeout(() => {
+        setToasts((current) => current.filter((row) => row.id !== id));
+        timers.current.delete(id);
+      }, options?.undo ? 10000 : 4500);
+      timers.current.set(id, timer);
+    },
+    [],
+  );
+
+  const confirm = useCallback((options: ConfirmOptions) => {
+    return new Promise<boolean>((resolve) => {
+      setConfirmState({ ...options, resolve });
+    });
+  }, []);
+
+  const resolveConfirm = useCallback(
+    (value: boolean) => {
+      setConfirmState((current) => {
+        if (current) current.resolve(value);
+        return null;
+      });
+    },
+    [],
+  );
+
+  const refresh = useCallback(async () => {
+    const next = await loadAll();
+    setDb(next);
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const sessionUser = readAdminSession();
+        if (!active) return;
+        setUser(sessionUser);
+        if (sessionUser) {
+          const next = await loadAll();
+          if (active) setDb(next);
+        }
+      } catch (error) {
+        console.error('MGRH admin could not load content.', error);
+      } finally {
+        if (active) setReady(true);
+      }
+    })();
+
+    return () => {
+      active = false;
+      timers.current.forEach((timer) => clearTimeout(timer));
+      timers.current.clear();
+    };
+  }, []);
+
+  const login = useCallback(async (name: string, role: AdminRole) => {
+    const sessionUser: SessionUser = { name: name.trim() || 'Hospital staff', role };
+    writeAdminSession(sessionUser);
+    setUser(sessionUser);
+    try {
+      const next = await loadAll();
+      setDb(next);
+    } catch (error) {
+      console.error('MGRH admin could not load content.', error);
+    }
+    return sessionUser;
+  }, []);
+
+  const logout = useCallback(async () => {
+    clearAdminSession();
+    setUser(null);
+    setDb(EMPTY_DB);
+  }, []);
+
+  const saveDoctor = useCallback(
+    async (record: DoctorRecord) => {
+      await saveDoctorRow(record);
+      await refresh();
+    },
+    [refresh],
+  );
+
+  const saveFacility = useCallback(
+    async (record: FacilityRecord) => {
+      await saveFacilityRow(record);
+      await refresh();
+    },
+    [refresh],
+  );
+
+  const saveEvent = useCallback(
+    async (record: EventRecord) => {
+      await saveEventRow(record);
+      await refresh();
+    },
+    [refresh],
+  );
+
+  const toggleVisibility = useCallback(
+    async (collection: Collection, record: DoctorRecord | FacilityRecord | EventRecord) => {
+      if (collection === 'events') {
+        const event = record as EventRecord;
+        const next = event.status === 'published' ? 'draft' : 'published';
+        await setStatus('events', event.id, next);
+        await refresh();
+        toast(next === 'published' ? 'Published.' : 'Moved to draft.');
+        return;
+      }
+      const visible = (record as DoctorRecord | FacilityRecord).visible;
+      await setStatus(collection, record.id, visible ? 'draft' : 'published');
+      await refresh();
+      toast(visible ? 'Hidden from the website.' : 'Now shown on the website.');
+    },
+    [refresh, toast],
+  );
+
+  const removeRecord = useCallback(
+    async (collection: Collection, record: DoctorRecord | FacilityRecord | EventRecord) => {
+      await deleteRow(collection, record.id);
+      await refresh();
+    },
+    [refresh],
+  );
+
+  const restoreRecord = useCallback(
+    async (collection: Collection, record: DoctorRecord | FacilityRecord | EventRecord) => {
+      if (collection === 'doctors') await saveDoctorRow(record as DoctorRecord);
+      else if (collection === 'facilities') await saveFacilityRow(record as FacilityRecord);
+      else await saveEventRow(record as EventRecord);
+      await refresh();
+    },
+    [refresh],
+  );
+
+  const orderedFor = useCallback(
+    (collection: Collection) => {
+      if (collection === 'doctors') return db.doctors;
+      if (collection === 'facilities') return db.facilities;
+      return db.events;
+    },
+    [db],
+  );
+
+  const moveRecord = useCallback(
+    async (collection: Collection, id: string, direction: -1 | 1) => {
+      const list = [...orderedFor(collection)];
+      const index = list.findIndex((item) => item.id === id);
+      const target = index + direction;
+      if (index < 0 || target < 0 || target >= list.length) return;
+      [list[index], list[target]] = [list[target], list[index]];
+      await updateOrder(collection, list);
+      await refresh();
+    },
+    [orderedFor, refresh],
+  );
+
+  const reorderRecord = useCallback(
+    async (collection: Collection, fromId: string, toId: string) => {
+      const list = [...orderedFor(collection)];
+      const from = list.findIndex((item) => item.id === fromId);
+      const to = list.findIndex((item) => item.id === toId);
+      if (from < 0 || to < 0 || from === to) return;
+      const [moved] = list.splice(from, 1);
+      list.splice(to, 0, moved);
+      await updateOrder(collection, list);
+      await refresh();
+    },
+    [orderedFor, refresh],
+  );
+
+  const listFor = useCallback(
+    (key: ManageKey) => {
+      if (key === 'support') return db.support;
+      if (key === 'specialties') return db.categories.doctors;
+      if (key === 'sections') return db.categories.facilities;
+      return db.categories.events;
+    },
+    [db],
+  );
+
+  const categoryKind = (key: ManageKey): Collection =>
+    key === 'specialties' ? 'doctors' : key === 'sections' ? 'facilities' : 'events';
+
+  const addManage = useCallback(
+    async (key: ManageKey, requested?: string) => {
+      const list = listFor(key);
+      if (key === 'support') {
+        const record: SupportRecord = {
+          id: crypto.randomUUID(),
+          count: '',
+          title: requested?.trim() || 'New role',
+          description: '',
+          order: list.length,
+        };
+        await addSupport(record);
+        await refresh();
+        return record.id;
+      }
+      const fallback =
+        key === 'specialties' ? 'New specialty' : key === 'sections' ? 'New section' : 'New category';
+      const name = requested?.trim() || fallback;
+      const record = await addCategory(categoryKind(key), name, '', list.length);
+      await refresh();
+      return record.id;
+    },
+    [listFor, refresh],
+  );
+
+  const updateManage = useCallback(
+    async (
+      key: ManageKey,
+      record: CategoryRecord | SupportRecord,
+      field: string,
+      value: string,
+    ) => {
+      if (key === 'support') {
+        await updateSupportFields(record.id, { [field]: value });
+      } else {
+        await updateCategoryFields(record as CategoryRecord, {
+          [field === 'tagline' ? 'tagline' : 'name']: value,
+        });
+      }
+      await refresh();
+    },
+    [refresh],
+  );
+
+  const removeManage = useCallback(
+    async (key: ManageKey, record: CategoryRecord | SupportRecord) => {
+      await deleteRow(key, record.id);
+      await refresh();
+    },
+    [refresh],
+  );
+
+  const restoreManage = useCallback(
+    async (key: ManageKey, record: CategoryRecord | SupportRecord) => {
+      if (key === 'support') await restoreSupport(record as SupportRecord);
+      else await restoreCategory(record as CategoryRecord);
+      await refresh();
+    },
+    [refresh],
+  );
+
+  const moveManage = useCallback(
+    async (key: ManageKey, id: string, direction: -1 | 1) => {
+      const list = [...listFor(key)];
+      const index = list.findIndex((item) => item.id === id);
+      const target = index + direction;
+      if (index < 0 || target < 0 || target >= list.length) return;
+      [list[index], list[target]] = [list[target], list[index]];
+      await updateOrder(key, list);
+      await refresh();
+    },
+    [listFor, refresh],
+  );
+
+  const value = useMemo<AdminContextValue>(
+    () => ({
+      ready,
+      user,
+      db,
+      refresh,
+      login,
+      logout,
+      toast,
+      confirm,
+      saveDoctor,
+      saveFacility,
+      saveEvent,
+      toggleVisibility,
+      removeRecord,
+      restoreRecord,
+      moveRecord,
+      reorderRecord,
+      listFor,
+      addManage,
+      updateManage,
+      removeManage,
+      restoreManage,
+      moveManage,
+    }),
+    [
+      ready,
+      user,
+      db,
+      refresh,
+      login,
+      logout,
+      toast,
+      confirm,
+      saveDoctor,
+      saveFacility,
+      saveEvent,
+      toggleVisibility,
+      removeRecord,
+      restoreRecord,
+      moveRecord,
+      reorderRecord,
+      listFor,
+      addManage,
+      updateManage,
+      removeManage,
+      restoreManage,
+      moveManage,
+    ],
+  );
+
+  return (
+    <AdminContext.Provider value={value}>
+      {children}
+      <ConfirmBox
+        state={confirmState}
+        onCancel={() => resolveConfirm(false)}
+        onConfirm={() => resolveConfirm(true)}
+      />
+      <Toasts toasts={toasts} onDismiss={dismissToast} />
+    </AdminContext.Provider>
+  );
+}
+
+export function errorMessage(error: unknown) {
+  return messageOf(error);
 }

@@ -103,14 +103,13 @@ export const fallbackDoctors: DoctorItem[] = [
   },
 ];
 
-export const doctorFilters = ['All doctors', 'Medicine', 'Surgery', 'Pediatrics', 'Orthopedics', 'Anaesthesia', 'Dental Surgeon', 'General'];
-
-export function canonicalSpeciality(speciality: string) {
-  const match = doctorFilters.find((f) => f.toLowerCase() === speciality.trim().toLowerCase());
-  return match || speciality.trim();
+export interface SupportRow {
+  count: string;
+  title: string;
+  desc: string;
 }
 
-export const supportRows = [
+export const supportRows: SupportRow[] = [
   { count: '15', title: 'Nursing staff', desc: 'Ward, casualty and theatre nursing cover in rotating shifts, day and night.' },
   { count: '10', title: 'Paramedical staff', desc: 'Laboratory technicians, radiographers and pharmacy staff supporting diagnostics and dispensing.' },
   { count: '9', title: 'Health workers', desc: 'ANMs and community health workers running village clinics, immunisation booths and home visits.' },
